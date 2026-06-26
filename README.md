@@ -53,16 +53,19 @@ Each skill must include:
 
 `evals/` are intentionally not part of this first repository version. Skill
 quality gates here are basic smoke checks: metadata validation, required files,
-catalog generation, and install/verify behavior.
+catalog generation, package allowlisting, and installed-package behavior.
 
 ## Development
 
 ```bash
 npm run build
 npm test
+npm run smoke:install
 ```
 
-`npm test` runs the smoke checks used in CI.
+`npm test` runs the smoke checks used in CI, including a packaged install smoke
+that installs the generated tarball into a temporary prefix and verifies the CLI
+can list, show, verify, and install the bundled skills.
 
 ## License
 

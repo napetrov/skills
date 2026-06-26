@@ -12,6 +12,7 @@
 ```bash
 npm run build
 npm test
+npm run smoke:install
 ```
 
 ## First-Version Scope
@@ -25,5 +26,6 @@ benchmark repository until a release policy is approved.
 - Skill metadata validates.
 - Catalog is regenerated.
 - Smoke checks pass.
+- Packaged install smoke passes.
 - New scripts are declared in `SKILL.md`.
 - Security and limitations are explicit.
