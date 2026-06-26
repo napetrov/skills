@@ -1,9 +1,11 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-export const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const SKILLS_DIR = path.join(ROOT, "skills");
+const SKILL_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const VOCAB = {
   agents: new Set(["codex", "claude-code"]),
@@ -79,6 +81,7 @@ export function readCatalog() {
       problems: fm.problems ?? [],
       agents: fm.agents ?? [],
       maturity: fm.maturity,
+      data_classification: fm.data_classification,
       path: path.relative(ROOT, skill.dir),
     };
   });
@@ -104,9 +107,21 @@ export function copyDir(src, dest) {
 }
 
 export function findSkill(name) {
+  if (!SKILL_NAME_PATTERN.test(String(name ?? ""))) {
+    throw new Error(`invalid skill name: ${name}`);
+  }
   const dir = path.join(SKILLS_DIR, name);
   if (!fs.existsSync(dir)) {
     throw new Error(`skill not found: ${name}`);
   }
-  return loadSkill(dir);
+  const skillsRoot = fs.realpathSync.native(SKILLS_DIR);
+  const resolvedDir = fs.realpathSync.native(dir);
+  if (!resolvedDir.startsWith(`${skillsRoot}${path.sep}`)) {
+    throw new Error(`skill path escapes catalog: ${name}`);
+  }
+  const skill = loadSkill(resolvedDir);
+  if (skill.frontmatter.name !== name) {
+    throw new Error(`skill frontmatter name mismatch: ${name}`);
+  }
+  return skill;
 }

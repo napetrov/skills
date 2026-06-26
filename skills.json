@@ -25,6 +25,7 @@
         "claude-code"
       ],
       "maturity": "experimental",
+      "data_classification": "public",
       "path": "skills/dpnp-quickstart"
     }
   ]

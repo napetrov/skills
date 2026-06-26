@@ -9,7 +9,7 @@ function usage(code = 0) {
   console.log(`Usage:
   intel-skills list
   intel-skills show <skill>
-  intel-skills install <skill> --target codex|claude-code [--link]
+  intel-skills install <skill> --target codex|claude-code [--force]
   intel-skills verify <skill>`);
   process.exit(code);
 }
@@ -36,16 +36,23 @@ try {
     const skillName = args[0];
     const target = argValue("--target");
     if (!skillName || !target) usage(1);
+    if (args.includes("--link")) {
+      throw new Error("--link is not supported by the packaged CLI");
+    }
     const skill = findSkill(skillName);
     const root = targetDir(target);
     const dest = path.join(root, skill.frontmatter.name);
+    const resolvedRoot = path.resolve(root);
+    const resolvedDest = path.resolve(dest);
+    if (!resolvedDest.startsWith(`${resolvedRoot}${path.sep}`)) {
+      throw new Error("install destination escapes target directory");
+    }
+    if (fs.existsSync(dest) && !args.includes("--force")) {
+      throw new Error(`destination already exists: ${dest}; use --force to overwrite`);
+    }
     fs.mkdirSync(root, { recursive: true });
     fs.rmSync(dest, { recursive: true, force: true });
-    if (args.includes("--link")) {
-      fs.symlinkSync(skill.dir, dest, "dir");
-    } else {
-      copyDir(skill.dir, dest);
-    }
+    copyDir(skill.dir, dest);
     console.log(`installed ${skill.frontmatter.name} to ${dest}`);
   } else {
     usage(1);
