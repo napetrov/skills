@@ -19,7 +19,10 @@
   ],
   "scripts": {
     "build": "node tools/generate-catalog.js",
-    "smoke": "node tools/validate-skills.js && node tools/generate-catalog.js --check && node --test",
+    "security": "npm run security:skills && npm run security:package",
+    "security:package": "node tools/check-package-allowlist.js",
+    "security:skills": "node tools/validate-skills-security.js",
+    "smoke": "node tools/validate-skills.js && node tools/generate-catalog.js --check && npm run security:skills && npm run security:package && node --test",
     "test": "npm run smoke",
     "pack:check": "npm pack --dry-run"
   },

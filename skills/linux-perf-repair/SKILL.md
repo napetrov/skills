@@ -89,6 +89,8 @@ Benchmark examples for this wrapper can be evaluated separately in
 `napetrov/agent-benchmark`, but that benchmark repository is not the source of
 the skill content.
 
+See `references/public-implementation.md` for the public source layout.
+
 ## Reporting Contract
 
 For triage, report:
