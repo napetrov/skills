@@ -1,4 +1,68 @@
 # Skills
 
-Intel agent skills catalog.
+Intel agent skills for coding agents.
 
+This repository packages small, portable `SKILL.md` instruction sets for agents
+such as Codex and Claude Code. The first release focuses on authoring,
+validation, catalog generation, and installation. Full benchmark/evaluation
+harnesses live outside this repository.
+
+## Quick Start
+
+List available skills:
+
+```bash
+npx @napetrov/intel-skills list
+```
+
+Install a skill into Codex:
+
+```bash
+npx @napetrov/intel-skills install dpnp-quickstart --target codex
+```
+
+Install a skill into Claude Code:
+
+```bash
+npx @napetrov/intel-skills install dpnp-quickstart --target claude-code
+```
+
+## Skill Catalog
+
+<!-- skills-catalog-start -->
+| Skill | Product | Problems | Maturity | Description |
+| --- | --- | --- | --- | --- |
+| [dpnp-quickstart](skills/dpnp-quickstart) | dpnp | migrate-numpy-to-xpu, diagnose-device-selection, benchmark-python-kernels | experimental | Guide NumPy-to-dpnp migration, device checks, safe fallback patterns, and performance-minded usage. |
+<!-- skills-catalog-end -->
+
+## Repository Layout
+
+```text
+skills/                 Skill directories consumed by agents
+templates/skill/        Template for new skills
+tools/                  Validation and catalog generation scripts
+bin/intel-skills.js     npm CLI entry point
+```
+
+Each skill must include:
+
+- `SKILL.md`
+- `skill-card.md`
+- `BENCHMARK.md`
+
+`evals/` are intentionally not part of this first repository version. Skill
+quality gates here are basic smoke checks: metadata validation, required files,
+catalog generation, and install/verify behavior.
+
+## Development
+
+```bash
+npm run build
+npm test
+```
+
+`npm test` runs the smoke checks used in CI.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).

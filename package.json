@@ -1,0 +1,30 @@
+{
+  "name": "@napetrov/intel-skills",
+  "version": "0.1.0",
+  "description": "Intel agent skills catalog for Codex and Claude Code",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "intel-skills": "bin/intel-skills.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "tools/",
+    "templates/",
+    "skills.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "node tools/generate-catalog.js",
+    "smoke": "node tools/validate-skills.js && node tools/generate-catalog.js --check && node --test",
+    "test": "npm run smoke",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {}
+}
