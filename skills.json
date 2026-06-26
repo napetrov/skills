@@ -1,0 +1,32 @@
+{
+  "generated_by": "tools/generate-catalog.js",
+  "skills": [
+    {
+      "name": "dpnp-quickstart",
+      "description": "Guide NumPy-to-dpnp migration, device checks, safe fallback patterns, and performance-minded usage.",
+      "version": "0.1.0",
+      "product": "dpnp",
+      "product_family": "data-parallel-python",
+      "tags": [
+        "dpnp",
+        "numpy",
+        "sycl",
+        "xpu",
+        "performance",
+        "porting"
+      ],
+      "problems": [
+        "migrate-numpy-to-xpu",
+        "diagnose-device-selection",
+        "benchmark-python-kernels"
+      ],
+      "agents": [
+        "codex",
+        "claude-code"
+      ],
+      "maturity": "experimental",
+      "data_classification": "public",
+      "path": "skills/dpnp-quickstart"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+import fs from "node:fs";
+import path from "node:path";
+import { copyDir, findSkill, readCatalog, targetDir } from "../tools/lib.js";
+
+const [, , command, ...args] = process.argv;
+
+function usage(code = 0) {
+  console.log(`Usage:
+  intel-skills list
+  intel-skills show <skill>
+  intel-skills install <skill> --target codex|claude-code [--force]
+  intel-skills verify <skill>`);
+  process.exit(code);
+}
+
+function argValue(name) {
+  const index = args.indexOf(name);
+  return index === -1 ? null : args[index + 1];
+}
+
+try {
+  if (!command || command === "--help" || command === "-h") usage(0);
+
+  if (command === "list") {
+    for (const skill of readCatalog()) {
+      console.log(`${skill.name}\t${skill.product}\t${skill.description}`);
+    }
+  } else if (command === "show") {
+    const skill = findSkill(args[0]);
+    console.log(skill.body);
+  } else if (command === "verify") {
+    const skill = findSkill(args[0]);
+    console.log(`ok ${skill.frontmatter.name} ${skill.frontmatter.version}`);
+  } else if (command === "install") {
+    const skillName = args[0];
+    const target = argValue("--target");
+    if (!skillName || !target) usage(1);
+    if (args.includes("--link")) {
+      throw new Error("--link is not supported by the packaged CLI");
+    }
+    const skill = findSkill(skillName);
+    const root = targetDir(target);
+    const dest = path.join(root, skill.frontmatter.name);
+    const resolvedRoot = path.resolve(root);
+    const resolvedDest = path.resolve(dest);
+    if (!resolvedDest.startsWith(`${resolvedRoot}${path.sep}`)) {
+      throw new Error("install destination escapes target directory");
+    }
+    if (fs.existsSync(dest) && !args.includes("--force")) {
+      throw new Error(`destination already exists: ${dest}; use --force to overwrite`);
+    }
+    fs.mkdirSync(root, { recursive: true });
+    fs.rmSync(dest, { recursive: true, force: true });
+    copyDir(skill.dir, dest);
+    console.log(`installed ${skill.frontmatter.name} to ${dest}`);
+  } else {
+    usage(1);
+  }
+} catch (error) {
+  console.error(`error: ${error.message}`);
+  process.exit(1);
+}
