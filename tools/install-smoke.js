@@ -3,8 +3,9 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = path.resolve(import.meta.dirname, "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skills = ["dpnp-quickstart", "linux-perf-repair"];
 
 function run(command, args, options = {}) {
@@ -30,6 +31,17 @@ function binPath(prefix) {
     : path.join(prefix, "bin", "intel-skills");
 }
 
+function smokeEnv(home) {
+  const env = { ...process.env, HOME: home };
+  if (process.platform === "win32") {
+    const parsed = path.parse(home);
+    env.USERPROFILE = home;
+    env.HOMEDRIVE = parsed.root.replace(/[\\/]$/, "");
+    env.HOMEPATH = home.slice(env.HOMEDRIVE.length);
+  }
+  return env;
+}
+
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-install-smoke-"));
 
 try {
@@ -38,7 +50,7 @@ try {
   const tarball = path.join(tmp, metadata.filename);
   const prefix = path.join(tmp, "prefix");
   const home = path.join(tmp, "home");
-  const env = { ...process.env, HOME: home };
+  const env = smokeEnv(home);
 
   run(npmCommand(), ["install", "--global", "--prefix", prefix, tarball], { env });
 
