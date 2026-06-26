@@ -82,6 +82,8 @@ export function readCatalog() {
       agents: fm.agents ?? [],
       maturity: fm.maturity,
       data_classification: fm.data_classification,
+      source_url: fm.source_url,
+      implementation_url: fm.implementation_url,
       path: path.relative(ROOT, skill.dir),
     };
   });

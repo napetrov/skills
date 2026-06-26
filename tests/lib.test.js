@@ -26,10 +26,19 @@ tags: [one, two]
 
 test("catalog includes dpnp skill", () => {
   const catalog = readCatalog();
-  assert.equal(catalog.length, 1);
-  assert.equal(catalog[0].name, "dpnp-quickstart");
-  assert.equal(catalog[0].product, "dpnp");
-  assert.equal(catalog[0].data_classification, "public");
+  const dpnp = catalog.find((skill) => skill.name === "dpnp-quickstart");
+  assert.ok(dpnp);
+  assert.equal(dpnp.product, "dpnp");
+  assert.equal(dpnp.data_classification, "public");
+});
+
+test("catalog includes linux perf repair implementation links", () => {
+  const catalog = readCatalog();
+  const linuxPerf = catalog.find((skill) => skill.name === "linux-perf-repair");
+  assert.ok(linuxPerf);
+  assert.equal(linuxPerf.product, "linux-perf");
+  assert.equal(linuxPerf.source_url, "https://github.com/intel/intel-performance-skills");
+  assert.match(linuxPerf.implementation_url, /skills\/linux-perf/);
 });
 
 test("findSkill rejects traversal", () => {
