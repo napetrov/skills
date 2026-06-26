@@ -33,6 +33,7 @@ npx @napetrov/intel-skills install dpnp-quickstart --target claude-code
 | Skill | Product | Problems | Maturity | Description |
 | --- | --- | --- | --- | --- |
 | [dpnp-quickstart](skills/dpnp-quickstart) | dpnp | migrate-numpy-to-xpu, diagnose-device-selection, benchmark-python-kernels | experimental | Guide NumPy-to-dpnp migration, device checks, safe fallback patterns, and performance-minded usage. |
+| [linux-perf-repair](skills/linux-perf-repair) | linux-perf | diagnose-linux-performance, interpret-perf-artifacts, repair-performance-regressions | experimental | Route Linux perf triage, hotspot interpretation, and safe performance repair work to public benchmark-backed workflows. |
 <!-- skills-catalog-end -->
 
 ## Repository Layout

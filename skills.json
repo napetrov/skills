@@ -27,6 +27,36 @@
       "maturity": "experimental",
       "data_classification": "public",
       "path": "skills/dpnp-quickstart"
+    },
+    {
+      "name": "linux-perf-repair",
+      "description": "Route Linux perf triage, hotspot interpretation, and safe performance repair work to public benchmark-backed workflows.",
+      "version": "0.1.0",
+      "product": "linux-perf",
+      "product_family": "intel-performance-skills",
+      "tags": [
+        "linux-perf",
+        "perf",
+        "profiling",
+        "performance",
+        "optimization",
+        "c",
+        "cpp"
+      ],
+      "problems": [
+        "diagnose-linux-performance",
+        "interpret-perf-artifacts",
+        "repair-performance-regressions"
+      ],
+      "agents": [
+        "codex",
+        "claude-code"
+      ],
+      "maturity": "experimental",
+      "data_classification": "public",
+      "source_url": "https://github.com/intel/intel-performance-skills",
+      "implementation_url": "https://github.com/intel/intel-performance-skills/tree/main/skills/linux-perf",
+      "path": "skills/linux-perf-repair"
     }
   ]
 }
