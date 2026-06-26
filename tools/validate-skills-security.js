@@ -71,8 +71,17 @@ function checkExternalUrls(skill) {
   }
 }
 
+function collectReferencedLocalFiles(body) {
+  const codeSpanRefs = [...body.matchAll(/`((?:references|scripts|assets)\/[^`]+)`/g)].map((match) => match[1]);
+  const markdownRefs = [...body.matchAll(/!?\[[^\]]*]\(((?:references|scripts|assets)\/[^)\s]+)(?:\s+"[^"]*")?\)/g)].map(
+    (match) => match[1],
+  );
+
+  return [...new Set([...codeSpanRefs, ...markdownRefs].map((ref) => ref.split(/[?#]/)[0]))].filter(Boolean);
+}
+
 function checkReferencedLocalFiles(skill) {
-  const referenced = [...skill.body.matchAll(/`((?:references|scripts|assets)\/[^`]+)`/g)].map((match) => match[1]);
+  const referenced = collectReferencedLocalFiles(skill.body);
   for (const rel of referenced) {
     const resolved = path.resolve(skill.dir, rel);
     if (!resolved.startsWith(`${path.resolve(skill.dir)}${path.sep}`) || !fs.existsSync(resolved)) {
@@ -82,9 +91,11 @@ function checkReferencedLocalFiles(skill) {
 
   const referencesDir = path.join(skill.dir, "references");
   if (fs.existsSync(referencesDir)) {
+    const skillCardPath = path.join(skill.dir, "skill-card.md");
+    const skillCardBody = fs.existsSync(skillCardPath) ? fs.readFileSync(skillCardPath, "utf8") : "";
     for (const file of walkFiles(referencesDir)) {
       const rel = path.relative(skill.dir, file);
-      if (!skill.body.includes(rel) && !fs.readFileSync(path.join(skill.dir, "skill-card.md"), "utf8").includes(rel)) {
+      if (!skill.body.includes(rel) && !skillCardBody.includes(rel)) {
         fail(`${skill.name}: reference file is not mentioned by SKILL.md or skill-card.md: ${rel}`);
       }
     }

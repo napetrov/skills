@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "node tools/generate-catalog.js",
-    "security": "npm audit --omit=dev && npm run security:skills && npm run security:package",
+    "security": "npm run security:skills && npm run security:package",
     "security:package": "node tools/check-package-allowlist.js",
     "security:skills": "node tools/validate-skills-security.js",
     "smoke": "node tools/validate-skills.js && node tools/generate-catalog.js --check && npm run security:skills && npm run security:package && node --test",

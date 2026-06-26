@@ -13,6 +13,7 @@ const allowed = [
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.md)$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/references\/[A-Za-z0-9_.-]+\.md$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/scripts\/[A-Za-z0-9_.-]+\.(?:py|sh|js)$/,
+  /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/assets\/[A-Za-z0-9_./-]+$/,
   /^skills\/README\.md$/,
 ];
 
