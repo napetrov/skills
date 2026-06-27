@@ -11,7 +11,7 @@ const allowed = [
   /^package\.json$/,
   /^schemas\/(?:skill-card|skill-manifest)\.schema\.json$/,
   /^templates\/skill\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json)|references\/README\.md)$/,
-  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-skills-security|check-package-allowlist|install-smoke|lib)\.js$/,
+  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-skills-security|validate-release-provenance|check-package-allowlist|install-smoke|lib)\.js$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json))$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/references\/[A-Za-z0-9_.-]+\.md$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/scripts\/[A-Za-z0-9_.-]+\.(?:py|sh|js)$/,
