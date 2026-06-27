@@ -41,6 +41,7 @@ npx @napetrov/intel-skills install dpnp-quickstart --target claude-code
 ```text
 skills/                 Skill directories consumed by agents
 schemas/                Machine-readable validation contracts
+skills.lock.json        SHA-256 manifest for packaged skill artifacts
 templates/skill/        Template for new skills
 tools/                  Validation and catalog generation scripts
 bin/intel-skills.js     npm CLI entry point
@@ -55,8 +56,8 @@ Each skill must include:
 
 `evals/` are intentionally not part of this first repository version. Skill
 quality gates here are basic smoke checks: metadata validation, trust metadata
-validation, required files, catalog generation, package allowlisting, and
-installed-package behavior.
+validation, required files, catalog generation, artifact hash manifest checks,
+package allowlisting, and installed-package behavior.
 
 ## Development
 

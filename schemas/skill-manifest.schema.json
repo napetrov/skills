@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/napetrov/skills/schemas/skill-manifest.schema.json",
+  "title": "Intel Skills Artifact Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "generated_by", "hash_algorithm", "skills"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "https://github.com/napetrov/skills/schemas/skill-manifest.schema.json"
+    },
+    "generated_by": {
+      "type": "string",
+      "const": "tools/generate-skill-manifest.js"
+    },
+    "hash_algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version", "path", "artifact_sha256", "files"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "version": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^skills/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "size"],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "size": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

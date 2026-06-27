@@ -25,7 +25,7 @@ benchmark repository until a release policy is approved.
 
 - Skill metadata validates.
 - Skill trust metadata validates.
-- Catalog is regenerated.
+- Catalog and artifact manifest are regenerated.
 - Smoke checks pass.
 - Packaged install smoke passes.
 - New scripts are declared in `SKILL.md`.
