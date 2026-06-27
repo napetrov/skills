@@ -10,6 +10,8 @@ problems: [example-problem]
 agents: [codex, claude-code]
 maturity: experimental
 data_classification: public
+source_url: https://github.com/example-org/example-repo
+implementation_url: https://github.com/example-org/example-repo/tree/main/skills/example-skill
 ---
 
 # Example Skill

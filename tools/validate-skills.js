@@ -15,6 +15,8 @@ const requiredFrontmatter = [
   "agents",
   "maturity",
   "data_classification",
+  "source_url",
+  "implementation_url",
 ];
 
 const requiredFiles = ["SKILL.md", "skill-card.md", "skill-card.json", "BENCHMARK.md"];

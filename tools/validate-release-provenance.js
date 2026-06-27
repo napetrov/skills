@@ -6,28 +6,6 @@ import { ROOT } from "./lib.js";
 const workflowPath = path.join(ROOT, ".github", "workflows", "release.yml");
 const workflow = fs.readFileSync(workflowPath, "utf8");
 const lines = workflow.split(/\r?\n/);
-const requiredPatterns = [
-  {
-    id: "release-trigger",
-    pattern: /on:\s*\n\s+release:\s*\n\s+types:\s*\[\s*published\s*]/,
-  },
-  {
-    id: "clean-install",
-    pattern: /run:\s+npm ci\b/,
-  },
-  {
-    id: "test-before-publish",
-    pattern: /run:\s+npm test\b/,
-  },
-  {
-    id: "pack-check-before-publish",
-    pattern: /run:\s+npm run pack:check\b/,
-  },
-  {
-    id: "npm-provenance-publish",
-    pattern: /run:\s+npm publish --provenance --access public\b/,
-  },
-];
 const forbiddenPatterns = [
   {
     id: "npm-token-secret",
@@ -46,6 +24,10 @@ function fail(message) {
   console.error(`FAIL release provenance: ${message}`);
 }
 
+function hasLine(value, source = lines) {
+  return source.some((line) => line.trim() === value);
+}
+
 function topLevelBlock(name) {
   const start = lines.findIndex((line) => line === `${name}:`);
   if (start === -1) return [];
@@ -57,12 +39,49 @@ function topLevelBlock(name) {
   return block;
 }
 
+function nestedBlock(name) {
+  const start = lines.findIndex((line) => line.trim() === `${name}:`);
+  if (start === -1) return [];
+  const indent = lines[start].match(/^\s*/)[0].length;
+  const block = [];
+  for (const line of lines.slice(start + 1)) {
+    if (line.trim() === "") continue;
+    const lineIndent = line.match(/^\s*/)[0].length;
+    if (lineIndent <= indent) break;
+    block.push(line);
+  }
+  return block;
+}
+
+function runCommands(source) {
+  return source
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("- run: "))
+    .map((line) => line.slice("- run: ".length).trim());
+}
+
+if (!hasLine("on:") || !hasLine("release:") || !hasLine("types: [published]")) fail("missing release-trigger");
+
 const permissions = topLevelBlock("permissions");
 if (!permissions.includes("id-token: write")) fail("missing oidc-token-permission");
 if (!permissions.includes("contents: read")) fail("missing read-only-contents");
 
-for (const { id, pattern } of requiredPatterns) {
-  if (!pattern.test(workflow)) fail(`missing ${id}`);
+const requiredRunOrder = ["npm ci", "npm test", "npm run pack:check", "npm publish --provenance --access public"];
+const publishJob = nestedBlock("npm-publish");
+if (publishJob.length === 0) fail("missing npm-publish job");
+if (!hasLine("persist-credentials: false", publishJob)) fail("missing explicit checkout credential disable");
+const runs = runCommands(publishJob);
+let cursor = 0;
+for (const command of runs) {
+  if (command === requiredRunOrder[cursor]) cursor += 1;
+}
+if (cursor !== requiredRunOrder.length) {
+  fail(`run commands must include ordered release gate: ${requiredRunOrder.join(" -> ")}`);
+}
+for (const command of runs) {
+  if (command.startsWith("npm publish") && command !== "npm publish --provenance --access public") {
+    fail(`unexpected publish command: ${command}`);
+  }
 }
 for (const { id, pattern } of forbiddenPatterns) {
   if (pattern.test(workflow)) fail(`forbidden ${id}`);

@@ -57,6 +57,12 @@ export function listSkillDirs() {
     .sort();
 }
 
+function comparePathNames(left, right) {
+  if (left.name < right.name) return -1;
+  if (left.name > right.name) return 1;
+  return 0;
+}
+
 export function loadSkill(skillDir) {
   const skillPath = path.join(skillDir, "SKILL.md");
   const body = fs.readFileSync(skillPath, "utf8");
@@ -96,7 +102,7 @@ export function sha256(buffer) {
 }
 
 export function walkSkillFiles(skillDir) {
-  const entries = fs.readdirSync(skillDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
+  const entries = fs.readdirSync(skillDir, { withFileTypes: true }).sort(comparePathNames);
   const files = [];
   for (const entry of entries) {
     const fullPath = path.join(skillDir, entry.name);
@@ -110,8 +116,10 @@ export function buildSkillArtifact(skillDir) {
   const skill = loadSkill(skillDir);
   const files = walkSkillFiles(skillDir).map((file) => {
     const bytes = fs.readFileSync(file);
+    const stat = fs.statSync(file);
     return {
       path: path.relative(skillDir, file).split(path.sep).join("/"),
+      mode: (stat.mode & 0o777).toString(8).padStart(4, "0"),
       sha256: sha256(bytes),
       size: bytes.length,
     };

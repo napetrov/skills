@@ -23,7 +23,11 @@ const allowed = [
 const forbidden = [/(^|\/)evals\//, /(^|\/)(results|reports|tmp|node_modules)\//, /\.tgz$/, /\.log$/];
 const maxUnpackedBytes = 1_000_000;
 
-const result = spawnSync("npm", ["pack", "--dry-run", "--json"], { encoding: "utf8" });
+function npmCommand() {
+  return process.platform === "win32" ? "npm.cmd" : "npm";
+}
+
+const result = spawnSync(npmCommand(), ["pack", "--dry-run", "--json"], { encoding: "utf8" });
 if (result.status !== 0) {
   process.stderr.write(result.stderr);
   process.exit(result.status ?? 1);

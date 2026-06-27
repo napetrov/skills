@@ -45,11 +45,15 @@
             "items": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["path", "sha256", "size"],
+              "required": ["path", "mode", "sha256", "size"],
               "properties": {
                 "path": {
                   "type": "string",
                   "minLength": 1
+                },
+                "mode": {
+                  "type": "string",
+                  "pattern": "^[0-7]{4}$"
                 },
                 "sha256": {
                   "type": "string",

@@ -33,7 +33,9 @@ Use the narrowest accurate status in `skill-card.json`:
   replacement skill.
 
 Do not mark a skill `verified` just because CI passed. CI proves consistency;
-verification also needs artifact provenance.
+verification also needs artifact provenance. The current schema reserves
+`verified` for a future attestation metadata contract and rejects it until that
+contract exists.
 
 ## Release Chain
 

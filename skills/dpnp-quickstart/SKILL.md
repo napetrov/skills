@@ -10,6 +10,8 @@ problems: [migrate-numpy-to-xpu, diagnose-device-selection, benchmark-python-ker
 agents: [codex, claude-code]
 maturity: experimental
 data_classification: public
+source_url: https://github.com/napetrov/skills
+implementation_url: https://github.com/napetrov/skills/tree/main/skills/dpnp-quickstart
 ---
 
 # dpnp Quickstart

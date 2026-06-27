@@ -140,9 +140,15 @@ for (const skillDir of listSkillDirs()) {
     if (typeof card[field] === "string" && !githubUrlPattern.test(card[field])) {
       fail(`${skillName}: skill-card.json ${field} must be an HTTPS GitHub URL`);
     }
+    if (skill.frontmatter[field] !== card[field]) {
+      fail(`${skillName}: skill-card.json ${field} must match SKILL.md frontmatter`);
+    }
   }
   if (!verificationStatuses.has(card.verification_status)) {
     fail(`${skillName}: skill-card.json unknown verification_status ${card.verification_status}`);
+  }
+  if (card.verification_status === "verified") {
+    fail(`${skillName}: verification_status verified requires attestation metadata not supported by this schema yet`);
   }
   if (card.risks?.length !== card.mitigations?.length) {
     fail(`${skillName}: skill-card.json risks and mitigations must have the same length`);
