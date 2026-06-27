@@ -6,6 +6,7 @@ Required files:
 
 - `SKILL.md`
 - `skill-card.md`
+- `skill-card.json`
 - `BENCHMARK.md`
 
 Optional files:

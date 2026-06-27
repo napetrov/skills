@@ -1,0 +1,17 @@
+{
+  "name": "example-skill",
+  "owner": "Owner name or team",
+  "source_url": "https://github.com/example-org/example-repo",
+  "implementation_url": "https://github.com/example-org/example-repo/tree/main/skills/example-skill",
+  "data_classification": "public",
+  "tools": [],
+  "network": {
+    "required": false,
+    "destinations": []
+  },
+  "scripts": [],
+  "permissions": ["read repository files"],
+  "risks": ["agent fabricates results"],
+  "mitigations": ["require evidence and report limits"],
+  "verification_status": "unverified"
+}

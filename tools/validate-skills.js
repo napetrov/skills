@@ -17,7 +17,7 @@ const requiredFrontmatter = [
   "data_classification",
 ];
 
-const requiredFiles = ["SKILL.md", "skill-card.md", "BENCHMARK.md"];
+const requiredFiles = ["SKILL.md", "skill-card.md", "skill-card.json", "BENCHMARK.md"];
 const forbiddenPatterns = [
   /curl\s+[^|]+\|\s*(sh|bash)/i,
   /rm\s+-rf\s+\//i,

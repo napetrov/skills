@@ -6,7 +6,7 @@
 2. Use kebab-case for the directory and `name` frontmatter.
 3. Keep `description` under 160 characters.
 4. Fill in product, problem, tag, agent, and maturity metadata.
-5. Update `skill-card.md` and `BENCHMARK.md`.
+5. Update `skill-card.md`, `skill-card.json`, and `BENCHMARK.md`.
 6. Run:
 
 ```bash
@@ -24,6 +24,7 @@ benchmark repository until a release policy is approved.
 ## Pull Request Checklist
 
 - Skill metadata validates.
+- Skill trust metadata validates.
 - Catalog is regenerated.
 - Smoke checks pass.
 - Packaged install smoke passes.

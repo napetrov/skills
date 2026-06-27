@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/napetrov/skills/schemas/skill-card.schema.json",
+  "title": "Intel Skill Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "owner",
+    "source_url",
+    "implementation_url",
+    "data_classification",
+    "tools",
+    "network",
+    "scripts",
+    "permissions",
+    "risks",
+    "mitigations",
+    "verification_status"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://github.com/"
+    },
+    "implementation_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://github.com/"
+    },
+    "data_classification": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential"]
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "destinations"],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "scripts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^scripts/[A-Za-z0-9_.-]+\\.(?:py|sh|js)$"
+      },
+      "uniqueItems": true
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mitigations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": ["unverified", "smoke-tested", "reviewed", "verified", "deprecated"]
+    }
+  }
+}

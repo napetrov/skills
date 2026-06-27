@@ -1,0 +1,25 @@
+{
+  "name": "dpnp-quickstart",
+  "owner": "Nikolay Petrov and contributors",
+  "source_url": "https://github.com/napetrov/skills",
+  "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/dpnp-quickstart",
+  "data_classification": "public",
+  "tools": ["conda", "python", "pip"],
+  "network": {
+    "required": false,
+    "destinations": []
+  },
+  "scripts": ["scripts/collect_env.py"],
+  "permissions": ["read repository files", "run local Python environment checks"],
+  "risks": [
+    "agent claims speedup without benchmark evidence",
+    "agent assumes GPU execution when runtime selected CPU",
+    "agent breaks production code through incomplete NumPy API coverage"
+  ],
+  "mitigations": [
+    "require benchmark evidence and environment reporting",
+    "require dpctl and array device checks before claiming accelerator use",
+    "recommend fallback paths and critical-path testing"
+  ],
+  "verification_status": "smoke-tested"
+}
