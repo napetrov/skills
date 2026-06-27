@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -5,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const SKILLS_DIR = path.join(ROOT, "skills");
+export const SKILL_MANIFEST_PATH = path.join(ROOT, "skills.lock.json");
 const SKILL_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const VOCAB = {
@@ -87,6 +89,62 @@ export function readCatalog() {
       path: path.relative(ROOT, skill.dir),
     };
   });
+}
+
+export function sha256(buffer) {
+  return crypto.createHash("sha256").update(buffer).digest("hex");
+}
+
+export function walkSkillFiles(skillDir) {
+  const entries = fs.readdirSync(skillDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(skillDir, entry.name);
+    if (entry.isDirectory()) files.push(...walkSkillFiles(fullPath));
+    if (entry.isFile()) files.push(fullPath);
+  }
+  return files;
+}
+
+export function buildSkillArtifact(skillDir) {
+  const skill = loadSkill(skillDir);
+  const files = walkSkillFiles(skillDir).map((file) => {
+    const bytes = fs.readFileSync(file);
+    return {
+      path: path.relative(skillDir, file).split(path.sep).join("/"),
+      sha256: sha256(bytes),
+      size: bytes.length,
+    };
+  });
+  const canonicalPayload = JSON.stringify({
+    name: skill.name,
+    version: skill.frontmatter.version,
+    files,
+  });
+  return {
+    name: skill.name,
+    version: skill.frontmatter.version,
+    path: path.relative(ROOT, skillDir).split(path.sep).join("/"),
+    artifact_sha256: sha256(Buffer.from(canonicalPayload, "utf8")),
+    files,
+  };
+}
+
+export function readSkillManifest() {
+  return JSON.parse(fs.readFileSync(SKILL_MANIFEST_PATH, "utf8"));
+}
+
+export function verifySkillArtifact(skillDir) {
+  const actual = buildSkillArtifact(skillDir);
+  const manifest = readSkillManifest();
+  const expected = manifest.skills?.find((skill) => skill.name === actual.name);
+  if (!expected) {
+    throw new Error(`skill is missing from skills.lock.json: ${actual.name}`);
+  }
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+    throw new Error(`skill artifact hash mismatch: ${actual.name}`);
+  }
+  return actual;
 }
 
 export function targetDir(target) {
