@@ -13,6 +13,17 @@ function runCli(args, env = process.env) {
   });
 }
 
+function isolatedHomeEnv(home) {
+  const env = { ...process.env, HOME: home };
+  if (process.platform === "win32") {
+    const parsed = path.parse(home);
+    env.USERPROFILE = home;
+    env.HOMEDRIVE = parsed.root.replace(/[\\/]$/, "");
+    env.HOMEPATH = home.slice(env.HOMEDRIVE.length);
+  }
+  return env;
+}
+
 test("parseFrontmatter parses arrays", () => {
   const parsed = parseFrontmatter(`---
 name: demo
@@ -45,6 +56,7 @@ test("verifySkillArtifact checks bundled manifest hash", () => {
   const artifact = verifySkillArtifact(findSkill("dpnp-quickstart").dir);
   assert.equal(artifact.name, "dpnp-quickstart");
   assert.match(artifact.artifact_sha256, /^[a-f0-9]{64}$/);
+  assert.match(artifact.files[0].mode, /^[0-7]{4}$/);
 });
 
 test("cli verify reports artifact hash", () => {
@@ -71,7 +83,7 @@ test("install rejects link mode", () => {
 
 test("install refuses overwrite without --force", () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
-  const env = { ...process.env, HOME: home };
+  const env = isolatedHomeEnv(home);
   try {
     assert.equal(runCli(["install", "dpnp-quickstart", "--target", "codex"], env).status, 0);
     const overwrite = runCli(["install", "dpnp-quickstart", "--target", "codex"], env);

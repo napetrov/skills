@@ -26,6 +26,8 @@
       ],
       "maturity": "experimental",
       "data_classification": "public",
+      "source_url": "https://github.com/napetrov/skills",
+      "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/dpnp-quickstart",
       "path": "skills/dpnp-quickstart"
     },
     {

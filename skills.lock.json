@@ -7,42 +7,49 @@
       "name": "dpnp-quickstart",
       "version": "0.1.0",
       "path": "skills/dpnp-quickstart",
-      "artifact_sha256": "9f4dfc8d62e2b46f2fd426e4d097af414cfb412bde4ada9606e5df52e292305b",
+      "artifact_sha256": "7140ed891c76f5cfbb0dee9027c60010874ddef689c31b3d3424b68b3bc09e3d",
       "files": [
         {
           "path": "BENCHMARK.md",
+          "mode": "0644",
           "sha256": "381ca1f055cd4f9fb07c4db8766c0562d7c021ec266cea703e700f926cd6fb1f",
           "size": 440
         },
         {
+          "path": "SKILL.md",
+          "mode": "0644",
+          "sha256": "120b1e7d866244053a64273249419986ffed776cb858f4e0bd733bfa640d2582",
+          "size": 3649
+        },
+        {
           "path": "references/benchmarking.md",
+          "mode": "0644",
           "sha256": "975542cbf6897583d85d953d0e2cff004c83ecaf05660505037302837de984bb",
           "size": 807
         },
         {
           "path": "references/dpnp-migration.md",
+          "mode": "0644",
           "sha256": "3a4d010378ad4968a24012ff62fb83f1ba2f1a61648768a958eeca1e57b929fa",
           "size": 777
         },
         {
           "path": "scripts/collect_env.py",
+          "mode": "0755",
           "sha256": "efd9bbd2b172f8ea0b4d07a80ae1ea9b91b490f9fe9df9461d66aa557b5d1baf",
           "size": 1058
         },
         {
           "path": "skill-card.json",
+          "mode": "0644",
           "sha256": "d597272eafa88b0c007fd67d666846324ae19eb29c34bef356c85dab42302443",
           "size": 957
         },
         {
           "path": "skill-card.md",
+          "mode": "0644",
           "sha256": "208305ceaed2cb7d7d9d00954282bcdc271307632b37baa29e4b3133de8d0777",
           "size": 1244
-        },
-        {
-          "path": "SKILL.md",
-          "sha256": "860880330b320c5c6fce37530ec632b6e666f296dc84fc3faf5ac736e22cc459",
-          "size": 3514
         }
       ]
     },
@@ -50,32 +57,37 @@
       "name": "linux-perf-repair",
       "version": "0.1.0",
       "path": "skills/linux-perf-repair",
-      "artifact_sha256": "a2ef25d4ac6bd08b4eb7fb1f63eb4c1314ee792606d4d4e82542f8e3a42217e5",
+      "artifact_sha256": "20c6110d857d29451593a189e983ac74a90714b6c4345c2602da9c824501e4e1",
       "files": [
         {
           "path": "BENCHMARK.md",
+          "mode": "0644",
           "sha256": "070b243544ea18c34d3d10c823685f0b45f7db9186bf933d3f0e1bd20bbe0194",
           "size": 713
         },
         {
+          "path": "SKILL.md",
+          "mode": "0644",
+          "sha256": "e47a073344f51040d1eee9478294ffb4ca9489b4af6b4e1c0208e84ae14b9c6c",
+          "size": 4932
+        },
+        {
           "path": "references/public-implementation.md",
+          "mode": "0644",
           "sha256": "6d2119ce1d794564abd053c0093a1a9eeea42ecdc49ef186555ea1ee7fbae39c",
           "size": 1122
         },
         {
           "path": "skill-card.json",
+          "mode": "0644",
           "sha256": "e96689dc06df6154f74544e132eed4b33a3536bd4ae2b304c0351b13f89fc7d5",
           "size": 992
         },
         {
           "path": "skill-card.md",
+          "mode": "0644",
           "sha256": "df47c3fc7bca9efca80e05bf20d7e473b20a15750122106a8f0bd0c1bbb7b3d8",
           "size": 2255
-        },
-        {
-          "path": "SKILL.md",
-          "sha256": "e47a073344f51040d1eee9478294ffb4ca9489b4af6b4e1c0208e84ae14b9c6c",
-          "size": 4932
         }
       ]
     }
