@@ -45,6 +45,7 @@ skills.lock.json        SHA-256 manifest for packaged skill artifacts
 templates/skill/        Template for new skills
 tools/                  Validation and catalog generation scripts
 bin/intel-skills.js     npm CLI entry point
+docs/trust-model.md     Skill trust and admission policy
 ```
 
 Each skill must include:
