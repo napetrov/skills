@@ -25,6 +25,7 @@ benchmark repository until a release policy is approved.
 
 - Skill metadata validates.
 - Skill trust metadata validates.
+- Trust checklist matches `docs/trust-model.md`.
 - Catalog and artifact manifest are regenerated.
 - Smoke checks pass.
 - Packaged install smoke passes.

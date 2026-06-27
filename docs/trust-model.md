@@ -1,0 +1,58 @@
+# Skill Trust Model
+
+This repository treats skills as executable-adjacent artifacts. A skill is not
+trusted because it exists in the catalog; it is trusted only to the level proven
+by its metadata, artifact hashes, review, and release provenance.
+
+## Required Artifacts
+
+Every skill must include:
+
+- `SKILL.md` for agent-facing instructions.
+- `skill-card.md` for human-readable review context.
+- `skill-card.json` for machine-validated trust metadata.
+- `BENCHMARK.md` for current evaluation status.
+
+The repository must also keep `skills.lock.json` current. It records each
+packaged skill file, file size, file SHA-256, and aggregate skill artifact
+SHA-256.
+
+## Verification Status
+
+Use the narrowest accurate status in `skill-card.json`:
+
+- `unverified`: metadata exists, but the skill has not passed repository smoke
+  gates.
+- `smoke-tested`: repository validation, security checks, artifact manifest,
+  package allowlist, and packaged install smoke pass.
+- `reviewed`: a human or independent review has checked the skill behavior,
+  risks, mitigations, references, and provenance.
+- `verified`: reviewed plus signed or attested release provenance for the exact
+  artifact hash in `skills.lock.json`.
+- `deprecated`: keep installable only when needed for compatibility; prefer a
+  replacement skill.
+
+Do not mark a skill `verified` just because CI passed. CI proves consistency;
+verification also needs artifact provenance.
+
+## Release Chain
+
+Release publishing must happen through `.github/workflows/release.yml` with:
+
+- GitHub OIDC `id-token: write`;
+- `npm publish --provenance --access public`;
+- `npm ci`, `npm test`, and `npm run pack:check` before publish;
+- no repo-stored npm token.
+
+Consumers can run `intel-skills verify <skill>` before install. The CLI refuses
+to install bundled skills whose files do not match `skills.lock.json`.
+
+## Admission Checklist
+
+Before merging a skill or trust-policy change:
+
+- update `skill-card.json` and `skill-card.md`;
+- run `npm run build` when catalog or skill files change;
+- run `npm test`, `npm run security`, and `npm run pack:check`;
+- confirm `skills.lock.json` changed when packaged skill content changed;
+- keep `verification_status` honest.
