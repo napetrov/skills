@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { findSkill, parseFrontmatter, readCatalog } from "../tools/lib.js";
+import { findSkill, parseFrontmatter, readCatalog, verifySkillArtifact } from "../tools/lib.js";
 
 function runCli(args, env = process.env) {
   return spawnSync(process.execPath, ["bin/intel-skills.js", ...args], {
@@ -39,6 +39,18 @@ test("catalog includes linux perf repair implementation links", () => {
   assert.equal(linuxPerf.product, "linux-perf");
   assert.equal(linuxPerf.source_url, "https://github.com/intel/intel-performance-skills");
   assert.match(linuxPerf.implementation_url, /skills\/linux-perf/);
+});
+
+test("verifySkillArtifact checks bundled manifest hash", () => {
+  const artifact = verifySkillArtifact(findSkill("dpnp-quickstart").dir);
+  assert.equal(artifact.name, "dpnp-quickstart");
+  assert.match(artifact.artifact_sha256, /^[a-f0-9]{64}$/);
+});
+
+test("cli verify reports artifact hash", () => {
+  const result = runCli(["verify", "dpnp-quickstart"]);
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /^ok dpnp-quickstart 0\.1\.0 [a-f0-9]{64}\n$/);
 });
 
 test("findSkill rejects traversal", () => {

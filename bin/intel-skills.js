@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { copyDir, findSkill, readCatalog, targetDir } from "../tools/lib.js";
+import { copyDir, findSkill, readCatalog, targetDir, verifySkillArtifact } from "../tools/lib.js";
 
 const [, , command, ...args] = process.argv;
 
@@ -31,7 +31,8 @@ try {
     console.log(skill.body);
   } else if (command === "verify") {
     const skill = findSkill(args[0]);
-    console.log(`ok ${skill.frontmatter.name} ${skill.frontmatter.version}`);
+    const artifact = verifySkillArtifact(skill.dir);
+    console.log(`ok ${artifact.name} ${artifact.version} ${artifact.artifact_sha256}`);
   } else if (command === "install") {
     const skillName = args[0];
     const target = argValue("--target");
@@ -40,6 +41,7 @@ try {
       throw new Error("--link is not supported by the packaged CLI");
     }
     const skill = findSkill(skillName);
+    verifySkillArtifact(skill.dir);
     const root = targetDir(target);
     const dest = path.join(root, skill.frontmatter.name);
     const resolvedRoot = path.resolve(root);
