@@ -27,6 +27,13 @@ Install a skill into Claude Code:
 npx @napetrov/intel-skills install dpnp-quickstart --target claude-code
 ```
 
+Install through the common skills CLI layout:
+
+```bash
+npx skills add napetrov/skills --skill dpnp-quickstart --agent codex
+npx skills add napetrov/skills --skill linux-perf-repair --agent codex
+```
+
 ## Skill Catalog
 
 <!-- skills-catalog-start -->
@@ -58,7 +65,8 @@ Each skill must include:
 `evals/` are intentionally not part of this first repository version. Skill
 quality gates here are basic smoke checks: metadata validation, trust metadata
 validation, required files, catalog generation, artifact hash manifest checks,
-package allowlisting, and installed-package behavior.
+package allowlisting, common skills CLI layout checks, and installed-package
+behavior.
 
 ## Development
 

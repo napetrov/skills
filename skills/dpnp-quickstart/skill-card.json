@@ -3,7 +3,21 @@
   "owner": "Nikolay Petrov and contributors",
   "source_url": "https://github.com/napetrov/skills",
   "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/dpnp-quickstart",
+  "source": {
+    "repository": "https://github.com/napetrov/skills",
+    "ref": "main",
+    "path": "skills/dpnp-quickstart"
+  },
+  "catalog": {
+    "repository": "https://github.com/napetrov/skills",
+    "path": "skills/dpnp-quickstart"
+  },
   "data_classification": "public",
+  "output": {
+    "type": "agent-instructions",
+    "format": "markdown"
+  },
+  "deployment_geography": ["global"],
   "tools": ["conda", "python", "pip"],
   "network": {
     "required": false,
@@ -21,5 +35,18 @@
     "require dpctl and array device checks before claiming accelerator use",
     "recommend fallback paths and critical-path testing"
   ],
+  "ethical_considerations": [
+    "do not present expected accelerator speedups as measured results"
+  ],
+  "release_evidence": {
+    "artifact_manifest": "skills.lock.json",
+    "attestation": "github-artifact-attestations",
+    "signing_workflow": ".github/workflows/release.yml"
+  },
+  "signature": {
+    "status": "github-attested",
+    "identity": "https://github.com/napetrov/skills/.github/workflows/release.yml@refs/tags/*",
+    "subjects": ["skills.lock.json", "npm package tarball"]
+  },
   "verification_status": "smoke-tested"
 }

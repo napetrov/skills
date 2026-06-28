@@ -3,7 +3,21 @@
   "owner": "Owner name or team",
   "source_url": "https://github.com/example-org/example-repo",
   "implementation_url": "https://github.com/example-org/example-repo/tree/main/skills/example-skill",
+  "source": {
+    "repository": "https://github.com/example-org/example-repo",
+    "ref": "main",
+    "path": "skills/example-skill"
+  },
+  "catalog": {
+    "repository": "https://github.com/napetrov/skills",
+    "path": "skills/example-skill"
+  },
   "data_classification": "public",
+  "output": {
+    "type": "agent-instructions",
+    "format": "markdown"
+  },
+  "deployment_geography": ["global"],
   "tools": [],
   "network": {
     "required": false,
@@ -13,5 +27,16 @@
   "permissions": ["read repository files"],
   "risks": ["agent fabricates results"],
   "mitigations": ["require evidence and report limits"],
+  "ethical_considerations": ["do not overstate unverified outcomes"],
+  "release_evidence": {
+    "artifact_manifest": "skills.lock.json",
+    "attestation": "github-artifact-attestations",
+    "signing_workflow": ".github/workflows/release.yml"
+  },
+  "signature": {
+    "status": "github-attested",
+    "identity": "https://github.com/napetrov/skills/.github/workflows/release.yml@refs/tags/*",
+    "subjects": ["skills.lock.json", "npm package tarball"]
+  },
   "verification_status": "unverified"
 }

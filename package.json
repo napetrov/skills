@@ -29,7 +29,7 @@
     "security:policy": "node tools/validate-trust-policy.js",
     "security:release": "node tools/validate-release-provenance.js",
     "security:skills": "node tools/validate-skills-security.js",
-    "smoke": "node tools/validate-skills.js && node tools/validate-skill-cards.js && node tools/generate-catalog.js --check && npm run manifest:check && npm run security && node --test && npm run smoke:install",
+    "smoke": "node tools/validate-skills.js && node tools/validate-skill-cards.js && node tools/validate-common-cli-compat.js && node tools/generate-catalog.js --check && npm run manifest:check && npm run security && node --test && npm run smoke:install",
     "smoke:install": "node tools/install-smoke.js",
     "test": "npm run smoke",
     "pack:check": "npm pack --dry-run"

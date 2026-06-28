@@ -10,8 +10,10 @@ const requiredDocs = [
       "skill-card.json",
       "skills.lock.json",
       "verification_status",
-      "npm publish --provenance --access public",
+      "GitHub Artifact Attestations",
+      "npm publish dist/*.tgz --provenance --access public",
       "intel-skills verify <skill>",
+      "npx skills add napetrov/skills",
     ],
   },
   {

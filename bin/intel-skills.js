@@ -10,7 +10,7 @@ function usage(code = 0) {
   intel-skills list
   intel-skills show <skill>
   intel-skills install <skill> --target codex|claude-code [--force]
-  intel-skills verify <skill>`);
+  intel-skills verify <skill> [--path <installed-skill-dir>]`);
   process.exit(code);
 }
 
@@ -30,8 +30,14 @@ try {
     const skill = findSkill(args[0]);
     console.log(skill.body);
   } else if (command === "verify") {
-    const skill = findSkill(args[0]);
-    const artifact = verifySkillArtifact(skill.dir);
+    const skillName = args[0];
+    const verifyPath = argValue("--path");
+    if (!skillName || skillName.startsWith("--")) usage(1);
+    const skill = verifyPath ? { dir: path.resolve(verifyPath), frontmatter: { name: skillName } } : findSkill(skillName);
+    const artifact = verifySkillArtifact(skill.dir, {
+      expectedName: skill.frontmatter.name,
+      allowDifferentPath: Boolean(verifyPath),
+    });
     console.log(`ok ${artifact.name} ${artifact.version} ${artifact.artifact_sha256}`);
   } else if (command === "install") {
     const skillName = args[0];
@@ -55,6 +61,12 @@ try {
     fs.mkdirSync(root, { recursive: true });
     fs.rmSync(dest, { recursive: true, force: true });
     copyDir(skill.dir, dest);
+    try {
+      verifySkillArtifact(dest, { expectedName: skill.frontmatter.name, allowDifferentPath: true });
+    } catch (error) {
+      fs.rmSync(dest, { recursive: true, force: true });
+      throw error;
+    }
     console.log(`installed ${skill.frontmatter.name} to ${dest}`);
   } else {
     usage(1);

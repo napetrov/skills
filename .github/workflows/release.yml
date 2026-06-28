@@ -5,6 +5,8 @@ on:
     types: [published]
 
 permissions:
+  attestations: write
+  artifact-metadata: write
   contents: read
   id-token: write
 
@@ -23,4 +25,12 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run pack:check
-      - run: npm publish --provenance --access public
+      - run: mkdir -p dist
+      - run: npm pack --pack-destination dist --json > dist/npm-pack.json
+      - uses: actions/attest@f6bf1532d7d6793fce74eac584813a8eee607999
+        with:
+          subject-path: skills.lock.json
+      - uses: actions/attest@f6bf1532d7d6793fce74eac584813a8eee607999
+        with:
+          subject-path: dist/*.tgz
+      - run: npm publish dist/*.tgz --provenance --access public

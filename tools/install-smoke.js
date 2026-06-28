@@ -67,6 +67,7 @@ try {
     if (!fs.existsSync(installed)) {
       throw new Error(`installed skill missing: ${installed}`);
     }
+    run(cli, ["verify", skill, "--path", path.dirname(installed)], { env });
   }
 
   console.log(`install smoke passed (${metadata.filename})`);

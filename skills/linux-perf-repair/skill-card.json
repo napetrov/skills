@@ -3,7 +3,21 @@
   "owner": "Nikolay Petrov and contributors",
   "source_url": "https://github.com/intel/intel-performance-skills",
   "implementation_url": "https://github.com/intel/intel-performance-skills/tree/main/skills/linux-perf",
+  "source": {
+    "repository": "https://github.com/intel/intel-performance-skills",
+    "ref": "main",
+    "path": "skills/linux-perf"
+  },
+  "catalog": {
+    "repository": "https://github.com/napetrov/skills",
+    "path": "skills/linux-perf-repair"
+  },
   "data_classification": "public",
+  "output": {
+    "type": "agent-instructions",
+    "format": "markdown"
+  },
+  "deployment_geography": ["global"],
   "tools": ["perf", "compiler", "benchmark runner"],
   "network": {
     "required": false,
@@ -21,5 +35,18 @@
     "require before and after timing plus correctness checks",
     "require permission explanation and fallback to static artifacts where needed"
   ],
+  "ethical_considerations": [
+    "do not claim performance repairs without reproducible measurements"
+  ],
+  "release_evidence": {
+    "artifact_manifest": "skills.lock.json",
+    "attestation": "github-artifact-attestations",
+    "signing_workflow": ".github/workflows/release.yml"
+  },
+  "signature": {
+    "status": "github-attested",
+    "identity": "https://github.com/napetrov/skills/.github/workflows/release.yml@refs/tags/*",
+    "subjects": ["skills.lock.json", "npm package tarball"]
+  },
   "verification_status": "smoke-tested"
 }

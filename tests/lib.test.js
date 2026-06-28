@@ -65,6 +65,35 @@ test("cli verify reports artifact hash", () => {
   assert.match(result.stdout, /^ok dpnp-quickstart 0\.1\.0 [a-f0-9]{64}\n$/);
 });
 
+test("cli verify checks installed skill path", () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const env = isolatedHomeEnv(home);
+  try {
+    assert.equal(runCli(["install", "dpnp-quickstart", "--target", "codex"], env).status, 0);
+    const installedDir = path.join(home, ".codex", "skills", "dpnp-quickstart");
+    const verify = runCli(["verify", "dpnp-quickstart", "--path", installedDir], env);
+    assert.equal(verify.status, 0);
+    assert.match(verify.stdout, /^ok dpnp-quickstart 0\.1\.0 [a-f0-9]{64}\n$/);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("cli verify fails after installed skill tampering", () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const env = isolatedHomeEnv(home);
+  try {
+    assert.equal(runCli(["install", "dpnp-quickstart", "--target", "codex"], env).status, 0);
+    const installedDir = path.join(home, ".codex", "skills", "dpnp-quickstart");
+    fs.appendFileSync(path.join(installedDir, "SKILL.md"), "\n<!-- tampered -->\n");
+    const verify = runCli(["verify", "dpnp-quickstart", "--path", installedDir], env);
+    assert.notEqual(verify.status, 0);
+    assert.match(verify.stderr, /skill artifact hash mismatch/);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
 test("findSkill rejects traversal", () => {
   assert.throws(() => findSkill("../templates/skill"), /invalid skill name/);
 });

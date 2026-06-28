@@ -142,15 +142,22 @@ export function readSkillManifest() {
   return JSON.parse(fs.readFileSync(SKILL_MANIFEST_PATH, "utf8"));
 }
 
-export function verifySkillArtifact(skillDir) {
+export function verifySkillArtifact(skillDir, options = {}) {
   const actual = buildSkillArtifact(skillDir);
   const manifest = readSkillManifest();
-  const expected = manifest.skills?.find((skill) => skill.name === actual.name);
+  const expectedName = options.expectedName ?? actual.name;
+  const expected = manifest.skills?.find((skill) => skill.name === expectedName);
   if (!expected) {
-    throw new Error(`skill is missing from skills.lock.json: ${actual.name}`);
+    throw new Error(`skill is missing from skills.lock.json: ${expectedName}`);
+  }
+  if (actual.name !== expected.name) {
+    throw new Error(`skill artifact name mismatch: expected ${expected.name}, got ${actual.name}`);
+  }
+  if (options.allowDifferentPath) {
+    actual.path = expected.path;
   }
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-    throw new Error(`skill artifact hash mismatch: ${actual.name}`);
+    throw new Error(`skill artifact hash mismatch: ${expected.name}`);
   }
   return actual;
 }
