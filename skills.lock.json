@@ -7,7 +7,7 @@
       "name": "dpnp-quickstart",
       "version": "0.1.0",
       "path": "skills/dpnp-quickstart",
-      "artifact_sha256": "006efdc2cff8cf24aaba027e2e5a55bec75bbf3569c28f2efc26f40a1c392332",
+      "artifact_sha256": "d4b51f98565bf3f5a64aad20351bd3f3b2df551cd0e57f3f0ed8c7773c246f77",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -42,8 +42,8 @@
         {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "faf0416d5ec32ebb257fd08c564c87bc988eeeea68005e53593d7096bc736163",
-          "size": 1815
+          "sha256": "e3a6a4fa0d8f242c1cba9375f7abb8aab366aa8a817bb8cec3fe8fa04d8225f1",
+          "size": 1671
         },
         {
           "path": "skill-card.md",
@@ -57,7 +57,7 @@
       "name": "linux-perf-repair",
       "version": "0.1.0",
       "path": "skills/linux-perf-repair",
-      "artifact_sha256": "f068289235cc6d40d935e1f33741435f97e1e440c3e70c416cbc8fd43cd921be",
+      "artifact_sha256": "44f03600ead62274981abfd92a76168b24e1e9e1364d5623e97acb82bd4b7a99",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -80,8 +80,8 @@
         {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "acaa89605f636eeafec99c55b81486b6faa9691413cf0db4ad741bb3aadb5f8e",
-          "size": 1864
+          "sha256": "8d581454f95331aaf8730c0144c214a43a00f762c4f4b126d4fc827f4eea27f6",
+          "size": 1720
         },
         {
           "path": "skill-card.md",

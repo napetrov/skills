@@ -11,6 +11,7 @@ const requiredDocs = [
       "skills.lock.json",
       "verification_status",
       "GitHub Artifact Attestations",
+      "validate-release-context.js",
       "npm publish dist/*.tgz --provenance --access public",
       "intel-skills verify <skill>",
       "npx skills add napetrov/skills",

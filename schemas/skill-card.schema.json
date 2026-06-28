@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/napetrov/skills/schemas/skill-card.schema.json",
-  "title": "Intel Skill Card",
+  "title": "Portable Skill Card",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -131,7 +131,25 @@
           },
           "uniqueItems": true
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "required": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "destinations": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
     },
     "scripts": {
       "type": "array",
@@ -185,7 +203,7 @@
         },
         "attestation": {
           "type": "string",
-          "const": "github-artifact-attestations"
+          "enum": ["none", "github-artifact-attestations"]
         },
         "signing_workflow": {
           "type": "string",
@@ -208,7 +226,7 @@
         },
         "subjects": {
           "type": "array",
-          "minItems": 1,
+          "minItems": 0,
           "items": {
             "type": "string",
             "minLength": 1

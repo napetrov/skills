@@ -16,7 +16,12 @@ function usage(code = 0) {
 
 function argValue(name) {
   const index = args.indexOf(name);
-  return index === -1 ? null : args[index + 1];
+  if (index === -1) return null;
+  const value = args[index + 1];
+  if (!value || value.startsWith("--")) {
+    throw new Error(`${name} requires a value`);
+  }
+  return value;
 }
 
 try {

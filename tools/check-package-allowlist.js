@@ -12,7 +12,7 @@ const allowed = [
   /^package\.json$/,
   /^schemas\/(?:skill-card|skill-manifest)\.schema\.json$/,
   /^templates\/skill\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json)|references\/README\.md)$/,
-  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-common-cli-compat|validate-skills-security|validate-release-provenance|validate-trust-policy|check-package-allowlist|install-smoke|lib)\.js$/,
+  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-common-cli-compat|validate-skills-security|validate-release-context|validate-release-provenance|validate-trust-policy|check-package-allowlist|install-smoke|lib)\.js$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json))$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/references\/[A-Za-z0-9_.-]+\.md$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/scripts\/[A-Za-z0-9_.-]+\.(?:py|sh|js)$/,
@@ -27,9 +27,14 @@ function npmCommand() {
   return process.platform === "win32" ? "npm.cmd" : "npm";
 }
 
-const result = spawnSync(npmCommand(), ["pack", "--dry-run", "--json"], { encoding: "utf8" });
+const result = spawnSync(npmCommand(), ["pack", "--dry-run", "--json"], {
+  encoding: "utf8",
+  shell: process.platform === "win32",
+});
 if (result.status !== 0) {
-  process.stderr.write(result.stderr);
+  process.stderr.write(
+    result.stderr || result.stdout || result.error?.message || `${npmCommand()} pack --dry-run --json failed\n`,
+  );
   process.exit(result.status ?? 1);
 }
 

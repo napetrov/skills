@@ -30,13 +30,13 @@
   "ethical_considerations": ["do not overstate unverified outcomes"],
   "release_evidence": {
     "artifact_manifest": "skills.lock.json",
-    "attestation": "github-artifact-attestations",
+    "attestation": "none",
     "signing_workflow": ".github/workflows/release.yml"
   },
   "signature": {
-    "status": "github-attested",
-    "identity": "https://github.com/napetrov/skills/.github/workflows/release.yml@refs/tags/*",
-    "subjects": ["skills.lock.json", "npm package tarball"]
+    "status": "unsigned",
+    "identity": "none",
+    "subjects": []
   },
   "verification_status": "unverified"
 }

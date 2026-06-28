@@ -17,7 +17,8 @@ The repository must also keep `skills.lock.json` current. It records each
 packaged skill file, file size, file SHA-256, and aggregate skill artifact
 SHA-256.
 
-`skill-card.json` separates upstream source ownership from catalog packaging:
+`skill-card.json` separates upstream source ownership from catalog packaging,
+and `skills.json` exposes the same split to catalog consumers:
 `source.repository/ref/path` points at the product-owned skill source, while
 `catalog.repository/path` points at this installable catalog copy.
 
@@ -38,7 +39,8 @@ Use the narrowest accurate status in `skill-card.json`:
 
 Do not mark a skill `verified` just because CI passed. CI proves consistency;
 verification also needs artifact provenance. A `verified` skill must include
-`release_evidence` and a `signature.status` of `github-attested`.
+`release_evidence` and a `signature.status` of `github-attested`. Skills that
+are not `verified` must not claim a GitHub-attested signature.
 
 ## Release Chain
 
@@ -47,6 +49,8 @@ Release publishing must happen through `.github/workflows/release.yml` with:
 - GitHub OIDC `id-token: write`;
 - GitHub Artifact Attestations `attestations: write`;
 - GitHub artifact metadata `artifact-metadata: write`;
+- `node tools/validate-release-context.js` before build or publish to reject
+  prereleases, tag/version mismatches, and tags not reachable from `origin/main`;
 - `npm ci`, `npm test`, and `npm run pack:check` before packing;
 - `npm pack --pack-destination dist --json > dist/npm-pack.json`;
 - GitHub attestations for `skills.lock.json` and the npm tarball;

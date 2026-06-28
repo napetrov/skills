@@ -30,8 +30,7 @@ npx @napetrov/intel-skills install dpnp-quickstart --target claude-code
 Install through the common skills CLI layout:
 
 ```bash
-npx skills add napetrov/skills --skill dpnp-quickstart --agent codex
-npx skills add napetrov/skills --skill linux-perf-repair --agent codex
+npx skills add napetrov/skills --skill <skill-name> --agent codex
 ```
 
 ## Skill Catalog

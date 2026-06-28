@@ -28,6 +28,16 @@
       "data_classification": "public",
       "source_url": "https://github.com/napetrov/skills",
       "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/dpnp-quickstart",
+      "source": {
+        "repository": "https://github.com/napetrov/skills",
+        "ref": "main",
+        "path": "skills/dpnp-quickstart"
+      },
+      "catalog": {
+        "repository": "https://github.com/napetrov/skills",
+        "path": "skills/dpnp-quickstart"
+      },
+      "verification_status": "smoke-tested",
       "path": "skills/dpnp-quickstart"
     },
     {
@@ -58,6 +68,16 @@
       "data_classification": "public",
       "source_url": "https://github.com/intel/intel-performance-skills",
       "implementation_url": "https://github.com/intel/intel-performance-skills/tree/main/skills/linux-perf",
+      "source": {
+        "repository": "https://github.com/intel/intel-performance-skills",
+        "ref": "main",
+        "path": "skills/linux-perf"
+      },
+      "catalog": {
+        "repository": "https://github.com/napetrov/skills",
+        "path": "skills/linux-perf-repair"
+      },
+      "verification_status": "smoke-tested",
       "path": "skills/linux-perf-repair"
     }
   ]

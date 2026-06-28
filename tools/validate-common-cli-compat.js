@@ -14,15 +14,15 @@ const readme = fs.readFileSync(path.join(ROOT, "README.md"), "utf8");
 if (!readme.includes("npx skills add napetrov/skills")) {
   fail("README.md must document common skills CLI install");
 }
+if (!readme.includes("--skill <skill-name>")) {
+  fail("README.md must use scalable --skill <skill-name> common CLI example");
+}
 
 for (const skillDir of listSkillDirs()) {
   const skillName = path.basename(skillDir);
   const expectedRel = `skills/${skillName}/SKILL.md`;
   if (!fs.existsSync(path.join(ROOT, expectedRel))) {
     fail(`${skillName}: missing ${expectedRel}`);
-  }
-  if (!readme.includes(`--skill ${skillName}`)) {
-    fail(`README.md missing common CLI example for ${skillName}`);
   }
 }
 
