@@ -50,6 +50,8 @@ test("catalog includes linux perf repair implementation links", () => {
   assert.equal(linuxPerf.product, "linux-perf");
   assert.equal(linuxPerf.source_url, "https://github.com/intel/intel-performance-skills");
   assert.match(linuxPerf.implementation_url, /skills\/linux-perf/);
+  assert.equal(linuxPerf.source.repository, "https://github.com/intel/intel-performance-skills");
+  assert.equal(linuxPerf.catalog.path, "skills/linux-perf-repair");
 });
 
 test("verifySkillArtifact checks bundled manifest hash", () => {
@@ -63,6 +65,18 @@ test("cli verify reports artifact hash", () => {
   const result = runCli(["verify", "dpnp-quickstart"]);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /^ok dpnp-quickstart 0\.1\.0 [a-f0-9]{64}\n$/);
+});
+
+test("cli verify rejects missing path value", () => {
+  const result = runCli(["verify", "dpnp-quickstart", "--path"]);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /--path requires a value/);
+});
+
+test("cli verify rejects flag-like path value", () => {
+  const result = runCli(["verify", "dpnp-quickstart", "--path", "--target"]);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /--path requires a value/);
 });
 
 test("cli verify checks installed skill path", () => {
@@ -89,6 +103,22 @@ test("cli verify fails after installed skill tampering", () => {
     const verify = runCli(["verify", "dpnp-quickstart", "--path", installedDir], env);
     assert.notEqual(verify.status, 0);
     assert.match(verify.stderr, /skill artifact hash mismatch/);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("cli verify fails when installed skill contains unsupported entry", () => {
+  if (process.platform === "win32") return;
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const env = isolatedHomeEnv(home);
+  try {
+    assert.equal(runCli(["install", "dpnp-quickstart", "--target", "codex"], env).status, 0);
+    const installedDir = path.join(home, ".codex", "skills", "dpnp-quickstart");
+    fs.symlinkSync("/etc/passwd", path.join(installedDir, "EXTRA_SYMLINK"));
+    const verify = runCli(["verify", "dpnp-quickstart", "--path", installedDir], env);
+    assert.notEqual(verify.status, 0);
+    assert.match(verify.stderr, /unsupported skill artifact entry/);
   } finally {
     fs.rmSync(home, { recursive: true, force: true });
   }

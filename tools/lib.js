@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -16,14 +17,15 @@ export const VOCAB = {
 };
 
 export function parseFrontmatter(markdown) {
-  if (!markdown.startsWith("---\n")) {
+  const normalized = markdown.replace(/\r\n/g, "\n");
+  if (!normalized.startsWith("---\n")) {
     throw new Error("missing frontmatter");
   }
-  const end = markdown.indexOf("\n---", 4);
+  const end = normalized.indexOf("\n---", 4);
   if (end === -1) {
     throw new Error("unterminated frontmatter");
   }
-  const raw = markdown.slice(4, end).trim();
+  const raw = normalized.slice(4, end).trim();
   const data = {};
   for (const line of raw.split(/\r?\n/)) {
     const trimmed = line.trim();
@@ -78,6 +80,7 @@ export function loadSkill(skillDir) {
 export function readCatalog() {
   return listSkillDirs().map((dir) => {
     const skill = loadSkill(dir);
+    const card = readSkillCard(dir);
     const fm = skill.frontmatter;
     return {
       name: fm.name,
@@ -92,13 +95,39 @@ export function readCatalog() {
       data_classification: fm.data_classification,
       source_url: fm.source_url,
       implementation_url: fm.implementation_url,
-      path: path.relative(ROOT, skill.dir),
+      source: card.source,
+      catalog: card.catalog,
+      verification_status: card.verification_status,
+      path: path.relative(ROOT, skill.dir).split(path.sep).join("/"),
     };
   });
 }
 
+export function readSkillCard(skillDir) {
+  return JSON.parse(fs.readFileSync(path.join(skillDir, "skill-card.json"), "utf8"));
+}
+
 export function sha256(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
+}
+
+function fileMode(file) {
+  const relativeToRoot = path.relative(ROOT, file).split(path.sep).join("/");
+  if (!relativeToRoot.startsWith("..") && fs.existsSync(path.join(ROOT, ".git"))) {
+    try {
+      const stage = execFileSync("git", ["ls-files", "--stage", "--", relativeToRoot], {
+        cwd: ROOT,
+        encoding: "utf8",
+      }).trim();
+      const mode = stage.split(/\s+/)[0];
+      if (mode === "100755") return "0755";
+      if (mode === "100644") return "0644";
+    } catch {
+      // Fall back to filesystem mode outside normal git checkouts.
+    }
+  }
+  const stat = fs.statSync(file);
+  return (stat.mode & 0o777).toString(8).padStart(4, "0");
 }
 
 export function walkSkillFiles(skillDir) {
@@ -106,8 +135,15 @@ export function walkSkillFiles(skillDir) {
   const files = [];
   for (const entry of entries) {
     const fullPath = path.join(skillDir, entry.name);
-    if (entry.isDirectory()) files.push(...walkSkillFiles(fullPath));
-    if (entry.isFile()) files.push(fullPath);
+    const stat = fs.lstatSync(fullPath);
+    if (stat.isDirectory()) {
+      files.push(...walkSkillFiles(fullPath));
+    } else if (stat.isFile()) {
+      files.push(fullPath);
+    } else {
+      const rel = path.relative(skillDir, fullPath).split(path.sep).join("/");
+      throw new Error(`unsupported skill artifact entry: ${rel}`);
+    }
   }
   return files;
 }
@@ -116,26 +152,25 @@ export function buildSkillArtifact(skillDir) {
   const skill = loadSkill(skillDir);
   const files = walkSkillFiles(skillDir).map((file) => {
     const bytes = fs.readFileSync(file);
-    const stat = fs.statSync(file);
     return {
       path: path.relative(skillDir, file).split(path.sep).join("/"),
-      mode: (stat.mode & 0o777).toString(8).padStart(4, "0"),
+      mode: fileMode(file),
       sha256: sha256(bytes),
       size: bytes.length,
     };
-  });
-  const canonicalPayload = JSON.stringify({
-    name: skill.name,
-    version: skill.frontmatter.version,
-    files,
   });
   return {
     name: skill.name,
     version: skill.frontmatter.version,
     path: path.relative(ROOT, skillDir).split(path.sep).join("/"),
-    artifact_sha256: sha256(Buffer.from(canonicalPayload, "utf8")),
+    artifact_sha256: skillArtifactHash(skill.name, skill.frontmatter.version, files),
     files,
   };
+}
+
+function skillArtifactHash(name, version, files) {
+  const canonicalPayload = JSON.stringify({ name, version, files });
+  return sha256(Buffer.from(canonicalPayload, "utf8"));
 }
 
 export function readSkillManifest() {
@@ -153,13 +188,40 @@ export function verifySkillArtifact(skillDir, options = {}) {
   if (actual.name !== expected.name) {
     throw new Error(`skill artifact name mismatch: expected ${expected.name}, got ${actual.name}`);
   }
-  if (options.allowDifferentPath) {
-    actual.path = expected.path;
+  actual.path = expected.path;
+  if (process.platform === "win32") {
+    for (const actualFile of actual.files) {
+      const expectedFile = expected.files.find((file) => file.path === actualFile.path);
+      if (expectedFile) actualFile.mode = expectedFile.mode;
+    }
+    actual.artifact_sha256 = skillArtifactHash(actual.name, actual.version, actual.files);
   }
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-    throw new Error(`skill artifact hash mismatch: ${expected.name}`);
+    throw new Error(`skill artifact hash mismatch: ${expected.name}${artifactMismatchDetails(actual, expected)}`);
   }
   return actual;
+}
+
+function artifactMismatchDetails(actual, expected) {
+  if (actual.version !== expected.version) return ` version expected ${expected.version}, got ${actual.version}`;
+  if (actual.path !== expected.path) return ` path expected ${expected.path}, got ${actual.path}`;
+  if (actual.artifact_sha256 !== expected.artifact_sha256) {
+    return ` artifact_sha256 expected ${expected.artifact_sha256}, got ${actual.artifact_sha256}`;
+  }
+  if (actual.files.length !== expected.files.length) {
+    return ` file count expected ${expected.files.length}, got ${actual.files.length}`;
+  }
+  for (const expectedFile of expected.files) {
+    const actualFile = actual.files.find((file) => file.path === expectedFile.path);
+    if (!actualFile) return ` missing file ${expectedFile.path}`;
+    for (const key of ["mode", "sha256", "size"]) {
+      if (actualFile[key] !== expectedFile[key]) {
+        return ` ${expectedFile.path} ${key} expected ${expectedFile[key]}, got ${actualFile[key]}`;
+      }
+    }
+  }
+  const extraFile = actual.files.find((file) => !expected.files.some((expectedFile) => expectedFile.path === file.path));
+  return extraFile ? ` unexpected file ${extraFile.path}` : "";
 }
 
 export function targetDir(target) {
@@ -173,10 +235,13 @@ export function copyDir(src, dest) {
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
+    const stat = fs.lstatSync(srcPath);
+    if (stat.isDirectory()) {
       copyDir(srcPath, destPath);
-    } else if (entry.isFile()) {
+    } else if (stat.isFile()) {
       fs.copyFileSync(srcPath, destPath);
+    } else {
+      throw new Error(`unsupported skill artifact entry: ${entry.name}`);
     }
   }
 }

@@ -52,7 +52,7 @@ function textFiles(skillDir) {
 
 function checkDangerousPatterns(skill) {
   for (const file of textFiles(skill.dir)) {
-    const relative = path.relative(skill.dir, file);
+    const relative = path.relative(skill.dir, file).split(path.sep).join("/");
     const content = fs.readFileSync(file, "utf8");
     for (const { id, pattern } of dangerousPatterns) {
       if (pattern.test(content)) {
@@ -94,7 +94,7 @@ function checkReferencedLocalFiles(skill) {
     const skillCardPath = path.join(skill.dir, "skill-card.md");
     const skillCardBody = fs.existsSync(skillCardPath) ? fs.readFileSync(skillCardPath, "utf8") : "";
     for (const file of walkFiles(referencesDir)) {
-      const rel = path.relative(skill.dir, file);
+      const rel = path.relative(skill.dir, file).split(path.sep).join("/");
       if (!skill.body.includes(rel) && !skillCardBody.includes(rel)) {
         fail(`${skill.name}: reference file is not mentioned by SKILL.md or skill-card.md: ${rel}`);
       }

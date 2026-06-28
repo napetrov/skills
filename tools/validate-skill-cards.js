@@ -1,34 +1,17 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { listSkillDirs, loadSkill, VOCAB } from "./lib.js";
+import { ROOT, listSkillDirs, loadSkill, VOCAB } from "./lib.js";
 
-const requiredFields = [
-  "name",
-  "owner",
-  "source_url",
-  "implementation_url",
-  "source",
-  "catalog",
-  "data_classification",
-  "output",
-  "deployment_geography",
-  "tools",
-  "network",
-  "scripts",
-  "permissions",
-  "risks",
-  "mitigations",
-  "ethical_considerations",
-  "release_evidence",
-  "signature",
-  "verification_status",
-];
+const schema = JSON.parse(fs.readFileSync(path.join(ROOT, "schemas", "skill-card.schema.json"), "utf8"));
+const requiredFields = schema.required;
 const githubUrlPattern = /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:\/.*)?$/;
-const scriptPattern = /^scripts\/[A-Za-z0-9_.-]+\.(?:py|sh|js)$/;
-const verificationStatuses = new Set(["unverified", "smoke-tested", "reviewed", "verified", "deprecated"]);
-const signatureStatuses = new Set(["unsigned", "github-attested"]);
-const catalogRepository = "https://github.com/napetrov/skills";
+const scriptPattern = new RegExp(schema.properties.scripts.items.pattern);
+const sourcePathPattern = new RegExp(schema.properties.source.properties.path.pattern);
+const verificationStatuses = new Set(schema.properties.verification_status.enum);
+const signatureStatuses = new Set(schema.properties.signature.properties.status.enum);
+const releaseAttestations = new Set(schema.properties.release_evidence.properties.attestation.enum);
+const catalogRepository = schema.properties.catalog.properties.repository.const;
 
 let failures = 0;
 
@@ -72,6 +55,25 @@ function checkStringArray(skillName, card, field, { minItems = 0, pattern } = {}
     if (pattern && !pattern.test(item)) {
       fail(`${skillName}: skill-card.json ${field} entry has invalid format: ${item}`);
     }
+  }
+}
+
+function checkRawStringArray(skillName, arrayName, items, { minItems = 0 } = {}) {
+  if (!Array.isArray(items)) {
+    fail(`${skillName}: skill-card.json ${arrayName} must be an array`);
+    return;
+  }
+  if (items.length < minItems) {
+    fail(`${skillName}: skill-card.json ${arrayName} must contain at least ${minItems} item(s)`);
+  }
+  const seen = new Set();
+  for (const item of items) {
+    if (typeof item !== "string" || item.trim() === "") {
+      fail(`${skillName}: skill-card.json ${arrayName} entries must be non-empty strings`);
+      continue;
+    }
+    if (seen.has(item)) fail(`${skillName}: skill-card.json ${arrayName} has duplicate entry ${item}`);
+    seen.add(item);
   }
 }
 
@@ -184,6 +186,9 @@ for (const skillDir of listSkillDirs()) {
     if (!githubUrlPattern.test(card.source.repository)) {
       fail(`${skillName}: skill-card.json source.repository must be an HTTPS GitHub repo URL`);
     }
+    if (typeof card.source.path !== "string" || !sourcePathPattern.test(card.source.path)) {
+      fail(`${skillName}: skill-card.json source.path has invalid format`);
+    }
     if (card.source.repository !== card.source_url) {
       fail(`${skillName}: skill-card.json source.repository must match source_url`);
     }
@@ -216,8 +221,8 @@ for (const skillDir of listSkillDirs()) {
     if (card.release_evidence.artifact_manifest !== "skills.lock.json") {
       fail(`${skillName}: skill-card.json release_evidence.artifact_manifest must be skills.lock.json`);
     }
-    if (card.release_evidence.attestation !== "github-artifact-attestations") {
-      fail(`${skillName}: skill-card.json release_evidence.attestation must be github-artifact-attestations`);
+    if (!releaseAttestations.has(card.release_evidence.attestation)) {
+      fail(`${skillName}: skill-card.json unknown release_evidence.attestation ${card.release_evidence.attestation}`);
     }
     if (card.release_evidence.signing_workflow !== ".github/workflows/release.yml") {
       fail(`${skillName}: skill-card.json release_evidence.signing_workflow must be .github/workflows/release.yml`);
@@ -230,13 +235,25 @@ for (const skillDir of listSkillDirs()) {
     if (typeof card.signature.identity !== "string" || card.signature.identity.trim() === "") {
       fail(`${skillName}: skill-card.json signature.identity must be a non-empty string`);
     }
-    if (!Array.isArray(card.signature.subjects) || card.signature.subjects.length === 0) {
-      fail(`${skillName}: skill-card.json signature.subjects must be a non-empty array`);
-    } else {
+    checkRawStringArray(skillName, "signature.subjects", card.signature.subjects);
+    if (card.signature.status === "github-attested") {
       for (const subject of ["skills.lock.json", "npm package tarball"]) {
         if (!card.signature.subjects.includes(subject)) {
           fail(`${skillName}: skill-card.json signature.subjects missing ${subject}`);
         }
+      }
+      if (card.release_evidence?.attestation !== "github-artifact-attestations") {
+        fail(`${skillName}: skill-card.json github-attested signature requires release_evidence attestation`);
+      }
+    } else if (card.signature.status === "unsigned") {
+      if (card.signature.identity !== "none") {
+        fail(`${skillName}: skill-card.json unsigned signature.identity must be none`);
+      }
+      if (card.signature.subjects?.length !== 0) {
+        fail(`${skillName}: skill-card.json unsigned signature.subjects must be empty`);
+      }
+      if (card.release_evidence?.attestation !== "none") {
+        fail(`${skillName}: skill-card.json unsigned signature requires release_evidence.attestation none`);
       }
     }
   }
@@ -261,6 +278,8 @@ for (const skillDir of listSkillDirs()) {
       fail(`${skillName}: skill-card.json network.destinations must be an array`);
     } else if (!card.network.required && card.network.destinations.length > 0) {
       fail(`${skillName}: skill-card.json network.destinations must be empty when network.required is false`);
+    } else {
+      checkRawStringArray(skillName, "network.destinations", card.network.destinations);
     }
   }
   checkDeclaredScripts(skillName, skillDir, Array.isArray(card.scripts) ? card.scripts : []);
