@@ -29,10 +29,10 @@ jobs:
       - run: npm run pack:check
       - run: mkdir -p dist
       - run: npm pack --pack-destination dist --json > dist/npm-pack.json
-      - uses: actions/attest@f6bf1532d7d6793fce74eac584813a8eee607999
+      - uses: actions/attest@a1948c3f048ba23858d222213b7c278aabede763
         with:
           subject-path: skills.lock.json
-      - uses: actions/attest@f6bf1532d7d6793fce74eac584813a8eee607999
+      - uses: actions/attest@a1948c3f048ba23858d222213b7c278aabede763
         with:
           subject-path: dist/*.tgz
       - run: npm publish dist/*.tgz --provenance --access public
