@@ -1,0 +1,6 @@
+{
+  "schema": "https://github.com/napetrov/skills/schemas/skill-manifest.schema.json",
+  "generated_by": "tools/generate-skill-manifest.js",
+  "hash_algorithm": "sha256",
+  "skills": []
+}
