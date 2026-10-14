@@ -66,7 +66,8 @@ export function missingReferences(repo, contract) {
 export function parseTap(text) {
   const tests = [];
   for (const line of text.split(/\r?\n/)) {
-    const match = /^(ok|not ok) \d+ - (.*)$/.exec(line);
+    // Nested subtests (describe blocks) are indented by four spaces per level.
+    const match = /^\s*(ok|not ok) \d+ - (.*)$/.exec(line);
     if (!match) continue;
     const [, state, rest] = match;
     tests.push({

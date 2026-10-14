@@ -141,11 +141,18 @@ export function resolveChangedFiles(repo, { base } = {}) {
     baseRef = base;
     method = "explicit-base";
   } else if (process.env.GITHUB_BASE_REF && head !== null) {
+    // A shallow checkout has no origin/<base>; comparing against HEAD would select nothing.
     const mergeBase = git(repo, ["merge-base", "HEAD", `origin/${process.env.GITHUB_BASE_REF}`]);
-    if (mergeBase) {
-      baseRef = mergeBase.trim();
-      method = "pr-merge-base";
+    if (!mergeBase) {
+      return {
+        files: null,
+        method: "unavailable",
+        base: null,
+        limitations: [`merge base with origin/${process.env.GITHUB_BASE_REF} not found; enrolled scope used`],
+      };
     }
+    baseRef = mergeBase.trim();
+    method = "pr-merge-base";
   }
 
   if (baseRef === null && head === null) {

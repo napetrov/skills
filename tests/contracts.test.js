@@ -182,6 +182,22 @@ test("enabled contracts with unresolved markers are rejected", () => {
   assert.deepEqual(core.findPlaceholders({ note: "measure <measurement-a>" }), []);
 });
 
+test("unresolvable PR merge base falls back to the full enrolled scope", { skip: skipGit }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-no-merge-base");
+  gitInit(dir);
+  const previous = process.env.GITHUB_BASE_REF;
+  process.env.GITHUB_BASE_REF = "no-such-base";
+  try {
+    const changed = core.resolveChangedFiles(dir);
+    assert.equal(changed.files, null);
+    assert.equal(changed.method, "unavailable");
+    assert.match(changed.limitations[0], /enrolled scope used/);
+  } finally {
+    if (previous === undefined) delete process.env.GITHUB_BASE_REF;
+    else process.env.GITHUB_BASE_REF = previous;
+  }
+});
+
 test("skill copies of shared runtime and schemas match their sources", () => {
   assert.deepEqual(syncContractAssets({ check: true }), []);
 });
@@ -329,6 +345,24 @@ test("zero-test selector is an error", () => {
   const envelope = envelopeFrom(result);
   assert.equal(envelope.results[0].verdict, "error");
   assert.match(envelope.observations[0].evidence.find((item) => item.evidence_id === "scan-comparison-happy").reason, /no test matches/);
+});
+
+test("evidence tests nested under describe blocks are matched", () => {
+  const dir = tmpCopy(NODE_FIXTURE, "outcome-nested");
+  fs.writeFileSync(
+    path.join(dir, "tests", "scan-compare.test.js"),
+    [
+      'import { describe, test } from "node:test";',
+      'describe("scan comparison", () => {',
+      '  test("[scan-comparison-happy] nested happy path passes", () => {});',
+      "});",
+      "",
+    ].join("\n"),
+  );
+  const result = run(OUTCOME_CHECK, ["check", "--repo", dir, "--all"], dir);
+  const envelope = envelopeFrom(result);
+  const happy = envelope.observations[0].evidence.find((item) => item.evidence_id === "scan-comparison-happy");
+  assert.equal(happy.verdict, "pass", JSON.stringify(happy));
 });
 
 test("silent comparison of incomparable data fails the outcome", () => {
