@@ -1,0 +1,66 @@
+{
+  "name": "verify-user-outcomes",
+  "owner": "Nikolay Petrov and contributors",
+  "source_url": "https://github.com/napetrov/skills",
+  "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/verify-user-outcomes",
+  "source": {
+    "repository": "https://github.com/napetrov/skills",
+    "ref": "main",
+    "path": "skills/verify-user-outcomes"
+  },
+  "catalog": {
+    "repository": "https://github.com/napetrov/skills",
+    "path": "skills/verify-user-outcomes"
+  },
+  "data_classification": "public",
+  "output": {
+    "type": "agent-instructions",
+    "format": "markdown"
+  },
+  "deployment_geography": [
+    "global"
+  ],
+  "tools": [
+    "node",
+    "git"
+  ],
+  "network": {
+    "required": false,
+    "destinations": []
+  },
+  "scripts": [
+    "scripts/contract-core.js",
+    "scripts/outcome-check.js"
+  ],
+  "permissions": [
+    "read repository files and intent documents",
+    "run the declared test command with an argument array and no shell",
+    "write ignored evidence under .artifacts/contracts/"
+  ],
+  "risks": [
+    "a test that matches the id but asserts nothing passes an unverified outcome",
+    "a disconnected result passes because only internal helpers were tested",
+    "stale references are silently ignored",
+    "an agent edits acceptance criteria to make a failing outcome pass"
+  ],
+  "mitigations": [
+    "zero-match selectors are errors and skipped tests are inconclusive",
+    "the scenario must reach the consumer boundary, shown by discrimination runs",
+    "stale references are findings and fail the affected outcome",
+    "acceptance changes require a separate maintain-mode diff with a stated reason"
+  ],
+  "ethical_considerations": [
+    "do not present fixture-level assertions as live or production behavior"
+  ],
+  "release_evidence": {
+    "artifact_manifest": "skills.lock.json",
+    "attestation": "none",
+    "signing_workflow": ".github/workflows/release.yml"
+  },
+  "signature": {
+    "status": "unsigned",
+    "identity": "none",
+    "subjects": []
+  },
+  "verification_status": "smoke-tested"
+}

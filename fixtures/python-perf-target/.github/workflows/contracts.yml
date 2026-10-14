@@ -1,0 +1,25 @@
+# Example CI wiring for a target project. Copy to the project's .github/workflows/.
+# Runs the performance contract in the PR profile and keeps artifacts when it fails.
+name: performance-contracts
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  performance-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run PR-profile performance contracts
+        run: node skills/performance-contracts/scripts/perf-check.js check --repo . --base origin/${{ github.base_ref }}
+      - name: Upload contract evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-evidence
+          path: .artifacts/contracts/

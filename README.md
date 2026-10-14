@@ -38,7 +38,18 @@ npx skills add napetrov/skills --skill <skill-name> --agent codex
 <!-- skills-catalog-start -->
 | Skill | Product | Problems | Maturity | Description |
 | --- | --- | --- | --- | --- |
+| [performance-contracts](skills/performance-contracts) | petrov-contracts | detect-scaling-regression, verify-optimization-correctness, enforce-resource-budget | experimental | Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects. |
+| [verify-user-outcomes](skills/verify-user-outcomes) | petrov-contracts | verify-user-outcome, detect-disconnected-result, trace-intent-to-evidence | experimental | Set up and check that promised user outcomes are reachable, asserted by tests, and linked to intent and implementation. |
 <!-- skills-catalog-end -->
+
+## Contract Skills
+
+Two skills turn promises into repeatable checks in a target project:
+
+- `skills/performance-contracts`: budgets over workload sizes, with an independent oracle and deterministic counters.
+- `skills/verify-user-outcomes`: user outcomes linked to intent, implementation, and tests that assert the result.
+
+Design, decisions, and deviations from the handoff spec: [docs/contracts-design.md](docs/contracts-design.md).
 
 ## Repository Layout
 

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "PERF-MATCH-001",
+  "status": "enabled",
+  "scope": "fixture-symbol-matcher",
+  "operation": "match old and new symbol tables by canonical key",
+  "paths": ["src/matcher.py", "benchmarks/contracts/**", "tests/contracts/**"],
+  "command_id": "bench-symbol-match",
+  "oracle_id": "generator-ground-truth",
+  "workload": {
+    "dimension": "symbols_per_side",
+    "sizes": [250, 500, 1000, 2000],
+    "fixed": {"matched_fraction": 0.8, "seed": 7, "workers": 1},
+    "cache_state": "none"
+  },
+  "assertions": [
+    {"metric": "matched_pairs_equal_oracle", "operator": "eq", "value": true},
+    {"metric": "candidate_visits", "operator": "le", "coefficient": 12, "shape": "linear", "dimension": "symbols_per_side"},
+    {"metric": "sort_comparisons", "operator": "le", "coefficient": 3, "shape": "n_log_n", "dimension": "symbols_per_side"}
+  ],
+  "profile": "pr",
+  "baseline_ref": "fixture-reference-v1"
+}
