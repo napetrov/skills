@@ -35,6 +35,12 @@ function finalReply(wsName) {
       let o;
       try { o = JSON.parse(line); } catch { continue; }
       if (o.type !== "assistant" || !Array.isArray(o.message?.content)) continue;
+      // Subagents hand back their report through a SubagentHandback tool call, not as plain text.
+      const handback = o.message.content.find((c) => c.type === "tool_use" && c.name === "SubagentHandback");
+      if (handback && typeof handback.input?.message === "string") {
+        last = handback.input.message;
+        continue;
+      }
       const parts = o.message.content.filter((c) => c.type === "text").map((c) => c.text);
       if (parts.length) last = parts.join("\n");
     }
@@ -45,7 +51,8 @@ function finalReply(wsName) {
 
 function classify(report) {
   const t = report.toLowerCase();
-  const noRegression = /no (performance )?regression|not a regression|no regression/.test(t);
+  // Allows up to two words between "no" and "regression", e.g. "No counter regression".
+  const noRegression = /\bno\b(?:\s+[a-z-]+){0,2}\s+regression|not a regression/.test(t);
   const regression = /\bregression\b/.test(t) && !noRegression;
   const doesNotMeet = /does not meet|do not meet|not meet/.test(t);
   const meets = /meets (its |the )?(performance )?expectations|meets expectations/.test(t) && !doesNotMeet;
@@ -79,7 +86,8 @@ function gradeT1(ws) {
   const cleanRun = spawnSync("sh", ["-c", command], { cwd: clean, encoding: "utf8", timeout: 300_000 });
   const mutantRun = spawnSync("sh", ["-c", command], { cwd: mutant, encoding: "utf8", timeout: 300_000 });
   const ok = cleanRun.status === 0 && mutantRun.status !== 0 && mutantRun.status !== null;
-  return { success: ok, false_pass: mutantRun.status === 0, false_positive: cleanRun.status !== 0, detail: `clean=${cleanRun.status} mutant=${mutantRun.status} command=${command}` };
+  const mutantNote = mutantRun.status === null ? ` mutant-killed-by=${mutantRun.signal ?? "error"}` : "";
+  return { success: ok, false_pass: mutantRun.status === 0, false_positive: cleanRun.status !== 0, detail: `clean=${cleanRun.status} mutant=${mutantRun.status}${mutantNote} command=${command}` };
 }
 
 function gradeReport(ws, expect) {
