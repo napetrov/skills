@@ -1,0 +1,31 @@
+# Example CI wiring for a target project. It is not an active workflow in this repository.
+# Copy it to the target project's .github/workflows/ and pin every action to a commit SHA.
+# Runs the performance contract in the PR profile and keeps artifacts when it fails.
+name: performance-contracts
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  performance-contracts:
+    runs-on: ubuntu-latest
+    env:
+      BASE_REF: ${{ github.base_ref }}
+    steps:
+      - uses: actions/checkout@PIN-WITH-COMMIT-SHA
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@PIN-WITH-COMMIT-SHA
+        with:
+          python-version: "3.12"
+      - name: Run PR-profile performance contracts
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: node skills/performance-contracts/scripts/perf-check.js check --repo . --base "origin/$BASE_REF"
+      - name: Upload contract evidence
+        if: failure()
+        uses: actions/upload-artifact@PIN-WITH-COMMIT-SHA
+        with:
+          name: contract-evidence
+          path: .artifacts/contracts/

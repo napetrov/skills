@@ -55,7 +55,7 @@ where the implementation departs from the handoff specification.
   was not attempted.
 - Branch protection and required-check enforcement were not verified. The
   repository's own CI runs the deterministic suite; the fixture CI example
-  (`fixtures/python-perf-target/.github/workflows/contracts.yml`) is not active.
+  (`fixtures/python-perf-target/ci-example/contracts.workflow.example.yml`) is not active.
 
 ## Verification Performed
 
