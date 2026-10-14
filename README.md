@@ -70,10 +70,11 @@ Each skill must include:
 - `skill-card.json`
 - `BENCHMARK.md`
 
-`evals/` are intentionally not part of this repository. Skill quality gates here
-are basic smoke checks: metadata validation, trust metadata validation, required
-files, catalog generation, artifact hash manifest checks, package allowlisting,
-common skills CLI layout checks, and installed-package behavior.
+Eval definitions live in the top-level `evals/` directory and are excluded from
+the npm package. Skill quality gates in `npm test` are smoke checks: metadata
+validation, trust metadata validation, required files, catalog generation,
+artifact hash manifest checks, package allowlisting, common skills CLI layout
+checks, and installed-package behavior.
 
 ## Development
 

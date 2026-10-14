@@ -20,6 +20,7 @@ const allowed = [
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/assets\/[A-Za-z0-9_./-]+$/,
   /^skills\/README\.md$/,
   /^docs\/contracts-design\.md$/,
+  /^docs\/contracts-plan\.md$/,
 ];
 
 const forbidden = [/(^|\/)evals\//, /(^|\/)(results|reports|tmp|node_modules)\//, /\.tgz$/, /\.log$/];

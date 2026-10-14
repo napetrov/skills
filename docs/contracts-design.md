@@ -33,9 +33,9 @@ where the implementation departs from the handoff specification.
 
 ## Deviations From The Handoff Specification
 
-- **No `evals/` directory.** `AGENTS.md` and the package validators forbid it in
-  this repository's first version. Eval task definitions are represented by the
-  deterministic cases in each skill's `BENCHMARK.md`.
+- **Evals location.** The repository's `evals/` ban was lifted. Eval definitions
+  go in top-level `evals/`, which the npm package excludes. The deterministic
+  cases in each skill's `BENCHMARK.md` are the only evals implemented so far.
 - **JSON Schema is documentary.** The repository has no dependencies, so the
   schema files describe the contract and the runtime checks enforce the subset
   that matters (enabled-contract completeness, placeholder markers, envelope

@@ -14,4 +14,6 @@ Optional files:
 - `references/*.md`
 - `scripts/*`
 
-No `evals/` directories are required in this repository's first version.
+Eval definitions go in the top-level `evals/` directory, not inside a skill
+directory. Skill directories are packaged, and the package allowlist rejects
+`evals/` inside them.
