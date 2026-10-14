@@ -38,8 +38,12 @@ function gitInit(dir) {
   spawnSync("git", ["commit", "-qm", "base"], { cwd: dir, env });
 }
 
+// Subprocesses never inherit GITHUB_BASE_REF: CI sets it on pull_request runs, and
+// selection would then depend on the runner rather than on the fixture under test.
 function run(script, args, cwd) {
-  return spawnSync(process.execPath, [script, ...args], { cwd, encoding: "utf8" });
+  const env = { ...process.env };
+  delete env.GITHUB_BASE_REF;
+  return spawnSync(process.execPath, [script, ...args], { cwd, encoding: "utf8", env });
 }
 
 function envelopeFrom(result) {
