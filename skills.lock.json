@@ -2,5 +2,202 @@
   "schema": "https://github.com/napetrov/skills/schemas/skill-manifest.schema.json",
   "generated_by": "tools/generate-skill-manifest.js",
   "hash_algorithm": "sha256",
-  "skills": []
+  "skills": [
+    {
+      "name": "performance-contracts",
+      "version": "0.1.0",
+      "path": "skills/performance-contracts",
+      "artifact_sha256": "7d8287e953d369175d9be8961746951a4469d2359929f697beb759ef6f205478",
+      "files": [
+        {
+          "path": "BENCHMARK.md",
+          "mode": "0644",
+          "sha256": "15ded11080de87f19104571c406f96591a5a32a71b88680d67a6a65691a02abf",
+          "size": 1556
+        },
+        {
+          "path": "SKILL.md",
+          "mode": "0644",
+          "sha256": "6756f5f905b38e457eb855a19deb15976c05241eb47691d3773a0b0d18abbc4a",
+          "size": 3581
+        },
+        {
+          "path": "assets/config.template.json",
+          "mode": "0644",
+          "sha256": "3aa554489a325f6730999ffda18e249eefc4e8f142ff88f2d22eb8726f2dda6d",
+          "size": 165
+        },
+        {
+          "path": "assets/contract-config.schema.json",
+          "mode": "0644",
+          "sha256": "5b14e657507731d3d969ce711a8d521e51624936c70d027dae5c1cdd1d7735d8",
+          "size": 1627
+        },
+        {
+          "path": "assets/contract-result.schema.json",
+          "mode": "0644",
+          "sha256": "03487c6e15fad136a9fe84397c76c16144898bf79856eb36ad122c9988fb7bf7",
+          "size": 4736
+        },
+        {
+          "path": "assets/performance-contract.schema.json",
+          "mode": "0644",
+          "sha256": "f016ba4c494f2378c62057d1c7b311a96e7c0a0020d9899501f4420e09ff47ea",
+          "size": 2516
+        },
+        {
+          "path": "assets/performance-contract.template.json",
+          "mode": "0644",
+          "sha256": "8ac94e5229fb09de58403893c7e304f1d099c898979ab27a6d4abd92e412dced",
+          "size": 638
+        },
+        {
+          "path": "references/checking.md",
+          "mode": "0644",
+          "sha256": "5d587447768d61b1caffbf54a96b347c81119c4e091fdf9e683b32039066252d",
+          "size": 1847
+        },
+        {
+          "path": "references/improving.md",
+          "mode": "0644",
+          "sha256": "a1e5f6dff732ec1de63f2f55a6854ddd8b5595630758e3745bbd908a460bcd6c",
+          "size": 1005
+        },
+        {
+          "path": "references/maintenance.md",
+          "mode": "0644",
+          "sha256": "f3726a20e59bf7f4cc611289bad347793cc2c88d6ddff7fc33c9ced09e37ff82",
+          "size": 1287
+        },
+        {
+          "path": "references/setup.md",
+          "mode": "0644",
+          "sha256": "a80d89cc7a9b83ca17aa7b092973d4eb61164cf62db3b8b2269f35bbf3c7b7ad",
+          "size": 2456
+        },
+        {
+          "path": "scripts/contract-core.js",
+          "mode": "0644",
+          "sha256": "bb3ec956d302b88ef04ac3e3427560ec3aac4b53e8ecec49d907dd1bfcb716d9",
+          "size": 15367
+        },
+        {
+          "path": "scripts/perf-check.js",
+          "mode": "0644",
+          "sha256": "31986d6bdffe172f2257332442e7a0ee5b2dd0551adc110199a01c23cef4138d",
+          "size": 20297
+        },
+        {
+          "path": "skill-card.json",
+          "mode": "0644",
+          "sha256": "23974379b255f24a41e5f5f27aa1dd9249746ed60d4345a7ffa0dc93d89d133f",
+          "size": 2080
+        },
+        {
+          "path": "skill-card.md",
+          "mode": "0644",
+          "sha256": "19828dbba2653102837d921380960f1732d5bd4ca92f5dda5b4332b9360cf8de",
+          "size": 852
+        }
+      ]
+    },
+    {
+      "name": "verify-user-outcomes",
+      "version": "0.1.0",
+      "path": "skills/verify-user-outcomes",
+      "artifact_sha256": "e01d9617687e12ffa02ba11e5fbdb1e4f691e58cc746725f65c20f22a0c85726",
+      "files": [
+        {
+          "path": "BENCHMARK.md",
+          "mode": "0644",
+          "sha256": "837d06d819a772e14cfc2150f250c98ecaab17b8102fb3f5f2d4c46b3e6153d8",
+          "size": 1321
+        },
+        {
+          "path": "SKILL.md",
+          "mode": "0644",
+          "sha256": "ef8d396a6ab2518b27a25cb963e522ad0beddf8fea54ca89fa6ef66254573565",
+          "size": 3411
+        },
+        {
+          "path": "assets/config.template.json",
+          "mode": "0644",
+          "sha256": "3aa554489a325f6730999ffda18e249eefc4e8f142ff88f2d22eb8726f2dda6d",
+          "size": 165
+        },
+        {
+          "path": "assets/contract-config.schema.json",
+          "mode": "0644",
+          "sha256": "5b14e657507731d3d969ce711a8d521e51624936c70d027dae5c1cdd1d7735d8",
+          "size": 1627
+        },
+        {
+          "path": "assets/contract-result.schema.json",
+          "mode": "0644",
+          "sha256": "03487c6e15fad136a9fe84397c76c16144898bf79856eb36ad122c9988fb7bf7",
+          "size": 4736
+        },
+        {
+          "path": "assets/outcome-contract.schema.json",
+          "mode": "0644",
+          "sha256": "13e7f3ffa9360831777efdd06205c73b50473358b57b6b7d482aff1ec275b091",
+          "size": 1766
+        },
+        {
+          "path": "assets/outcome-contract.template.json",
+          "mode": "0644",
+          "sha256": "0fdccfea34aa0ace7dd2ff427134a95fa5dea59907c630516d9ceddaac698518",
+          "size": 543
+        },
+        {
+          "path": "references/checking.md",
+          "mode": "0644",
+          "sha256": "b5a9944e56ae0ff758a1e01a6125aa1ea59ccac02e73fb6d72dbea6fc773be23",
+          "size": 1373
+        },
+        {
+          "path": "references/improving.md",
+          "mode": "0644",
+          "sha256": "5fc09e50fd6894ed4e3b393519408c5e7ea2b91ed545839a05a2dd1f779bd135",
+          "size": 943
+        },
+        {
+          "path": "references/maintenance.md",
+          "mode": "0644",
+          "sha256": "9ef91aa60180be685045b760c80b4d0b4a087c79a9baebb56cc3c3f5709a7452",
+          "size": 1072
+        },
+        {
+          "path": "references/setup.md",
+          "mode": "0644",
+          "sha256": "8c48011639d015a23a2e245a76aaa290e3d4206715e462f23b73a2b699a9ee3a",
+          "size": 2000
+        },
+        {
+          "path": "scripts/contract-core.js",
+          "mode": "0644",
+          "sha256": "bb3ec956d302b88ef04ac3e3427560ec3aac4b53e8ecec49d907dd1bfcb716d9",
+          "size": 15367
+        },
+        {
+          "path": "scripts/outcome-check.js",
+          "mode": "0644",
+          "sha256": "90a9c31c815cee4cc9fe14c56efb06ce779759d7354398a7c29159db1cc07474",
+          "size": 16313
+        },
+        {
+          "path": "skill-card.json",
+          "mode": "0644",
+          "sha256": "a8da23470abaa90aaa37453650f83306bf88c347a187600868a13c6c4d25be73",
+          "size": 2072
+        },
+        {
+          "path": "skill-card.md",
+          "mode": "0644",
+          "sha256": "2b1fe6bc40a817c3b1289f4fe1c59604bbd301b0f71bdb568a5d771b5ff65d53",
+          "size": 907
+        }
+      ]
+    }
+  ]
 }

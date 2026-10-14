@@ -15,11 +15,11 @@ npm test
 npm run smoke:install
 ```
 
-## First-Version Scope
+## Evals
 
-This repository intentionally does not include a full eval harness. Keep heavy
-benchmark artifacts, terminal-bench tasks, and generated eval outputs in the
-benchmark repository until a release policy is approved.
+Eval definitions live in the top-level `evals/` directory. They are not part of
+the npm package. Keep raw benchmark outputs and generated eval reports out of
+the repository.
 
 ## Pull Request Checklist
 

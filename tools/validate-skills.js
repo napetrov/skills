@@ -88,9 +88,6 @@ for (const skillDir of listSkillDirs()) {
   if (!/## Safety And Limits/i.test(skill.body)) {
     fail(`${dirName}: missing '## Safety And Limits' section`);
   }
-  if (fs.existsSync(path.join(skillDir, "evals"))) {
-    fail(`${dirName}: evals/ is out of scope for MVP`);
-  }
 
   for (const pattern of forbiddenPatterns) {
     if (pattern.test(skill.body)) {

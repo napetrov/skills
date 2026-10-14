@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "OUTCOME-SCAN-COMPARE",
+  "status": "enabled",
+  "scope": "scan-compare-cli",
+  "actor": "business owner",
+  "entry_point": "cli: compare <measurement-a> <measurement-b>",
+  "preconditions": ["same authorized project", "two completed measurements"],
+  "result": "user receives changes with comparability limitations",
+  "acceptance": [
+    "results correspond to the selected measurements",
+    "incomparable data is identified rather than silently compared",
+    "existing measurements are reused without starting a new scan"
+  ],
+  "negative_behavior": ["a measurement that is not completed is refused with a clear error"],
+  "intent_refs": ["docs/journeys.md#scan-comparison"],
+  "implementation_refs": ["src/compare.js", "src/cli.js"],
+  "evidence_ids": [
+    "scan-comparison-happy",
+    "scan-comparison-incomparable",
+    "scan-comparison-reuse",
+    "scan-comparison-incomplete"
+  ],
+  "command_id": "test-scan-compare",
+  "performance_contract_ids": [],
+  "criticality": "high"
+}
