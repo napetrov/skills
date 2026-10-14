@@ -16,6 +16,30 @@ const QUADRATIC = {
   after: "    pairs = []\n    for name, key in old:\n        for other_name, other_key in new:\n            counters[\"candidate_visits\"] += 1\n            if key == other_key:\n                pairs.append((name, other_name))\n                break\n",
 };
 
+
+// Subagents in this harness cannot write files (Write is refused), so the deliverable is the
+// final assistant reply. It is read from the subagent transcript that quotes the workspace path.
+const TASKS_DIR = process.env.PILOT_TASKS_DIR ?? "/tmp/claude-0/-home-user-skills/7f978ed2-04f5-562d-ad7a-f7c2c11ebd5b/tasks";
+function finalReply(wsName) {
+  if (!fs.existsSync(TASKS_DIR)) return null;
+  const needle = new RegExp(`pilot/${wsName}(?![0-9A-Za-z-])`);
+  for (const file of fs.readdirSync(TASKS_DIR).filter((f) => f.endsWith(".output"))) {
+    const text = fs.readFileSync(path.join(TASKS_DIR, file), "utf8");
+    if (!needle.test(text.slice(0, 20000))) continue;
+    let last = null;
+    for (const line of text.split("\n")) {
+      if (!line.trim()) continue;
+      let o;
+      try { o = JSON.parse(line); } catch { continue; }
+      if (o.type !== "assistant" || !Array.isArray(o.message?.content)) continue;
+      const parts = o.message.content.filter((c) => c.type === "text").map((c) => c.text);
+      if (parts.length) last = parts.join("\n");
+    }
+    if (last) return last;
+  }
+  return null;
+}
+
 function classify(report) {
   const t = report.toLowerCase();
   const noRegression = /no (performance )?regression|not a regression|no regression/.test(t);
@@ -29,8 +53,16 @@ function classify(report) {
 
 function gradeT1(ws) {
   const verify = path.join(ws, "VERIFY.md");
-  if (!fs.existsSync(verify)) return { success: false, detail: "no VERIFY.md" };
-  const command = fs.readFileSync(verify, "utf8").split("\n")[0].trim();
+  let source = "file";
+  let text = fs.existsSync(verify) ? fs.readFileSync(verify, "utf8") : null;
+  if (text === null) {
+    text = finalReply(path.basename(ws));
+    source = "transcript";
+    if (text === null) return { success: false, detail: "no VERIFY.md and no transcript" };
+  }
+  const command = source === "file"
+    ? text.split("\n")[0].trim()
+    : (text.match(/^(python3?|node|sh|bash|npm|pytest)\s.*$/m)?.[0] ?? "").trim();
   if (!command) return { success: false, detail: "empty first line" };
   const clean = path.join(ws, "..", `${path.basename(ws)}__clean`);
   const mutant = path.join(ws, "..", `${path.basename(ws)}__mutant`);
@@ -39,8 +71,8 @@ function gradeT1(ws) {
     fs.cpSync(ws, dst, { recursive: true, filter: (f) => !f.includes(`${path.sep}.git${path.sep}`) && !f.endsWith(`${path.sep}.git`) });
   }
   const mpath = path.join(mutant, "src/matcher.py");
-  const text = fs.readFileSync(mpath, "utf8");
-  if (text.split(QUADRATIC.before).length - 1 === 1) fs.writeFileSync(mpath, text.replace(QUADRATIC.before, () => QUADRATIC.after));
+  const mtext = fs.readFileSync(mpath, "utf8");
+  if (mtext.split(QUADRATIC.before).length - 1 === 1) fs.writeFileSync(mpath, mtext.replace(QUADRATIC.before, () => QUADRATIC.after));
   const cleanRun = spawnSync("sh", ["-c", command], { cwd: clean, encoding: "utf8", timeout: 300_000 });
   const mutantRun = spawnSync("sh", ["-c", command], { cwd: mutant, encoding: "utf8", timeout: 300_000 });
   const ok = cleanRun.status === 0 && mutantRun.status !== 0 && mutantRun.status !== null;
@@ -49,10 +81,13 @@ function gradeT1(ws) {
 
 function gradeReport(ws, expect) {
   const file = path.join(ws, "REPORT.md");
-  if (!fs.existsSync(file)) return { success: false, detail: "no REPORT.md" };
-  const c = classify(fs.readFileSync(file, "utf8"));
+  const fileText = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : null;
+  const text = fileText ?? finalReply(path.basename(ws));
+  if (text === null) return { success: false, detail: "no REPORT.md and no transcript" };
+  const source = fileText === null ? "transcript" : "file";
+  const c = classify(text);
   if (expect.kind === "verdict") {
-    const evidenceOk = (expect.evidence ?? []).every((term) => fs.readFileSync(file, "utf8").includes(term));
+    const evidenceOk = (expect.evidence ?? []).every((term) => text.includes(term));
     const status = expect.correct === "meets" ? c.meets : expect.correct === "regression" ? c.regression : expect.correct === "no regression" ? c.noRegression : expect.correct === "broken" ? c.broken : false;
     const added = (expect.must_not_add ?? []).flatMap((p) => {
       const r = spawnSync("git", ["status", "--porcelain", "--", p], { cwd: ws, encoding: "utf8" });
@@ -60,7 +95,7 @@ function gradeReport(ws, expect) {
     });
     const falsePass = expect.correct === "regression" ? c.noRegression : expect.correct === "broken" ? c.works && !c.broken : false;
     const falsePositive = expect.correct === "no regression" ? c.regression : false;
-    return { success: status && evidenceOk && added.length === 0, false_pass: falsePass, false_positive: falsePositive, detail: `verdict-flags=${JSON.stringify(c)} evidence=${evidenceOk} added=${added.join(",") || "none"}` };
+    return { success: status && evidenceOk && added.length === 0, false_pass: falsePass, false_positive: falsePositive, detail: `source=${source} verdict-flags=${JSON.stringify(c)} evidence=${evidenceOk} added=${added.join(",") || "none"}` };
   }
   if (expect.kind === "retain") {
     const missing = expect.must_exist.filter((p) => !fs.existsSync(path.join(ws, p)));
@@ -70,7 +105,11 @@ function gradeReport(ws, expect) {
 }
 
 const results = [];
+fs.mkdirSync(path.join(DIR, "replies"), { recursive: true });
 for (const run of manifest) {
+  const wsName = path.basename(run.workspace);
+  const reply = finalReply(wsName);
+  if (reply !== null) fs.writeFileSync(path.join(DIR, "replies", `${wsName}.txt`), reply);
   const expect = tasks[run.task].expect;
   const ws = path.join(DIR, path.basename(run.workspace));
   const graded = expect.kind === "command-discriminates" ? gradeT1(ws) : gradeReport(ws, expect);
