@@ -38,6 +38,10 @@ the subagent's final report when the file could not be written).
 - **Grading is shallow.** Verdicts are classified by keywords. The T1 check runs
   the agent's command on a clean copy and on a mutant copy, so it does not judge
   the quality of the agent's check, only whether it discriminates.
+- **Host execution.** The grader runs each agent-supplied command with `sh -c`
+  on the host, outside any sandbox. A generated command can touch files outside
+  its workspace copy. Run the grader only in a disposable container or VM. This
+  pilot ran on a single disposable machine.
 - **Concurrency.** Two grader runs over the same workspaces race on the
   `__clean` and `__mutant` copies. Run one grader at a time.
 - **Sample size.** Three repetitions per cell is too small for any statistical

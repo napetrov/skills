@@ -98,9 +98,10 @@ function build(workspace, dst) {
       throw new Error(`unknown workspace ${workspace}`);
   }
   const env = { ...process.env, GIT_AUTHOR_NAME: "pilot", GIT_AUTHOR_EMAIL: "pilot@example.invalid", GIT_COMMITTER_NAME: "pilot", GIT_COMMITTER_EMAIL: "pilot@example.invalid" };
-  spawnSync("git", ["init", "-q"], { cwd: dst });
-  spawnSync("git", ["add", "-A"], { cwd: dst });
-  spawnSync("git", ["commit", "-qm", "baseline"], { cwd: dst, env });
+  for (const args of [["init", "-q"], ["add", "-A"], ["commit", "-qm", "baseline"]]) {
+    const r = spawnSync("git", args, { cwd: dst, env, encoding: "utf8" });
+    if (r.status !== 0) throw new Error(`git ${args[0]} failed in ${dst}: ${r.stderr}`);
+  }
 }
 
 fs.mkdirSync(OUT, { recursive: true });

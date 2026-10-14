@@ -19,9 +19,10 @@ const QUADRATIC = {
 
 // Subagents in this harness cannot write files (Write is refused), so the deliverable is the
 // final assistant reply. It is read from the subagent transcript that quotes the workspace path.
-const TASKS_DIR = process.env.PILOT_TASKS_DIR ?? "/tmp/claude-0/-home-user-skills/7f978ed2-04f5-562d-ad7a-f7c2c11ebd5b/tasks";
+// Set PILOT_TASKS_DIR to the directory holding subagent transcripts. Unset means no transcript lookup.
+const TASKS_DIR = process.env.PILOT_TASKS_DIR ?? null;
 function finalReply(wsName) {
-  if (!fs.existsSync(TASKS_DIR)) return null;
+  if (!TASKS_DIR || !fs.existsSync(TASKS_DIR)) return null;
   // Plain substring match with an explicit boundary: no regular expression is built from the name.
   const needle = `pilot/${wsName}`;
   for (const file of fs.readdirSync(TASKS_DIR).filter((f) => f.endsWith(".output"))) {

@@ -34,8 +34,10 @@ where the implementation departs from the handoff specification.
 ## Deviations From The Handoff Specification
 
 - **Evals location.** The repository's `evals/` ban was lifted. Eval definitions
-  go in top-level `evals/`, which the npm package excludes. The deterministic
-  cases in each skill's `BENCHMARK.md` are the only evals implemented so far.
+  go in top-level `evals/`, which the npm package excludes. The six-task agent
+  pilot ran (36 subagent runs, see `evals/pilot/RESULTS.md`). It reached ceiling in
+  both conditions, so it did not measure skill benefit. Deterministic cases remain
+  in each skill's `BENCHMARK.md`.
 - **JSON Schema is documentary.** The repository has no dependencies, so the
   schema files describe the contract and the runtime checks enforce the subset
   that matters (enabled-contract completeness, placeholder markers, envelope
@@ -48,7 +50,7 @@ where the implementation departs from the handoff specification.
 
 ## Not Done In This Release
 
-- Agent comparison pilot (A/B paired runs, cost and quality measurement) has not been run.
+- Agent comparison pilot ran once (36 runs) and reached ceiling. It does not measure skill benefit; harder tasks are still needed (see `docs/contracts-plan.md`).
 - P04 (warm-cache invalidation), P05 (noisy-runner classification), P07 (repeated
   decode attribution), and O04, O06, O07, O08 are not implemented.
 - M7 (ABI-check and AIReady integration) requires access to those repositories and

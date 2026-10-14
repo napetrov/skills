@@ -11,7 +11,7 @@ in the order it should be picked up.
   model. The attribution instruction requires it, and a system rule forbids model
   identifiers in commits. Decide which rule wins. The trailer on the existing
   commits can be rewritten only on this PR branch, never on `main`.
-- **Eval pilot scope.** Run the paired A/B agent pilot in item 3, or accept the
+- **Eval pilot scope.** The first pilot ran and reached ceiling (`evals/pilot/RESULTS.md`). Decide whether to build harder tasks for item 3, or accept the
   deterministic cases as the v1 quality bar.
 - **Target layout for contracts.** Confirm `.petrov/contracts/` and
   `.artifacts/contracts/` as the v1 paths, or name a different convention used by
@@ -34,6 +34,9 @@ in the order it should be picked up.
   run on Windows instead of being skipped.
 
 ## 3. Agent evaluation
+
+Status: the first pilot ran (36 runs) and reached ceiling, so it did not measure
+skill benefit. The items below describe the next, harder pilot.
 
 - Pilot design: six representative tasks, three repetitions each. Cover setup,
   reuse, a performance regression, a legitimate lookalike, a broken outcome, and
