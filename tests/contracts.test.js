@@ -502,6 +502,35 @@ test("a negative control anchor must occur exactly once", { skip: skipPython }, 
   assert.match(result.stderr, /anchor occurs 2 times in src\/matcher\.py; must occur exactly once/);
 });
 
+test("a negative control file that resolves outside the repository is rejected", { skip: skipPython || (process.platform === "win32" && "symlink creation needs privilege on Windows") }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-symlink-control");
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "perf-symlink-target-"));
+  const external = path.join(outside, "matcher.py");
+  const original = fs.readFileSync(path.join(dir, "src", "matcher.py"), "utf8");
+  fs.writeFileSync(external, original);
+  fs.symlinkSync(external, path.join(dir, "src", "linked.py"));
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  contract.assertions[0].negative_control.file = "src/linked.py";
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  assert.equal(result.status, 2, result.stdout + result.stderr);
+  assert.match(result.stderr, /resolves outside the repository/);
+  assert.equal(fs.readFileSync(external, "utf8"), original);
+});
+
+test("setup does not adopt an identical file it never managed", { skip: false }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-adopt-"));
+  const configFile = path.join(dir, ".petrov", "contracts", "config.json");
+  fs.mkdirSync(path.dirname(configFile), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, "skills", "performance-contracts", "assets", "config.template.json"), configFile);
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(report.unchanged, [".petrov/contracts/config.json"]);
+  // Without a lock entry the file stays unmanaged, so a later template change cannot overwrite it silently.
+  const lock = core.readJson(path.join(dir, ".petrov", "contracts", "setup-lock.json"));
+  assert.equal(lock.managed_files[".petrov/contracts/config.json"], undefined);
+});
+
 // ---- verify-user-outcomes -------------------------------------------------
 
 test("clean fixture passes all outcome evidence", () => {

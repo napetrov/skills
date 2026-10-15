@@ -117,6 +117,11 @@ export function negativeControlErrors(repo, contract) {
       errors.push(`${contract.id}: ${assertion.metric} negative_control file ${control.file} not found`);
       continue;
     }
+    // Follow symlinks: a control that writes through one would change a file outside the repository.
+    if (!isInside(fs.realpathSync(file), fs.realpathSync(repo))) {
+      errors.push(`${contract.id}: ${assertion.metric} negative_control file ${control.file} resolves outside the repository`);
+      continue;
+    }
     const count = occurrences(fs.readFileSync(file, "utf8"), control.before);
     if (count !== 1) {
       errors.push(`${contract.id}: ${assertion.metric} negative_control anchor occurs ${count} times in ${control.file}; must occur exactly once`);
@@ -476,10 +481,16 @@ function setup(repo) {
   };
 }
 
+// True when child is parent or lies under it. Both arguments must be real, absolute paths.
+function isInside(child, parent) {
+  return child === parent || child.startsWith(`${parent}${path.sep}`);
+}
+
 // Every negative control runs in a disposable copy: the repository without .git or run artifacts.
+// Paths are normalised first: a trailing separator in artifact_dir would otherwise defeat the exclusion.
 function copyWorkspace(repo, excluded, destination) {
-  const skipped = new Set([path.join(repo, ".git"), ...excluded]);
-  fs.cpSync(repo, destination, { recursive: true, filter: (source) => !skipped.has(source) });
+  const skipped = new Set([path.join(repo, ".git"), ...excluded].map((item) => path.resolve(item)));
+  fs.cpSync(repo, destination, { recursive: true, filter: (source) => !skipped.has(path.resolve(source)) });
   return destination;
 }
 
@@ -502,6 +513,10 @@ function runVariant(repo, config, contract, { label, mutation, tmpRoot, artifact
   const tree = copyWorkspace(repo, [artifactRoot], path.join(tmpRoot, label));
   if (mutation) {
     const file = core.resolveUnder(tree, mutation.file);
+    // A symlink in the copy can point back at the working tree; writing through it would leave the copy.
+    if (!isInside(fs.realpathSync(file), fs.realpathSync(tree))) {
+      throw new core.ContractError(`negative control for ${contract.id} resolves outside its disposable copy`);
+    }
     const text = fs.readFileSync(file, "utf8");
     if (occurrences(text, mutation.before) !== 1) {
       throw new core.ContractError(`negative control anchor for ${contract.id} must occur exactly once in ${mutation.file}`);

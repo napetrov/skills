@@ -28,8 +28,9 @@ required evidence is missing, and it proves that the check can fail.
 
 `node scripts/outcome-check.js setup --repo <repo>` writes the config and an
 example proposed outcome. It never overwrites an edited file: an edit with an
-unchanged template is reported as `user_owned`, and a conflict is reported only
-when the template also changed.
+unchanged template is reported as `user_owned`. A conflict is reported when the
+template also changed, or when an existing file differs from the template and setup
+never wrote it.
 
 ## Mapping Rules
 

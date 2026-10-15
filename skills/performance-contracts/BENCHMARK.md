@@ -21,6 +21,7 @@ Run by `npm test` (`tests/contracts.test.js`) against the Python fixture
 | S10 | The example is not created when a contract already exists | `setup does not create the example when a contract already exists` |
 | S11 | Setup reports discovery candidates and says what it did not choose | `setup reports discovery candidates and states what it did not choose` |
 | S12 | Discover lists asv, pytest, Bazel test and CI candidates without running them | `discover finds asv, pytest, bazel and workflow candidates without running them` |
+| S13 | Setup does not adopt an identical file it never managed | `setup does not adopt an identical file it never managed` |
 | P01 | Quadratic matcher with unchanged output fails on counters | `quadratic matcher fails the counter budget with unchanged output` |
 | P02 | Legitimate n log n sorting passes its declared shape | `clean fixture passes, including the legitimate n log n sort` |
 | P03 | Faster output that drops records fails the oracle | `dropped output fails the oracle` |
@@ -32,6 +33,7 @@ Run by `npm test` (`tests/contracts.test.js`) against the Python fixture
 | N04 | An enabled contract without a negative control for an assertion is rejected | `enabled contracts must declare a negative control for every assertion` |
 | N05 | An ambiguous negative-control anchor is rejected | `a negative control anchor must occur exactly once` |
 | N06 | A control that breaks the run is an error, not a blind gate | `a negative control that breaks the run is an error, not a blind gate` |
+| N07 | A control file that resolves outside the repository is rejected and nothing outside is written | `a negative control file that resolves outside the repository is rejected` |
 | — | Placeholder contracts cannot be enabled | `enabled contract with placeholders is rejected by validate` |
 
 The fixture's negative controls are two `synthetic` counter changes and one

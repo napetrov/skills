@@ -41,8 +41,9 @@ agent's work, and each choice is written into a contract file.
 7. **Verify repeatability.** Run setup again. Expect `unchanged` for files you did
    not touch, `user_owned` for files you edited while the template is unchanged,
    no `conflicts`, no recreated example, no tracked diff beyond your edits, and
-   no reset baseline. A conflict means the template changed since the last setup;
-   it needs a reviewed migration, not a rerun.
+   no reset baseline. A conflict means the file was edited and its template changed
+   since setup last applied it, or setup never wrote the file and it differs from the
+   template. Either needs a reviewed migration, not a rerun.
 8. **Report readiness.** Give the scope, files, commands, observed CI state, known
    gaps, the discrimination result per assertion, and the next normal check command.
 

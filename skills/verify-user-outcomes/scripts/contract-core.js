@@ -346,7 +346,8 @@ export function scaffold(repo, { templates, generator }) {
     const onDisk = fs.existsSync(target) ? fs.readFileSync(target, "utf8") : null;
     if (onDisk === content) {
       report.unchanged.push(template.target);
-      managed[template.target] = digest;
+      // Identical content does not make setup the owner: only a file it already manages is re-recorded.
+      if (recorded !== undefined) managed[template.target] = digest;
     } else if (onDisk === null) {
       if (template.optional && recorded !== undefined) {
         report.skipped.push({ target: template.target, reason: "removed_by_user" });

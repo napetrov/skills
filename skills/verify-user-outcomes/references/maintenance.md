@@ -16,6 +16,6 @@ module, a moved test, a revised requirement, or a new consumer.
 
 - A renamed test keeps its evidence id. Changing an id changes the contract and needs a policy diff.
 - Do not create new requirements retrospectively to justify current behavior.
-- A `setup-lock.json` digest mismatch alone is not a conflict: while the template is unchanged, the user-edited file is `user_owned` and is left alone. When the template also changed, produce a migration proposal instead of overwriting it.
+- A `setup-lock.json` digest mismatch alone is not a conflict: while the template is unchanged, the user-edited file is `user_owned` and is left alone. When the template also changed, or setup never applied the file and it differs from the template, produce a migration proposal instead of overwriting it.
 - Unknown schema major versions fail clearly. Never downgrade silently.
 - Removing a test or outcome preserves user-owned tests, docs, and CI jobs.

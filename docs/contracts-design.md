@@ -30,8 +30,9 @@ where the implementation departs from the handoff specification.
   `validated`, `integrated`, or `enforced`.
 - `setup` writes only files it manages. A file the user edited is kept: it is
   reported as `user_owned` while its template is unchanged, and as a conflict only
-  when the template also changed. Re-running setup on a configured repository is
-  expected to report no conflicts.
+  when the template also changed or when setup never wrote the file and it differs
+  from the template. Identical content alone does not make setup the owner. Re-running
+  setup on a configured repository is expected to report no conflicts.
 - The example contract is written only while no contract exists, and is not
   recreated after the user removes it.
 - `discover` inventories candidates (benchmarks, asv, pytest, Bazel tests, CI). It

@@ -17,8 +17,8 @@ a changed runtime, an upgraded schema, or a modified requirement.
 - Use content digests to decide invalidation. Age alone does not make a contract stale.
 - A `setup-lock.json` digest mismatch alone is not a conflict. When the template is
   unchanged, the file is `user_owned` and setup leaves it as the user left it. When
-  the template also changed, setup reports a conflict: produce a migration proposal
-  and do not overwrite it.
+  the template also changed, or setup never applied the file and it differs from the
+  template, setup reports a conflict: produce a migration proposal and do not overwrite it.
 - Unknown schema major versions fail clearly. Never downgrade silently.
 - A requirement change that permits more work needs the product reason and a verified new budget.
 - Changing or removing a `negative_control`, or changing its anchor, is a policy
