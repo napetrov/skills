@@ -57,7 +57,7 @@ Release publishing must happen through `.github/workflows/release.yml` with:
 - `npm publish dist/*.tgz --provenance --access public`;
 - no repo-stored npm token.
 
-Consumers can run `intel-skills verify <skill>` before install. The CLI refuses
+Consumers can run `skills verify <skill>` before install. The CLI refuses
 to install bundled skills whose files do not match `skills.lock.json`, and it
 verifies the installed copy after writing it.
 

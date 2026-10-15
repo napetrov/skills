@@ -12,7 +12,7 @@ const sample = readCatalog()[0];
 const skipNoSkills = sample ? false : "catalog has no skills yet";
 
 function runCli(args, env = process.env) {
-  return spawnSync(process.execPath, ["bin/intel-skills.js", ...args], {
+  return spawnSync(process.execPath, ["bin/skills.js", ...args], {
     encoding: "utf8",
     env,
   });
@@ -66,7 +66,7 @@ test("cli verify rejects flag-like path value", { skip: skipNoSkills }, () => {
 });
 
 test("cli verify checks installed skill path", { skip: skipNoSkills }, () => {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "skills-home-"));
   const env = isolatedHomeEnv(home);
   try {
     assert.equal(runCli(["install", sample.name, "--target", "codex"], env).status, 0);
@@ -80,7 +80,7 @@ test("cli verify checks installed skill path", { skip: skipNoSkills }, () => {
 });
 
 test("cli verify fails after installed skill tampering", { skip: skipNoSkills }, () => {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "skills-home-"));
   const env = isolatedHomeEnv(home);
   try {
     assert.equal(runCli(["install", sample.name, "--target", "codex"], env).status, 0);
@@ -96,7 +96,7 @@ test("cli verify fails after installed skill tampering", { skip: skipNoSkills },
 
 test("cli verify fails when installed skill contains unsupported entry", { skip: skipNoSkills }, () => {
   if (process.platform === "win32") return;
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "skills-home-"));
   const env = isolatedHomeEnv(home);
   try {
     assert.equal(runCli(["install", sample.name, "--target", "codex"], env).status, 0);
@@ -127,7 +127,7 @@ test("install rejects link mode", { skip: skipNoSkills }, () => {
 });
 
 test("install refuses overwrite without --force", { skip: skipNoSkills }, () => {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-home-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "skills-home-"));
   const env = isolatedHomeEnv(home);
   try {
     assert.equal(runCli(["install", sample.name, "--target", "codex"], env).status, 0);

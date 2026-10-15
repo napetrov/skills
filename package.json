@@ -1,11 +1,11 @@
 {
-  "name": "@napetrov/intel-skills",
+  "name": "@napetrov/skills",
   "version": "0.1.0",
   "description": "Agent skills catalog for Codex and Claude Code",
   "license": "Apache-2.0",
   "type": "module",
   "bin": {
-    "intel-skills": "bin/intel-skills.js"
+    "skills": "bin/skills.js"
   },
   "files": [
     "bin/",

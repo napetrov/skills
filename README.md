@@ -12,19 +12,19 @@ this repository.
 List available skills:
 
 ```bash
-npx @napetrov/intel-skills list
+npx @napetrov/skills list
 ```
 
 Install a skill into Codex:
 
 ```bash
-npx @napetrov/intel-skills install <skill-name> --target codex
+npx @napetrov/skills install <skill-name> --target codex
 ```
 
 Install a skill into Claude Code:
 
 ```bash
-npx @napetrov/intel-skills install <skill-name> --target claude-code
+npx @napetrov/skills install <skill-name> --target claude-code
 ```
 
 Install through the common skills CLI layout:
@@ -59,7 +59,7 @@ schemas/                Machine-readable validation contracts
 skills.lock.json        SHA-256 manifest for packaged skill artifacts
 templates/skill/        Template for new skills
 tools/                  Validation and catalog generation scripts
-bin/intel-skills.js     npm CLI entry point
+bin/skills.js     npm CLI entry point
 docs/trust-model.md     Skill trust and admission policy
 ```
 
