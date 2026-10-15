@@ -3,6 +3,7 @@
 // Commands run from argument arrays without a shell. Verdicts come only from
 // declared assertions over every declared workload size.
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as core from "./contract-core.js";
@@ -11,6 +12,7 @@ const GENERATOR = "performance-contracts@0.1.0";
 const SKILL_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTRACT_DIR = [".petrov", "contracts", "performance"];
 const SHAPES = {
+  constant: () => 1,
   linear: (n) => n,
   n_log_n: (n) => (n <= 1 ? 0 : n * Math.ceil(Math.log2(n))),
   quadratic: (n) => n * n,
@@ -18,6 +20,13 @@ const SHAPES = {
 const UNITS = new Set(["bool", "count", "ms", "bytes"]);
 const CACHE_STATES = new Set(["cold", "warm", "invalidated", "none"]);
 const PROFILES = new Set(["pr", "scheduled", "manual"]);
+const CONTROL_KINDS = new Set(["synthetic", "regression"]);
+// Directories that never hold benchmark inputs; skipped so discovery stays bounded on large monorepos.
+const SKIP_DIRS = new Set([".git", ".artifacts", ".venv", "venv", "node_modules", "__pycache__", "build", "dist", "target"]);
+const DISCOVERY_LIMIT = 20000;
+const BENCH_DIR = /^(bench|benchmarks?|asv_bench|perf)$/i;
+const BENCH_FILE = /(^|\/)(bench|benchmark|perf)[^/]*\.(py|cc|cpp|js|mjs|ts)$|(^|\/)test_[^/]*(perf|bench)[^/]*\.py$/i;
+const BENCH_WORKFLOW = /bench|perf|asv|pytest|bazel test/i;
 // Changes here invalidate every enabled contract because they change what is measured.
 const INVALIDATING = [/^\.petrov\/contracts\//, /^benchmarks\/contracts\//, /^tools\/contracts\//];
 const LOCKFILE = /(^|\/)(package-lock\.json|uv\.lock|poetry\.lock|requirements[^/]*\.txt)$/;
@@ -60,6 +69,16 @@ export function validatePerformanceContract(contract, file = "contract") {
     } else {
       errors.push(`${file}: unknown operator ${assertion.operator}`);
     }
+    // Every gated assertion needs its own negative control, so one metric's blind spot cannot hide behind another's.
+    const control = assertion.negative_control;
+    if (control === undefined) {
+      need(contract.status !== "enabled", `${file}: ${assertion.metric} needs negative_control before the contract can be enabled`);
+    } else {
+      need(CONTROL_KINDS.has(control.kind), `${file}: ${assertion.metric} negative_control kind must be synthetic or regression`);
+      need(typeof control.file === "string" && control.file.length > 0, `${file}: ${assertion.metric} negative_control needs file`);
+      need(typeof control.before === "string" && control.before.length > 0, `${file}: ${assertion.metric} negative_control needs before`);
+      need(typeof control.after === "string", `${file}: ${assertion.metric} negative_control needs after`);
+    }
   }
   if (errors.length > 0) fail(`invalid performance contract: ${errors.join("; ")}`);
   if (contract.status === "enabled") core.scanEnabledContract(contract, file);
@@ -74,6 +93,101 @@ export function loadContracts(repo) {
     .filter((name) => name.endsWith(".json"))
     .sort()
     .map((name) => validatePerformanceContract(core.readJson(path.join(dir, name)), name));
+}
+
+function occurrences(text, needle) {
+  return text.split(needle).length - 1;
+}
+
+// Each negative control's anchor must match exactly once, so the mutation is unambiguous and the
+// repository is not required to be in any particular state beyond the file it names.
+export function negativeControlErrors(repo, contract) {
+  const errors = [];
+  for (const assertion of contract.assertions) {
+    const control = assertion.negative_control;
+    if (!control) continue;
+    let file;
+    try {
+      file = core.resolveUnder(repo, control.file);
+    } catch (error) {
+      errors.push(`${contract.id}: ${assertion.metric} negative_control ${error.message}`);
+      continue;
+    }
+    if (!fs.existsSync(file)) {
+      errors.push(`${contract.id}: ${assertion.metric} negative_control file ${control.file} not found`);
+      continue;
+    }
+    const count = occurrences(fs.readFileSync(file, "utf8"), control.before);
+    if (count !== 1) {
+      errors.push(`${contract.id}: ${assertion.metric} negative_control anchor occurs ${count} times in ${control.file}; must occur exactly once`);
+    }
+  }
+  return errors;
+}
+
+function assertNegativeControls(repo, contracts) {
+  const errors = contracts
+    .filter((contract) => contract.status === "enabled")
+    .flatMap((contract) => negativeControlErrors(repo, contract));
+  if (errors.length > 0) fail(`negative controls are not usable: ${errors.join("; ")}`);
+}
+
+// Read-only inventory of what the repository already contains. It lists candidates only:
+// nothing is run, and no candidate is treated as working until a contract check executes it.
+export function discover(repo) {
+  const found = { benchmarks: [], asv: [], pytest: [], bazel_test_files: [], ci_workflows: [], existing_contracts: [] };
+  const queue = [""];
+  const files = [];
+  let entries = 0;
+  let truncated = false;
+  for (let index = 0; index < queue.length && !truncated; index += 1) {
+    const dir = queue[index];
+    let listing;
+    try {
+      listing = fs.readdirSync(path.join(repo, dir), { withFileTypes: true });
+    } catch {
+      // An unreadable directory is skipped, not fatal: the inventory is a candidate list.
+      continue;
+    }
+    for (const entry of listing) {
+      entries += 1;
+      if (entries > DISCOVERY_LIMIT) {
+        truncated = true;
+        break;
+      }
+      const rel = dir ? `${dir}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        if (SKIP_DIRS.has(entry.name)) continue;
+        // Contract state lives under .petrov/ and is never a benchmark candidate.
+        if (BENCH_DIR.test(entry.name) && !rel.startsWith(".petrov/")) found.benchmarks.push(`${rel}/`);
+        queue.push(rel);
+      } else if (entry.isFile()) {
+        files.push(rel);
+      }
+    }
+  }
+  const readSmall = (rel) => {
+    const file = path.join(repo, rel);
+    return fs.statSync(file).size <= 512 * 1024 ? fs.readFileSync(file, "utf8") : "";
+  };
+  for (const rel of files) {
+    const base = path.posix.basename(rel);
+    if (BENCH_FILE.test(rel)) found.benchmarks.push(rel);
+    if (base === "asv.conf.json") found.asv.push(rel);
+    if (base === "pytest.ini") found.pytest.push(rel);
+    else if (["pyproject.toml", "setup.cfg", "tox.ini"].includes(base) && /\[(tool\.pytest|tool:pytest|pytest)\b/.test(readSmall(rel))) {
+      found.pytest.push(rel);
+    }
+    if (base === "BUILD" || base === "BUILD.bazel") {
+      if (/\b\w*_test\s*\(/.test(readSmall(rel))) found.bazel_test_files.push(rel);
+    }
+    if (/^\.github\/workflows\/[^/]+\.ya?ml$/.test(rel)) {
+      const match = readSmall(rel).match(BENCH_WORKFLOW);
+      if (match) found.ci_workflows.push({ path: rel, matched: match[0].toLowerCase() });
+    }
+    if (/^\.petrov\/contracts\/performance\/[^/]+\.json$/.test(rel)) found.existing_contracts.push(rel);
+  }
+  return { ...found, truncated, note: "candidates only; nothing was run or verified" };
 }
 
 // Diff selection: contracts whose paths match a changed file, plus every enabled
@@ -338,12 +452,171 @@ function latestRun(repo, config) {
   return runs.length ? { run_id: runs.at(-1), verdict: core.readJson(path.join(root, runs.at(-1), "result.json")).verdict } : null;
 }
 
+function hasContractFiles(repo) {
+  const dir = path.join(repo, ...CONTRACT_DIR);
+  return fs.existsSync(dir) && fs.readdirSync(dir).some((name) => name.endsWith(".json"));
+}
+
+// Setup scaffolds files only. It does not choose a benchmark, oracle, scope or budget: those come from
+// the discovery inventory and the agent's reading of the repository, and are written as contract files.
 function setup(repo) {
   const templates = [
     { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: ".petrov/contracts/config.json" },
-    { source: path.join(SKILL_DIR, "assets", "performance-contract.template.json"), target: ".petrov/contracts/performance/EXAMPLE-PERF-001.json" },
+    {
+      source: path.join(SKILL_DIR, "assets", "performance-contract.template.json"),
+      target: ".petrov/contracts/performance/EXAMPLE-PERF-001.json",
+      optional: { createIf: () => !hasContractFiles(repo), reason: "contracts_exist" },
+    },
   ];
-  return core.scaffold(repo, { templates, generator: GENERATOR });
+  const report = core.scaffold(repo, { templates, generator: GENERATOR });
+  return {
+    ...report,
+    discovery: discover(repo),
+    note: "setup wrote config and, when no contract exists yet, an example. It did not select a benchmark, oracle, scope or budget.",
+  };
+}
+
+// Every negative control runs in a disposable copy: the repository without .git or run artifacts.
+function copyWorkspace(repo, excluded, destination) {
+  const skipped = new Set([path.join(repo, ".git"), ...excluded]);
+  fs.cpSync(repo, destination, { recursive: true, filter: (source) => !skipped.has(source) });
+  return destination;
+}
+
+function observedValues(file, contract) {
+  const values = new Map(contract.assertions.map((assertion) => [assertion.metric, []]));
+  if (!fs.existsSync(file)) return values;
+  const document = core.readJson(file);
+  const observation = (document.observations ?? []).find((item) => item.contract_id === contract.id);
+  for (const point of observation?.points ?? []) {
+    for (const metric of values.keys()) {
+      const value = point.metrics?.[metric]?.value;
+      if (value !== undefined) values.get(metric).push(value);
+    }
+  }
+  return values;
+}
+
+// One run of a contract's command in a copy of the repository, with an optional deliberate change applied.
+function runVariant(repo, config, contract, { label, mutation, tmpRoot, artifactRoot }) {
+  const tree = copyWorkspace(repo, [artifactRoot], path.join(tmpRoot, label));
+  if (mutation) {
+    const file = core.resolveUnder(tree, mutation.file);
+    const text = fs.readFileSync(file, "utf8");
+    if (occurrences(text, mutation.before) !== 1) {
+      throw new core.ContractError(`negative control anchor for ${contract.id} must occur exactly once in ${mutation.file}`);
+    }
+    fs.writeFileSync(file, text.replace(mutation.before, () => mutation.after));
+  }
+  const runDir = path.join(tmpRoot, `${label}-out`);
+  fs.mkdirSync(runDir, { recursive: true });
+  const command = core.findCommand(config, contract.command_id);
+  const execution = runCommand(tree, config, command, runDir);
+  const observationFile = path.join(runDir, execution.output_file);
+  return {
+    result: evaluateContract(contract, execution, observationFile),
+    values: observedValues(observationFile, contract),
+  };
+}
+
+// For each enabled contract: the unmodified case must pass, then every assertion's negative control must
+// violate that assertion's own metric. Counters that never change across sizes or runs are reported as warnings.
+function discriminate(repo, { requested }) {
+  const config = core.loadConfig(repo);
+  if (!config) fail("no .petrov/contracts/config.json; run setup first");
+  const contracts = loadContracts(repo);
+  const unknown = requested.filter((id) => !contracts.some((contract) => contract.id === id));
+  if (unknown.length > 0) fail(`unknown contract id(s): ${unknown.join(", ")}`);
+  const selected = requested.length > 0 ? contracts.filter((contract) => requested.includes(contract.id)) : contracts.filter((contract) => contract.status === "enabled");
+  const notEnabled = selected.filter((contract) => contract.status !== "enabled");
+  if (notEnabled.length > 0) fail(`contract(s) must be enabled before discrimination: ${notEnabled.map((contract) => contract.id).join(", ")}`);
+  assertNegativeControls(repo, selected);
+
+  const startedAt = new Date();
+  const runId = core.newRunId(startedAt);
+  const artifactRoot = path.join(repo, config.artifact_dir);
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "perf-discriminate-"));
+  const controls = [];
+  const warnings = [];
+  const errors = [];
+  try {
+    for (const contract of selected) {
+      let positive;
+      try {
+        positive = runVariant(repo, config, contract, { label: `${contract.id}-positive`, mutation: null, tmpRoot, artifactRoot });
+      } catch (error) {
+        errors.push({ contract_id: contract.id, reason: error.message });
+        continue;
+      }
+      if (positive.result.verdict !== "pass") {
+        errors.push({ contract_id: contract.id, reason: `unmodified case must pass before discrimination; got ${positive.result.verdict}: ${positive.result.reason}` });
+        continue;
+      }
+      const seen = new Map([...positive.values.entries()].map(([metric, list]) => [metric, [...list]]));
+      contract.assertions.forEach((assertion, index) => {
+        const control = assertion.negative_control;
+        const base = { contract_id: contract.id, metric: assertion.metric, kind: control.kind, file: control.file };
+        try {
+          const run = runVariant(repo, config, contract, {
+            label: `${contract.id}-control-${index}`,
+            mutation: control,
+            tmpRoot,
+            artifactRoot,
+          });
+          for (const [metric, list] of run.values) seen.set(metric, [...(seen.get(metric) ?? []), ...list]);
+          const detected = run.result.verdict === "fail" && (run.result.violations ?? []).some((item) => item.metric === assertion.metric);
+          // A broken run says nothing about the gate; only a clean measurement can show it is blind.
+          const status = detected ? "detected" : run.result.verdict === "error" ? "error" : "not_detected";
+          controls.push({
+            ...base,
+            status,
+            reason: detected ? "violated its own assertion" : `expected a ${assertion.metric} violation; observed verdict ${run.result.verdict}: ${run.result.reason}`,
+            ...(control.kind === "synthetic" ? { evidence_note: "synthetic: proves the counter is wired, not that it catches a real regression" } : {}),
+          });
+        } catch (error) {
+          controls.push({ ...base, status: "error", reason: error.message });
+        }
+      });
+      for (const assertion of contract.assertions) {
+        const values = seen.get(assertion.metric) ?? [];
+        if (assertion.operator === "le" && values.length > 1 && new Set(values).size === 1) {
+          warnings.push({
+            contract_id: contract.id,
+            metric: assertion.metric,
+            category: "insensitive_counter",
+            detail: `${assertion.metric} is ${values[0]} at every size in the unmodified run and every negative-control run; this budget cannot track it on this workload`,
+          });
+        }
+      }
+    }
+  } finally {
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  }
+
+  const verdict = errors.length > 0 || controls.some((item) => item.status === "error")
+    ? "error"
+    : controls.some((item) => item.status === "not_detected") ? "fail" : selected.length === 0 ? "inconclusive" : "pass";
+  const report = {
+    schema_version: "1.0",
+    run_id: runId,
+    started_at: startedAt.toISOString(),
+    finished_at: new Date().toISOString(),
+    skill: "performance-contracts",
+    mode: "discriminate",
+    verdict,
+    contract_ids: selected.map((contract) => contract.id),
+    controls,
+    warnings,
+    errors,
+    limitations: [
+      "synthetic controls change only a counter or its accounting; they do not prove sensitivity to a real regression",
+      "each control runs the declared command once; a noisy counter needs its own repeat policy",
+    ],
+  };
+  const file = path.join(artifactRoot, runId, "discrimination.json");
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(report, null, 2)}\n`);
+  return { report, file };
 }
 
 function parseArgs(argv) {
@@ -367,6 +640,7 @@ function main() {
   if (options.command === "validate") {
     const config = core.loadConfig(repo);
     const contracts = loadContracts(repo);
+    assertNegativeControls(repo, contracts);
     console.log(JSON.stringify({ config: config ? "ok" : "absent", contracts: contracts.map((item) => `${item.id}:${item.status}`) }));
     return 0;
   }
@@ -374,9 +648,18 @@ function main() {
     console.log(JSON.stringify(readiness(repo), null, 2));
     return 0;
   }
+  if (options.command === "discover") {
+    console.log(JSON.stringify(discover(repo), null, 2));
+    return 0;
+  }
   if (options.command === "setup") {
     console.log(JSON.stringify(setup(repo), null, 2));
     return 0;
+  }
+  if (options.command === "discriminate") {
+    const { report, file } = discriminate(repo, { requested: options.requested });
+    console.log(JSON.stringify({ verdict: report.verdict, result: file, controls: report.controls, warnings: report.warnings }, null, 2));
+    return core.exitCodeFor(report.verdict);
   }
   if (options.command === "check") {
     const config = core.loadConfig(repo);
@@ -391,7 +674,7 @@ function main() {
     console.log(JSON.stringify({ verdict: envelope.verdict, result: file, contracts: envelope.results }, null, 2));
     return core.exitCodeFor(envelope.verdict);
   }
-  fail("usage: perf-check.js validate|check|readiness|setup [--repo DIR] [--base REF] [--contract ID] [--all]");
+  fail("usage: perf-check.js validate|check|readiness|discover|setup|discriminate [--repo DIR] [--base REF] [--contract ID] [--all]");
   return 2;
 }
 
