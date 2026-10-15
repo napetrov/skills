@@ -7,10 +7,6 @@ in the order it should be picked up.
 
 ## 1. Decisions needed from the owner
 
-- **Commit trailer.** The `Co-Authored-By` trailer in the contract commits names the
-  model. The attribution instruction requires it, and a system rule forbids model
-  identifiers in commits. Decide which rule wins. The trailer on the existing
-  commits can be rewritten only on this PR branch, never on `main`.
 - **Eval pilot scope.** The first pilot ran and reached ceiling (`evals/pilot/RESULTS.md`). Decide whether to build harder tasks for item 3, or accept the
   deterministic cases as the v1 quality bar.
 - **Target layout for contracts.** Confirm `.petrov/contracts/` and
@@ -97,20 +93,7 @@ skill benefit. The items below describe the next, harder pilot.
 - **Setup-lock digests.** Verify that user edits are reported as conflicts on every
   scaffolded file, not just the config file.
 
-## 7. Downstream adoption (M7)
-
-- **ABI-check.** Inspect the comparison, parsing, and cache tests, plus the
-  existing scaling and memory guards. Pick one path with demonstrated repeated work
-  or scaling risk. Keep GCC, Clang, and CastXML evidence distinct. Requires access
-  to the ABI-check repository.
-- **AIReady.** Inspect the canonical journey and specification documents, and the
-  scan, report, and chat paths. Pick one result, such as the comparison of completed
-  measurements. Reuse existing scenario tests and telemetry. Requires access to the
-  AIReady repository.
-- Access to the private repositories must not block the portable package. Record
-  any missing access as a limitation instead of inventing integration results.
-
-## 8. Composition with other skills
+## 7. Composition with other skills
 
 - Use shared artifacts as integration points when the Matt Pocock practices are
   installed: outcome IDs carried into specs, contract violations read by
@@ -127,4 +110,4 @@ skill benefit. The items below describe the next, harder pilot.
 3. Agent evaluation in section 3, since it measures whether the skills help.
 4. Missing behavior in sections 4 and 5, one item at a time, each with a fixture
    and a discrimination case.
-5. Lifecycle items in section 6, then downstream adoption in section 7.
+5. Lifecycle items in section 6, then composition in section 7.
