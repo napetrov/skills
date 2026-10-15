@@ -424,7 +424,8 @@ test("discriminate detects each fixture negative control on its own metric", { s
   // Controls run in disposable copies; the repository changes only by the artifact it writes.
   const after = snapshot(dir);
   const changed = Object.keys(after).filter((file) => !(file in before) || after[file] !== before[file]);
-  assert.ok(changed.length > 0 && changed.every((file) => file.startsWith(".artifacts/")), changed.join(", "));
+  // snapshot keys use the platform separator, so normalise before comparing with a POSIX prefix.
+  assert.ok(changed.length > 0 && changed.every((file) => file.split(path.sep).join("/").startsWith(".artifacts/")), changed.join(", "));
 });
 
 test("a negative control that does not move its metric fails discrimination", { skip: skipPython }, () => {
