@@ -36,16 +36,23 @@
   "permissions": [
     "read repository files",
     "run declared benchmark commands with argument arrays and no shell",
+    "copy the repository without .git into a temporary directory for negative-control runs",
     "write ignored evidence under .artifacts/contracts/"
   ],
   "risks": [
     "agent loosens a budget to turn a failing check green",
+    "agent weakens a negative control or points its anchor at unrelated text so a blind gate looks validated",
+    "a synthetic counter control is mistaken for proof of sensitivity to a real regression",
+    "a counter that never varies gives a budget that cannot detect regressions",
     "wall-clock timing from a noisy or incompatible runner produces false alarms",
     "finite workload sizes are mistaken for proof of asymptotic complexity",
     "a dropped-output optimization passes because only timing was checked"
   ],
   "mitigations": [
     "budget changes require a separate maintain-mode diff with a stated reason",
+    "every gated assertion needs a negative control whose anchor occurs exactly once, and each control must violate its own metric",
+    "synthetic controls are labelled in discrimination evidence as wiring checks only",
+    "a counter that no run moves is reported as insensitive",
     "timing is advisory and only deterministic counters gate in v1",
     "verdicts state that finite sizes are a bounded sample",
     "correctness is asserted against an independent oracle before any timing"

@@ -18,9 +18,11 @@ in the order it should be picked up.
 - **Enforcement is unverified.** Check branch protection and required checks for
   `main`. Record the required-check name that gates contract jobs. Only then can a
   contract be reported as `enforced`.
-- **Negative-control evidence is not stored.** Readiness reports `instrumented`
-  at most. Store a discrimination run per contract (positive pass and deliberate
-  violation fail), so `validated` can be derived from files.
+- **Negative-control evidence is written but not read.** `discriminate` runs every
+  assertion's control and writes `discrimination.json`, but readiness still reports
+  `instrumented` at most. Derive `validated` from the latest discrimination record
+  for each enabled contract, and keep `synthetic` controls out of that claim unless
+  a real regression has also been caught.
 - **Fixture CI is not active.** The example workflow in
   `fixtures/python-perf-target/ci-example/` is a placeholder with unpinned actions.
   Pin SHAs for `actions/setup-python` and `actions/upload-artifact` and run it in
@@ -90,8 +92,9 @@ skill benefit. The items below describe the next, harder pilot.
   fail, minor versions upgrade explicitly, and no silent downgrade.
 - **Target guide.** Add `docs/engineering/contracts.md` to target projects as the
   always-loaded pointer. It lists commands, ownership, and links to the contracts.
-- **Setup-lock digests.** Verify that user edits are reported as conflicts on every
-  scaffolded file, not just the config file.
+- **Setup-lock digests.** Verify the `user_owned` and conflict rules on every
+  scaffolded file, for both skills. The example-recreation rule is implemented for
+  performance-contracts only.
 
 ## 7. Composition with other skills
 

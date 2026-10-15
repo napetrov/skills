@@ -323,34 +323,55 @@ export function scanEnabledContract(contract, where) {
   return placeholders;
 }
 
-// Setup scaffolding. Each template is written only if the target file is absent, unchanged,
-// or still byte-identical to what setup last applied (recorded in setup-lock.json).
-// Anything the user edited is reported as a conflict for a reviewed migration.
+// Setup scaffolding. setup-lock.json records the digest setup last applied to each file.
+//   absent                         -> created (optional templates: see below)
+//   identical to template          -> unchanged
+//   still as setup applied it      -> updated when the template changed
+//   edited, template unchanged     -> user_owned: kept as the user left it, not a conflict
+//   edited, template changed       -> conflict: needs a reviewed migration, never overwritten
+//   never applied by setup         -> conflict: setup does not own the file
+// Optional templates are created only when createIf() holds, and are never recreated
+// after the user removed a file that setup had written.
 export function scaffold(repo, { templates, generator }) {
   const lockFile = path.join(repo, ".petrov", "contracts", "setup-lock.json");
   const previous = fs.existsSync(lockFile) ? readJson(lockFile) : { managed_files: {} };
   const managed = { ...(previous.managed_files ?? {}) };
-  const report = { created: [], updated: [], unchanged: [], conflicts: [] };
+  const report = { created: [], updated: [], unchanged: [], user_owned: [], conflicts: [], skipped: [] };
 
   for (const template of templates) {
     const content = fs.readFileSync(template.source, "utf8");
     const target = resolveUnder(repo, template.target);
     const digest = sha256Text(content);
+    const recorded = managed[template.target];
     const onDisk = fs.existsSync(target) ? fs.readFileSync(target, "utf8") : null;
     if (onDisk === content) {
       report.unchanged.push(template.target);
+      // Identical content does not make setup the owner: only a file it already manages is re-recorded.
+      if (recorded !== undefined) managed[template.target] = digest;
     } else if (onDisk === null) {
+      if (template.optional && recorded !== undefined) {
+        report.skipped.push({ target: template.target, reason: "removed_by_user" });
+        continue;
+      }
+      if (template.optional && !template.optional.createIf()) {
+        report.skipped.push({ target: template.target, reason: template.optional.reason });
+        continue;
+      }
       fs.mkdirSync(path.dirname(target), { recursive: true });
       fs.writeFileSync(target, content);
       report.created.push(template.target);
-    } else if (managed[template.target] && sha256Text(onDisk) === managed[template.target]) {
+      managed[template.target] = digest;
+    } else if (recorded === undefined) {
+      report.conflicts.push(template.target);
+    } else if (sha256Text(onDisk) === recorded) {
       fs.writeFileSync(target, content);
       report.updated.push(template.target);
+      managed[template.target] = digest;
+    } else if (recorded === digest) {
+      report.user_owned.push(template.target);
     } else {
       report.conflicts.push(template.target);
-      continue;
     }
-    managed[template.target] = digest;
   }
 
   const lock = {

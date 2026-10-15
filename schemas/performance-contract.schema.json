@@ -35,7 +35,7 @@
             "type": "object",
             "required": ["metric", "operator", "value"],
             "additionalProperties": false,
-            "properties": {"metric": {"type": "string"}, "operator": {"const": "eq"}, "value": {}}
+            "properties": {"metric": {"type": "string"}, "operator": {"const": "eq"}, "value": {}, "negative_control": {"$ref": "#/$defs/negative_control"}}
           },
           {
             "type": "object",
@@ -45,8 +45,9 @@
               "metric": {"type": "string"},
               "operator": {"const": "le"},
               "coefficient": {"type": "number", "exclusiveMinimum": 0},
-              "shape": {"enum": ["linear", "n_log_n", "quadratic"]},
-              "dimension": {"type": "string"}
+              "shape": {"enum": ["constant", "linear", "n_log_n", "quadratic"], "description": "constant: the bound is coefficient at every size. Use it for counts that do not grow with the workload, such as iterations or kernel calls."},
+              "dimension": {"type": "string"},
+              "negative_control": {"$ref": "#/$defs/negative_control"}
             }
           }
         ]
@@ -54,5 +55,19 @@
     },
     "profile": {"enum": ["pr", "scheduled", "manual"]},
     "baseline_ref": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*-v[0-9]+$", "description": "Immutable versioned manifest name. 'latest' is not allowed."}
+  },
+  "$defs": {
+    "negative_control": {
+      "type": "object",
+      "description": "A deliberate change applied to a disposable copy of the repository. The target metric must violate its assertion, or the gate is blind to it. Required on every assertion of an enabled contract.",
+      "additionalProperties": false,
+      "required": ["kind", "file", "before", "after"],
+      "properties": {
+        "kind": {"enum": ["synthetic", "regression"], "description": "synthetic: only the counter or its accounting changes, so it proves the counter is wired, not that it catches a real regression. regression: a behavioral change in product code."},
+        "file": {"type": "string", "description": "Repository-relative path to the file the change is applied to."},
+        "before": {"type": "string", "minLength": 1, "description": "Exact text that must occur exactly once in file."},
+        "after": {"type": "string", "description": "Replacement text. Empty deletes the matched text."}
+      }
+    }
   }
 }

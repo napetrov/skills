@@ -27,7 +27,10 @@ required evidence is missing, and it proves that the check can fail.
 - `.petrov/contracts/setup-lock.json`: digests of files setup manages.
 
 `node scripts/outcome-check.js setup --repo <repo>` writes the config and an
-example proposed outcome. It reports a conflict instead of overwriting an edited file.
+example proposed outcome. It never overwrites an edited file: an edit with an
+unchanged template is reported as `user_owned`. A conflict is reported when the
+template also changed, or when an existing file differs from the template and setup
+never wrote it.
 
 ## Mapping Rules
 

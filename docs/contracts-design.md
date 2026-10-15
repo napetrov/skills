@@ -28,8 +28,20 @@ where the implementation departs from the handoff specification.
 - Readiness is derived from files and the most recent run. The helper reports
   `unconfigured`, `discovered`, or `instrumented`. It does not infer
   `validated`, `integrated`, or `enforced`.
-- `setup` writes only files it manages. Files the user edited are reported as
-  conflicts and are not overwritten.
+- `setup` writes only files it manages. A file the user edited is kept: it is
+  reported as `user_owned` while its template is unchanged, and as a conflict only
+  when the template also changed or when setup never wrote the file and it differs
+  from the template. Identical content alone does not make setup the owner. Re-running
+  setup on a configured repository is expected to report no conflicts.
+- The example contract is written only while no contract exists, and is not
+  recreated after the user removes it.
+- `discover` inventories candidates (benchmarks, asv, pytest, Bazel tests, CI). It
+  runs nothing. Choosing the slice remains the agent's work.
+- Every gated assertion of an enabled contract declares a `negative_control`. The
+  control is applied in a copy of the repository, and the target metric must
+  violate its own assertion. A `synthetic` control is labelled as wiring evidence.
+- `le` budgets accept `shape: "constant"` for counts that do not grow with the
+  workload, such as iterations or kernel calls.
 
 ## Deviations From The Handoff Specification
 

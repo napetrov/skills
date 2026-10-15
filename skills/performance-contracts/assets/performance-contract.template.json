@@ -14,7 +14,12 @@
     "cache_state": "none"
   },
   "assertions": [
-    {"metric": "TODO: correctness metric", "operator": "eq", "value": true}
+    {
+      "metric": "TODO: correctness metric",
+      "operator": "eq",
+      "value": true,
+      "negative_control": {"kind": "TODO: synthetic or regression", "file": "TODO: file the deliberate change applies to", "before": "TODO: exact text that occurs once", "after": "TODO: replacement"}
+    }
   ],
   "profile": "pr",
   "baseline_ref": "TODO-reference-v1"

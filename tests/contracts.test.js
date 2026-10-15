@@ -229,17 +229,91 @@ test("setup is idempotent on a second run", { skip: false }, () => {
   assert.deepEqual(report.created, []);
   assert.deepEqual(report.updated, []);
   assert.deepEqual(report.conflicts, []);
+  assert.deepEqual(report.user_owned, []);
+  assert.deepEqual(report.unchanged.sort(), [".petrov/contracts/config.json", ".petrov/contracts/performance/EXAMPLE-PERF-001.json"]);
   assert.deepEqual(snapshot(dir), before);
 });
 
-test("setup reports a user edit as a conflict instead of overwriting it", { skip: false }, () => {
+test("setup keeps a user edit as user_owned while the template is unchanged", { skip: false }, () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-edit-"));
   run(PERF_CHECK, ["setup", "--repo", dir], dir);
   const config = path.join(dir, ".petrov", "contracts", "config.json");
   fs.appendFileSync(config, "\n");
   const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
-  assert.deepEqual(report.conflicts, [".petrov/contracts/config.json"]);
+  assert.deepEqual(report.user_owned, [".petrov/contracts/config.json"]);
+  assert.deepEqual(report.conflicts, []);
   assert.ok(fs.readFileSync(config, "utf8").endsWith("\n\n"));
+  // The edit stays user-owned on the next run too; setup does not drift toward a conflict.
+  const again = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(again.user_owned, [".petrov/contracts/config.json"]);
+});
+
+test("a user edit becomes a conflict only when the template also changed", { skip: false }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-migrate-"));
+  run(PERF_CHECK, ["setup", "--repo", dir], dir);
+  const config = path.join(dir, ".petrov", "contracts", "config.json");
+  fs.appendFileSync(config, "\n");
+  // Simulate an older skill release whose template digest differs from the current one.
+  const lockFile = path.join(dir, ".petrov", "contracts", "setup-lock.json");
+  const lock = core.readJson(lockFile);
+  lock.managed_files[".petrov/contracts/config.json"] = core.sha256Text("older template text");
+  fs.writeFileSync(lockFile, JSON.stringify(lock, null, 2));
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(report.conflicts, [".petrov/contracts/config.json"]);
+  assert.deepEqual(report.user_owned, []);
+  assert.ok(fs.readFileSync(config, "utf8").endsWith("\n\n"));
+});
+
+test("setup does not recreate the example after the user removed it", { skip: false }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-removed-"));
+  run(PERF_CHECK, ["setup", "--repo", dir], dir);
+  const example = path.join(dir, ".petrov", "contracts", "performance", "EXAMPLE-PERF-001.json");
+  fs.rmSync(example);
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(report.created, []);
+  assert.deepEqual(report.skipped, [{ target: ".petrov/contracts/performance/EXAMPLE-PERF-001.json", reason: "removed_by_user" }]);
+  assert.equal(fs.existsSync(example), false);
+});
+
+test("setup does not create the example when a contract already exists", { skip: skipPython }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-existing-"));
+  fs.mkdirSync(path.join(dir, ".petrov", "contracts", "performance"), { recursive: true });
+  fs.copyFileSync(
+    path.join(PY_FIXTURE, ".petrov", "contracts", "performance", "PERF-MATCH-001.json"),
+    path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json"),
+  );
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(report.created, [".petrov/contracts/config.json"]);
+  assert.deepEqual(report.skipped, [{ target: ".petrov/contracts/performance/EXAMPLE-PERF-001.json", reason: "contracts_exist" }]);
+  assert.equal(fs.existsSync(path.join(dir, ".petrov", "contracts", "performance", "EXAMPLE-PERF-001.json")), false);
+});
+
+test("setup reports discovery candidates and states what it did not choose", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-setup-discovery");
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.ok(report.discovery.benchmarks.includes("benchmarks/contracts/bench_symbol_match.py"));
+  assert.match(report.note, /did not select a benchmark, oracle, scope or budget/);
+});
+
+test("discover finds asv, pytest, bazel and workflow candidates without running them", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-discover-"));
+  fs.writeFileSync(path.join(dir, "asv.conf.json"), "{}\n");
+  fs.writeFileSync(path.join(dir, "pytest.ini"), "[pytest]\n");
+  fs.writeFileSync(path.join(dir, "pyproject.toml"), "[project]\nname = 'x'\n");
+  fs.mkdirSync(path.join(dir, "onedal", "tests"), { recursive: true });
+  fs.writeFileSync(path.join(dir, "onedal", "BUILD.bazel"), 'py_test(name = "kmeans_test", srcs = ["kmeans_test.py"])\n');
+  fs.writeFileSync(path.join(dir, "onedal", "tests", "test_kmeans_perf.py"), "");
+  fs.mkdirSync(path.join(dir, ".github", "workflows"), { recursive: true });
+  fs.writeFileSync(path.join(dir, ".github", "workflows", "bench.yml"), "jobs:\n  b:\n    steps:\n      - run: asv run\n");
+  fs.writeFileSync(path.join(dir, ".github", "workflows", "lint.yml"), "jobs:\n  l:\n    steps:\n      - run: ruff check\n");
+  const inventory = JSON.parse(run(PERF_CHECK, ["discover", "--repo", dir], dir).stdout);
+  assert.deepEqual(inventory.asv, ["asv.conf.json"]);
+  assert.deepEqual(inventory.pytest, ["pytest.ini"]);
+  assert.deepEqual(inventory.bazel_test_files, ["onedal/BUILD.bazel"]);
+  assert.ok(inventory.benchmarks.includes("onedal/tests/test_kmeans_perf.py"));
+  assert.deepEqual(inventory.ci_workflows, [{ path: ".github/workflows/bench.yml", matched: "asv" }]);
+  assert.equal(inventory.truncated, false);
+  assert.match(inventory.note, /candidates only/);
 });
 
 test("clean fixture passes, including the legitimate n log n sort", { skip: skipPython }, () => {
@@ -317,6 +391,144 @@ test("skill installs and runs alone from an isolated copy", { skip: skipPython }
   const result = run(path.join(install, "scripts", "perf-check.js"), ["validate", "--repo", dir], dir);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /"config":"ok"/);
+});
+
+test("constant-shaped budgets are accepted and checked at every declared size", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-constant");
+  const contract = path.relative(dir, path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json"));
+  mutateFile(dir, contract, '"coefficient": 12,', '"coefficient": 1000,');
+  mutateFile(dir, contract, '"shape": "linear",', '"shape": "constant",');
+  const result = run(PERF_CHECK, ["check", "--repo", dir, "--all"], dir);
+  assert.equal(result.status, 1, result.stdout + result.stderr);
+  const violations = envelopeFrom(result).results[0].violations.filter((item) => item.metric === "candidate_visits");
+  assert.deepEqual(violations.map((item) => item.size), [2000]);
+  assert.equal(violations[0].expected, "<= 1000");
+});
+
+test("discriminate detects each fixture negative control on its own metric", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-discriminate");
+  const before = snapshot(dir);
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.verdict, "pass");
+  assert.deepEqual(summary.controls.map((item) => [item.metric, item.status]), [
+    ["matched_pairs_equal_oracle", "detected"],
+    ["candidate_visits", "detected"],
+    ["sort_comparisons", "detected"],
+  ]);
+  assert.deepEqual(summary.warnings, []);
+  for (const control of summary.controls.filter((item) => item.kind === "synthetic")) {
+    assert.match(control.evidence_note, /proves the counter is wired, not that it catches a real regression/);
+  }
+  // Controls run in disposable copies; the repository changes only by the artifact it writes.
+  const after = snapshot(dir);
+  const changed = Object.keys(after).filter((file) => !(file in before) || after[file] !== before[file]);
+  // snapshot keys use the platform separator, so normalise before comparing with a POSIX prefix.
+  assert.ok(changed.length > 0 && changed.every((file) => file.split(path.sep).join("/").startsWith(".artifacts/")), changed.join(", "));
+});
+
+test("a negative control that does not move its metric fails discrimination", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-blind-control");
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  contract.assertions[2].negative_control.after = "    merged = []";
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  assert.equal(result.status, 1, result.stdout + result.stderr);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.verdict, "fail");
+  assert.equal(summary.controls.find((item) => item.metric === "sort_comparisons").status, "not_detected");
+});
+
+test("a negative control that breaks the run is an error, not a blind gate", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-broken-control");
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  contract.assertions[2].negative_control.after = "    merged = []\n    raise SystemExit(3)";
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  assert.equal(result.status, 2, result.stdout + result.stderr);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.verdict, "error");
+  assert.equal(summary.controls.find((item) => item.metric === "sort_comparisons").status, "error");
+});
+
+test("a counter that no run moves is reported as insensitive", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-insensitive");
+  mutateFile(
+    dir,
+    path.join("benchmarks", "contracts", "bench_symbol_match.py"),
+    '"candidate_visits": {"value": counters["candidate_visits"], "unit": "count"},',
+    '"candidate_visits": {"value": counters["candidate_visits"], "unit": "count"},\n        "fixed_calls": {"value": 1, "unit": "count"},',
+  );
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  contract.assertions.push({
+    metric: "fixed_calls",
+    operator: "le",
+    coefficient: 5,
+    shape: "constant",
+    dimension: "symbols_per_side",
+    negative_control: { kind: "regression", file: "src/matcher.py", before: "            pairs.append((name, match))", after: "            pairs.append((name, match))  # touched" },
+  });
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  const summary = JSON.parse(result.stdout);
+  assert.deepEqual(summary.warnings.map((item) => [item.metric, item.category]), [["fixed_calls", "insensitive_counter"]]);
+  assert.equal(summary.controls.find((item) => item.metric === "fixed_calls").status, "not_detected");
+});
+
+test("enabled contracts must declare a negative control for every assertion", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-no-control");
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  delete contract.assertions[1].negative_control;
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["validate", "--repo", dir], dir);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /candidate_visits needs negative_control before the contract can be enabled/);
+});
+
+test("a negative control anchor must occur exactly once", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-anchor");
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  // The key appears in the counter initialiser and in the increment: two matches, so the anchor is ambiguous.
+  contract.assertions[1].negative_control.before = "\"candidate_visits\"";
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["validate", "--repo", dir], dir);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /anchor occurs 2 times in src\/matcher\.py; must occur exactly once/);
+});
+
+test("a negative control file that resolves outside the repository is rejected", { skip: skipPython || (process.platform === "win32" && "symlink creation needs privilege on Windows") }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-symlink-control");
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "perf-symlink-target-"));
+  const external = path.join(outside, "matcher.py");
+  const original = fs.readFileSync(path.join(dir, "src", "matcher.py"), "utf8");
+  fs.writeFileSync(external, original);
+  fs.symlinkSync(external, path.join(dir, "src", "linked.py"));
+  const contractFile = path.join(dir, ".petrov", "contracts", "performance", "PERF-MATCH-001.json");
+  const contract = core.readJson(contractFile);
+  contract.assertions[0].negative_control.file = "src/linked.py";
+  fs.writeFileSync(contractFile, JSON.stringify(contract, null, 2));
+  const result = run(PERF_CHECK, ["discriminate", "--repo", dir], dir);
+  assert.equal(result.status, 2, result.stdout + result.stderr);
+  assert.match(result.stderr, /resolves outside the repository/);
+  assert.equal(fs.readFileSync(external, "utf8"), original);
+});
+
+test("setup does not adopt an identical file it never managed", { skip: false }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "perf-setup-adopt-"));
+  const configFile = path.join(dir, ".petrov", "contracts", "config.json");
+  fs.mkdirSync(path.dirname(configFile), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, "skills", "performance-contracts", "assets", "config.template.json"), configFile);
+  const report = JSON.parse(run(PERF_CHECK, ["setup", "--repo", dir], dir).stdout);
+  assert.deepEqual(report.unchanged, [".petrov/contracts/config.json"]);
+  // Without a lock entry the file stays unmanaged, so a later template change cannot overwrite it silently.
+  const lock = core.readJson(path.join(dir, ".petrov", "contracts", "setup-lock.json"));
+  assert.equal(lock.managed_files[".petrov/contracts/config.json"], undefined);
 });
 
 // ---- verify-user-outcomes -------------------------------------------------
