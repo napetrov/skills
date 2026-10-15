@@ -7,10 +7,6 @@ in the order it should be picked up.
 
 ## 1. Decisions needed from the owner
 
-- **Commit trailer.** The `Co-Authored-By` trailer in the contract commits names the
-  model. The attribution instruction requires it, and a system rule forbids model
-  identifiers in commits. Decide which rule wins. The trailer on the existing
-  commits can be rewritten only on this PR branch, never on `main`.
 - **Eval pilot scope.** The first pilot ran and reached ceiling (`evals/pilot/RESULTS.md`). Decide whether to build harder tasks for item 3, or accept the
   deterministic cases as the v1 quality bar.
 - **Target layout for contracts.** Confirm `.petrov/contracts/` and
