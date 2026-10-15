@@ -7,13 +7,13 @@
       "name": "performance-contracts",
       "version": "0.1.0",
       "path": "skills/performance-contracts",
-      "artifact_sha256": "6781edb00f7025f9191890d87dc7eff3254592f722acdd9d0f45f4208358af8f",
+      "artifact_sha256": "85e19495534ed7ef287df7b44adf52b106438804ba8367682d4489558bf5e850",
       "files": [
         {
           "path": "BENCHMARK.md",
           "mode": "0644",
-          "sha256": "bd9274991ba19ace0eecc4ce40d479936640540a5085dd7fb4724c7152de7940",
-          "size": 3849
+          "sha256": "d0d87a07d34ce432322eec6637c63ce8ca22714c31193c9c49550e08883b5ff4",
+          "size": 3992
         },
         {
           "path": "SKILL.md",
