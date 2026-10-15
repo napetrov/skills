@@ -28,8 +28,8 @@ function npmCommand() {
 
 function binPath(prefix) {
   return process.platform === "win32"
-    ? path.join(prefix, "intel-skills.cmd")
-    : path.join(prefix, "bin", "intel-skills");
+    ? path.join(prefix, "skills.cmd")
+    : path.join(prefix, "bin", "skills");
 }
 
 function smokeEnv(home) {
@@ -43,7 +43,7 @@ function smokeEnv(home) {
   return env;
 }
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "intel-skills-install-smoke-"));
+const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "skills-install-smoke-"));
 
 try {
   const pack = run(npmCommand(), ["pack", "--pack-destination", tmp, "--json"]);

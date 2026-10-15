@@ -53,8 +53,6 @@ where the implementation departs from the handoff specification.
 - Agent comparison pilot ran once (36 runs) and reached ceiling. It does not measure skill benefit; harder tasks are still needed (see `docs/contracts-plan.md`).
 - P04 (warm-cache invalidation), P05 (noisy-runner classification), P07 (repeated
   decode attribution), and O04, O06, O07, O08 are not implemented.
-- M7 (ABI-check and AIReady integration) requires access to those repositories and
-  was not attempted.
 - Branch protection and required-check enforcement were not verified. The
   repository's own CI runs the deterministic suite; the fixture CI example
   (`fixtures/python-perf-target/ci-example/contracts.workflow.example.yml`) is not active.

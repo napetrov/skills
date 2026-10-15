@@ -13,7 +13,7 @@ const requiredDocs = [
       "GitHub Artifact Attestations",
       "validate-release-context.js",
       "npm publish dist/*.tgz --provenance --access public",
-      "intel-skills verify <skill>",
+      "skills verify <skill>",
       "npx skills add napetrov/skills",
     ],
   },

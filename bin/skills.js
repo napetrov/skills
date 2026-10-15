@@ -7,10 +7,10 @@ const [, , command, ...args] = process.argv;
 
 function usage(code = 0) {
   console.log(`Usage:
-  intel-skills list
-  intel-skills show <skill>
-  intel-skills install <skill> --target codex|claude-code [--force]
-  intel-skills verify <skill> [--path <installed-skill-dir>]`);
+  skills list
+  skills show <skill>
+  skills install <skill> --target codex|claude-code [--force]
+  skills verify <skill> [--path <installed-skill-dir>]`);
   process.exit(code);
 }
 
