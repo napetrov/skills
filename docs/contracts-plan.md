@@ -9,7 +9,7 @@ in the order it should be picked up.
 
 - **Eval pilot scope.** The first pilot ran and reached ceiling (`evals/pilot/RESULTS.md`). Decide whether to build harder tasks for item 3, or accept the
   deterministic cases as the v1 quality bar.
-- **Target layout for contracts.** Confirm `.petrov/contracts/` and
+- **Target layout for contracts.** Confirm `.verification/contracts/` and
   `.artifacts/contracts/` as the v1 paths, or name a different convention used by
   the target projects.
 

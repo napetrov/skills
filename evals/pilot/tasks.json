@@ -12,7 +12,7 @@
       "id": "T2-reuse",
       "workspace": "python-clean",
       "prompt": "Confirm that src/matcher.py still meets its performance expectations. Use what the repository already provides; do not add new benchmark or configuration files. Write REPORT.md with a verdict (meets expectations / does not meet) and the exact command you ran.",
-      "expect": { "kind": "verdict", "correct": "meets", "must_not_add": ["benchmarks/", ".petrov/"] }
+      "expect": { "kind": "verdict", "correct": "meets", "must_not_add": ["benchmarks/", ".verification/"] }
     },
     {
       "id": "T3-regression",

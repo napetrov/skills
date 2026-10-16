@@ -6,7 +6,7 @@ ignored artifacts under `.artifacts/contracts/`. It makes no tracked edits.
 ## Selection
 
 - Enabled outcomes whose intent or implementation references match a changed file are selected.
-- A change to `.petrov/contracts/` or `tools/contracts/` selects every enabled outcome.
+- A change to `.verification/contracts/` or `tools/contracts/` selects every enabled outcome.
 - Use `--base <ref>` for an explicit diff base. Without it, the helper uses the verified
   pull-request merge base, then the working tree against `HEAD` including staged and
   untracked files. If no base can be established, it runs the full enrolled scope.

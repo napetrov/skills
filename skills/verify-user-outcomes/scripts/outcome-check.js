@@ -9,9 +9,9 @@ import * as core from "./contract-core.js";
 
 const GENERATOR = "verify-user-outcomes@0.1.0";
 const SKILL_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUTCOME_DIR = [".petrov", "contracts", "outcomes"];
+const OUTCOME_DIR = [".verification", "contracts", "outcomes"];
 const CRITICALITY = new Set(["high", "medium", "low"]);
-const INVALIDATING = [/^\.petrov\/contracts\//, /^tools\/contracts\//];
+const INVALIDATING = [/^\.verification\/contracts\//, /^tools\/contracts\//];
 const LOCKFILE = /(^|\/)(package-lock\.json|uv\.lock|poetry\.lock|requirements[^/]*\.txt)$/;
 
 function fail(message) {
@@ -95,7 +95,7 @@ export function selectOutcomes(outcomes, config, changed, requested) {
     changed.files.some((file) => [...outcome.intent_refs, ...outcome.implementation_refs].some((ref) => file === ref.split("#")[0] || file.startsWith(`${ref.split("#")[0]}/`))),
   );
   const uncovered = changed.files.filter(
-    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(".petrov/") && !file.startsWith(".artifacts/"),
+    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(".verification/") && !file.startsWith(".artifacts/"),
   );
   return { selected, uncovered, reason: "changed-paths" };
 }
@@ -138,7 +138,7 @@ function evaluateOutcome(outcome, execution, tests) {
 function check(repo, { base, requested, all, artifactRoot, skillPath }) {
   const startedAt = new Date();
   const config = core.loadConfig(repo);
-  if (!config) return unconfigured(repo, startedAt, "no .petrov/contracts/config.json; run setup for the requested scope");
+  if (!config) return unconfigured(repo, startedAt, "no .verification/contracts/config.json; run setup for the requested scope");
   const outcomes = loadOutcomes(repo);
   const changed = core.resolveChangedFiles(repo, { base });
   const selection = all
@@ -263,8 +263,8 @@ function readiness(repo) {
 
 function setup(repo) {
   const templates = [
-    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: ".petrov/contracts/config.json" },
-    { source: path.join(SKILL_DIR, "assets", "outcome-contract.template.json"), target: ".petrov/contracts/outcomes/EXAMPLE-OUTCOME-001.json" },
+    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: ".verification/contracts/config.json" },
+    { source: path.join(SKILL_DIR, "assets", "outcome-contract.template.json"), target: ".verification/contracts/outcomes/EXAMPLE-OUTCOME-001.json" },
   ];
   return core.scaffold(repo, { templates, generator: GENERATOR });
 }

@@ -1,4 +1,4 @@
-// Shared contract runtime for the Petrov contract skills.
+// Shared contract runtime for the contract skills.
 // Source of truth: tools/contracts/contract-core.js. tools/sync-contract-assets.js
 // copies this file into each skill's scripts/ directory; edit the source only.
 import crypto from "node:crypto";
@@ -203,7 +203,7 @@ export function matchesAny(file, globs) {
 }
 
 export function loadConfig(repo) {
-  const file = path.join(repo, ".petrov", "contracts", "config.json");
+  const file = path.join(repo, ".verification", "contracts", "config.json");
   if (!fs.existsSync(file)) return null;
   const config = readJson(file);
   validateConfig(config);
@@ -333,7 +333,7 @@ export function scanEnabledContract(contract, where) {
 // Optional templates are created only when createIf() holds, and are never recreated
 // after the user removed a file that setup had written.
 export function scaffold(repo, { templates, generator }) {
-  const lockFile = path.join(repo, ".petrov", "contracts", "setup-lock.json");
+  const lockFile = path.join(repo, ".verification", "contracts", "setup-lock.json");
   const previous = fs.existsSync(lockFile) ? readJson(lockFile) : { managed_files: {} };
   const managed = { ...(previous.managed_files ?? {}) };
   const report = { created: [], updated: [], unchanged: [], user_owned: [], conflicts: [], skipped: [] };

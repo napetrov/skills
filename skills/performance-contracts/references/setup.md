@@ -47,14 +47,26 @@ agent's work, and each choice is written into a contract file.
 8. **Report readiness.** Give the scope, files, commands, observed CI state, known
    gaps, the discrimination result per assertion, and the next normal check command.
 
+## Upgrading From The Previous Layout
+
+Projects configured before the state directory was renamed to `.verification/`
+keep their files in the previous dot-directory, and the checkers report them as
+unconfigured. Once, from the repository root, move the contracts folder:
+
+```bash
+mv <previous-state-dir>/contracts .verification/contracts
+```
+
+Then run `setup` again and review its report.
+
 ## Files Written
 
-- `.petrov/contracts/config.json`: command argument arrays, scopes, artifact directory.
-- `.petrov/contracts/performance/<ID>.json`: one contract per operation.
-- `.petrov/contracts/performance/EXAMPLE-PERF-001.json`: written only while no
+- `.verification/contracts/config.json`: command argument arrays, scopes, artifact directory.
+- `.verification/contracts/performance/<ID>.json`: one contract per operation.
+- `.verification/contracts/performance/EXAMPLE-PERF-001.json`: written only while no
   contract exists. Once removed, setup does not recreate it.
-- `.petrov/contracts/baselines/<ref>.json`: immutable reference counters.
-- `.petrov/contracts/setup-lock.json`: digests of files setup manages.
+- `.verification/contracts/baselines/<ref>.json`: immutable reference counters.
+- `.verification/contracts/setup-lock.json`: digests of files setup manages.
 - The benchmark command and its oracle, in the project's own layout.
 
 `node scripts/perf-check.js setup --repo <repo>` writes the config and, when

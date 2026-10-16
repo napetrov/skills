@@ -8,7 +8,7 @@ and every gated assertion carries a negative control that must trip its own metr
 
 ## Owner
 
-Nikolay Petrov and contributors.
+Skills contributors.
 
 ## Inputs And Outputs
 

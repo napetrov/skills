@@ -70,7 +70,7 @@ function build(workspace, dst) {
   fs.rmSync(dst, { recursive: true, force: true });
   switch (workspace) {
     case "python-bare":
-      copy(PY, dst, [".petrov", "benchmarks", "ci-example", "README.md"]);
+      copy(PY, dst, [".verification", "benchmarks", "ci-example", "README.md"]);
       break;
     case "python-clean":
       copy(PY, dst, ["ci-example"]);

@@ -5,7 +5,7 @@
       "name": "performance-contracts",
       "description": "Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects.",
       "version": "0.1.0",
-      "product": "petrov-contracts",
+      "product": "verification-contracts",
       "product_family": "engineering-verification",
       "tags": [
         "performance",
@@ -43,7 +43,7 @@
       "name": "verify-user-outcomes",
       "description": "Set up and check that promised user outcomes are reachable, asserted by tests, and linked to intent and implementation.",
       "version": "0.1.0",
-      "product": "petrov-contracts",
+      "product": "verification-contracts",
       "product_family": "engineering-verification",
       "tags": [
         "acceptance",

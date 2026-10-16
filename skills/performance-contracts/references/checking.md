@@ -18,7 +18,7 @@ different references, and the report names both.
 ## Selection
 
 - A contract is selected when a changed file matches one of its `paths`.
-- A change to `.petrov/contracts/`, `benchmarks/contracts/`, `tools/contracts/`,
+- A change to `.verification/contracts/`, `benchmarks/contracts/`, `tools/contracts/`,
   or a lockfile selects every enabled contract.
 - A changed file that no enrolled scope covers is an `uncovered_scope` finding.
 - Use `--contract <id>` for an explicit selection, or `--all` for the full enrolled scope.

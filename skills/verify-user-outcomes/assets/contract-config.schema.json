@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/napetrov/skills/schemas/contract-config.schema.json",
   "title": "Contract Configuration",
-  "description": "Project-owned configuration in .petrov/contracts/config.json. Commands are argument arrays; no shell strings.",
+  "description": "Project-owned configuration in .verification/contracts/config.json. Commands are argument arrays; no shell strings.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "artifact_dir", "commands", "scopes"],

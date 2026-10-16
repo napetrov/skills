@@ -3,7 +3,7 @@ name: verify-user-outcomes
 description: Set up and check that promised user outcomes are reachable, asserted by tests, and linked to intent and implementation.
 version: 0.1.0
 license: Apache-2.0
-product: petrov-contracts
+product: verification-contracts
 product_family: engineering-verification
 tags: [acceptance, traceability, end-to-end, outcomes, verification]
 problems: [verify-user-outcome, detect-disconnected-result, trace-intent-to-evidence]
@@ -57,7 +57,7 @@ Evidence is matched to tests by a bracketed id in the test name, for example
 `[scan-comparison-happy] ...`. Zero matches are errors. Skipped tests are
 inconclusive. `check` writes `result.json` under `.artifacts/contracts/<run-id>/`.
 Exit codes: 0 pass or not applicable, 1 violation, 2 error, 3 inconclusive.
-`scripts/contract-core.js` is the shared runtime copied from the Petrov source;
+`scripts/contract-core.js` is the shared runtime copied from the source;
 do not edit the copy.
 
 ## Rules

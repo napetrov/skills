@@ -7,7 +7,7 @@ executable tests, and that the intent, implementation, and evidence links resolv
 
 ## Owner
 
-Nikolay Petrov and contributors.
+Skills contributors.
 
 ## Inputs And Outputs
 

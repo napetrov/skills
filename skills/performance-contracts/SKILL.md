@@ -3,7 +3,7 @@ name: performance-contracts
 description: Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects.
 version: 0.1.0
 license: Apache-2.0
-product: petrov-contracts
+product: verification-contracts
 product_family: engineering-verification
 tags: [performance, benchmarking, scaling, regression, contracts]
 problems: [detect-scaling-regression, verify-optimization-correctness, enforce-resource-budget]
@@ -62,7 +62,7 @@ node scripts/perf-check.js check --repo <repo> [--base <ref>] [--contract <id>] 
 
 `check` writes `result.json` under `.artifacts/contracts/<run-id>/`. Exit codes:
 0 pass or not applicable, 1 violation, 2 error, 3 inconclusive.
-`scripts/contract-core.js` is the shared runtime copied from the Petrov source;
+`scripts/contract-core.js` is the shared runtime copied from the source;
 do not edit the copy.
 
 ## Rules
