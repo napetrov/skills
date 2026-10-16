@@ -12,15 +12,12 @@ const allowed = [
   /^package\.json$/,
   /^schemas\/[a-z-]+\.schema\.json$/,
   /^templates\/skill\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json)|references\/README\.md)$/,
-  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-common-cli-compat|validate-skills-security|validate-release-context|validate-release-provenance|validate-trust-policy|check-package-allowlist|install-smoke|lib|sync-contract-assets)\.js$/,
-  /^tools\/contracts\/[a-z-]+\.js$/,
+  /^tools\/(?:generate-catalog|generate-skill-manifest|validate-skills|validate-skill-cards|validate-common-cli-compat|validate-skills-security|validate-release-context|validate-release-provenance|validate-trust-policy|check-package-allowlist|install-smoke|lib)\.js$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/(?:SKILL\.md|BENCHMARK\.md|skill-card\.(?:md|json))$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/references\/[A-Za-z0-9_.-]+\.md$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/scripts\/[A-Za-z0-9_.-]+\.(?:py|sh|js)$/,
   /^skills\/[a-z0-9]+(?:-[a-z0-9]+)*\/assets\/[A-Za-z0-9_./-]+$/,
   /^skills\/README\.md$/,
-  /^docs\/contracts-design\.md$/,
-  /^docs\/contracts-plan\.md$/,
 ];
 
 const forbidden = [/(^|\/)evals\//, /(^|\/)(results|reports|tmp|node_modules)\//, /\.tgz$/, /\.log$/];

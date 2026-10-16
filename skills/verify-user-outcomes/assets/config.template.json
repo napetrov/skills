@@ -1,7 +1,0 @@
-{
-  "schema_version": "1.0",
-  "artifact_dir": ".artifacts/contracts",
-  "diff_base_policy": "explicit-or-pr-merge-base-or-head",
-  "commands": [],
-  "scopes": []
-}
