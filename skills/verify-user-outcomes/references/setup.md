@@ -20,6 +20,18 @@ required evidence is missing, and it proves that the check can fail.
 6. **Wire CI and report.** Add the command to CI with failure artifacts. Report the
    scope, files, commands, CI state, and gaps.
 
+## Upgrading From The Previous Layout
+
+Projects configured before the state directory was renamed to `.verification/`
+keep their files in the previous dot-directory, and the checkers report them as
+unconfigured. Once, from the repository root, move the contracts folder:
+
+```bash
+mv <previous-state-dir>/contracts .verification/contracts
+```
+
+Then run `setup` again and review its report.
+
 ## Files Written
 
 - `.verification/contracts/config.json`: the test command as an argument array and the enrolled scope.

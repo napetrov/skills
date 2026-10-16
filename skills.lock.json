@@ -7,7 +7,7 @@
       "name": "performance-contracts",
       "version": "0.1.0",
       "path": "skills/performance-contracts",
-      "artifact_sha256": "57b570e6707192ec5022159586635e3916637f510c150d5bb2380ad417a28c93",
+      "artifact_sha256": "357f36d4a7d9dd90cee34b29ae95c27e21962fdc4736c8217c2a42292ef22519",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -72,8 +72,8 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "f5cc7fad7da056d0169686be4c545e72dc37d3425eea1dcbae506020e1e4ae42",
-          "size": 4763
+          "sha256": "c570c4f6aa43fc241986c954bf5205c45cce93d5bc09797391e0a23e444e37a9",
+          "size": 5153
         },
         {
           "path": "scripts/contract-core.js",
@@ -105,7 +105,7 @@
       "name": "verify-user-outcomes",
       "version": "0.1.0",
       "path": "skills/verify-user-outcomes",
-      "artifact_sha256": "ee0d6a686fe861a0d32ab55461182653d84953919a962751b1327c044037e48b",
+      "artifact_sha256": "a46342c8168e297a434daf62eb11de637b547b82d0bbe98862db6cbdebe851f6",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -170,8 +170,8 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "15ae81536494889b6e284688ba89b19f68260569e2ee3ec2c21f0a090d748813",
-          "size": 2189
+          "sha256": "d8c8e6fb57c708cf63f8f92027a04716063fde80bee37b5296621cd64c7e7c7f",
+          "size": 2579
         },
         {
           "path": "scripts/contract-core.js",

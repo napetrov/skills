@@ -47,6 +47,18 @@ agent's work, and each choice is written into a contract file.
 8. **Report readiness.** Give the scope, files, commands, observed CI state, known
    gaps, the discrimination result per assertion, and the next normal check command.
 
+## Upgrading From The Previous Layout
+
+Projects configured before the state directory was renamed to `.verification/`
+keep their files in the previous dot-directory, and the checkers report them as
+unconfigured. Once, from the repository root, move the contracts folder:
+
+```bash
+mv <previous-state-dir>/contracts .verification/contracts
+```
+
+Then run `setup` again and review its report.
+
 ## Files Written
 
 - `.verification/contracts/config.json`: command argument arrays, scopes, artifact directory.
