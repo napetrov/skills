@@ -1,0 +1,11 @@
+{
+  "measurements": [
+    {"id": "m-1", "projectId": "p-alpha", "fingerprint": "fp-1", "status": "completed",
+     "files": {"src/a.js": {"lines": 10}, "src/b.js": {"lines": 4}}},
+    {"id": "m-2", "projectId": "p-alpha", "fingerprint": "fp-1", "status": "completed",
+     "files": {"src/a.js": {"lines": 13}, "src/b.js": {"lines": 4}, "src/c.js": {"lines": 7}}},
+    {"id": "m-3", "projectId": "p-alpha", "fingerprint": "fp-2", "status": "completed",
+     "files": {"src/a.js": {"lines": 12}}},
+    {"id": "m-4", "projectId": "p-alpha", "fingerprint": "fp-1", "status": "running", "files": {}}
+  ]
+}

@@ -1,4 +1,81 @@
 {
   "generated_by": "tools/generate-catalog.js",
-  "skills": []
+  "skills": [
+    {
+      "name": "performance-contracts",
+      "description": "Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects.",
+      "version": "0.1.0",
+      "product": "verification-contracts",
+      "product_family": "engineering-verification",
+      "tags": [
+        "performance",
+        "benchmarking",
+        "scaling",
+        "regression",
+        "contracts"
+      ],
+      "problems": [
+        "detect-scaling-regression",
+        "verify-optimization-correctness",
+        "enforce-resource-budget"
+      ],
+      "agents": [
+        "codex",
+        "claude-code"
+      ],
+      "maturity": "experimental",
+      "data_classification": "public",
+      "source_url": "https://github.com/napetrov/skills",
+      "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/performance-contracts",
+      "source": {
+        "repository": "https://github.com/napetrov/skills",
+        "ref": "main",
+        "path": "skills/performance-contracts"
+      },
+      "catalog": {
+        "repository": "https://github.com/napetrov/skills",
+        "path": "skills/performance-contracts"
+      },
+      "verification_status": "smoke-tested",
+      "path": "skills/performance-contracts"
+    },
+    {
+      "name": "verify-user-outcomes",
+      "description": "Set up and check that promised user outcomes are reachable, asserted by tests, and linked to intent and implementation.",
+      "version": "0.1.0",
+      "product": "verification-contracts",
+      "product_family": "engineering-verification",
+      "tags": [
+        "acceptance",
+        "traceability",
+        "end-to-end",
+        "outcomes",
+        "verification"
+      ],
+      "problems": [
+        "verify-user-outcome",
+        "detect-disconnected-result",
+        "trace-intent-to-evidence"
+      ],
+      "agents": [
+        "codex",
+        "claude-code"
+      ],
+      "maturity": "experimental",
+      "data_classification": "public",
+      "source_url": "https://github.com/napetrov/skills",
+      "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/verify-user-outcomes",
+      "source": {
+        "repository": "https://github.com/napetrov/skills",
+        "ref": "main",
+        "path": "skills/verify-user-outcomes"
+      },
+      "catalog": {
+        "repository": "https://github.com/napetrov/skills",
+        "path": "skills/verify-user-outcomes"
+      },
+      "verification_status": "smoke-tested",
+      "path": "skills/verify-user-outcomes"
+    }
+  ]
 }

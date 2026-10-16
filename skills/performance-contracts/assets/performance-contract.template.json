@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "id": "PERF-EXAMPLE-001",
+  "status": "proposed",
+  "scope": "example-scope",
+  "operation": "TODO: describe the operation and its entry point",
+  "paths": ["TODO: relevant source paths"],
+  "command_id": "TODO: command id from config.json",
+  "oracle_id": "TODO: independent correctness oracle",
+  "workload": {
+    "dimension": "TODO: named workload dimension",
+    "sizes": [250, 500, 1000, 2000],
+    "fixed": {},
+    "cache_state": "none"
+  },
+  "assertions": [
+    {
+      "metric": "TODO: correctness metric",
+      "operator": "eq",
+      "value": true,
+      "negative_control": {"kind": "TODO: synthetic or regression", "file": "TODO: file the deliberate change applies to", "before": "TODO: exact text that occurs once", "after": "TODO: replacement"}
+    }
+  ],
+  "profile": "pr",
+  "baseline_ref": "TODO-reference-v1"
+}

@@ -21,7 +21,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "build": "node tools/generate-catalog.js && npm run manifest",
+    "build": "node tools/sync-contract-assets.js && node tools/generate-catalog.js && npm run manifest",
     "manifest": "node tools/generate-skill-manifest.js",
     "manifest:check": "node tools/generate-skill-manifest.js --check",
     "security": "npm run security:skills && npm run security:release && npm run security:policy && npm run security:package",
@@ -29,7 +29,7 @@
     "security:policy": "node tools/validate-trust-policy.js",
     "security:release": "node tools/validate-release-provenance.js",
     "security:skills": "node tools/validate-skills-security.js",
-    "smoke": "node tools/validate-skills.js && node tools/validate-skill-cards.js && node tools/validate-common-cli-compat.js && node tools/generate-catalog.js --check && npm run manifest:check && npm run security && node --test && npm run smoke:install",
+    "smoke": "node tools/validate-skills.js && node tools/validate-skill-cards.js && node tools/validate-common-cli-compat.js && node tools/generate-catalog.js --check && node tools/sync-contract-assets.js --check && npm run manifest:check && npm run security && node --test && npm run smoke:install",
     "smoke:install": "node tools/install-smoke.js",
     "test": "npm run smoke",
     "pack:check": "npm pack --dry-run"

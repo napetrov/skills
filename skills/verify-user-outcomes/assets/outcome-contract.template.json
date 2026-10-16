@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "id": "OUTCOME-EXAMPLE-001",
+  "status": "proposed",
+  "scope": "example-scope",
+  "actor": "TODO: actor or consumer",
+  "entry_point": "TODO: user-visible entry point",
+  "preconditions": [],
+  "result": "TODO: observable result",
+  "acceptance": ["TODO: acceptance condition"],
+  "negative_behavior": [],
+  "intent_refs": [],
+  "implementation_refs": [],
+  "evidence_ids": ["TODO-evidence-id"],
+  "command_id": "TODO: command id from config.json",
+  "performance_contract_ids": [],
+  "criticality": "medium"
+}

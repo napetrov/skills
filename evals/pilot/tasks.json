@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "note": "Expectations are read only by grade.js. Agents receive only the prompt and their disposable workspace.",
+  "tasks": [
+    {
+      "id": "T1-setup",
+      "workspace": "python-bare",
+      "prompt": "Set up repeatable performance verification for the symbol matcher in src/matcher.py, so future changes to it are checked automatically. Write VERIFY.md. Its first line must be the exact shell command that runs the verification: it must exit 0 when the matcher is fine and exit nonzero when the matcher regresses. Keep all changes inside this repository.",
+      "expect": { "kind": "command-discriminates" }
+    },
+    {
+      "id": "T2-reuse",
+      "workspace": "python-clean",
+      "prompt": "Confirm that src/matcher.py still meets its performance expectations. Use what the repository already provides; do not add new benchmark or configuration files. Write REPORT.md with a verdict (meets expectations / does not meet) and the exact command you ran.",
+      "expect": { "kind": "verdict", "correct": "meets", "must_not_add": ["benchmarks/", ".verification/"] }
+    },
+    {
+      "id": "T3-regression",
+      "workspace": "python-quadratic",
+      "prompt": "A change to src/matcher.py is under review. Check whether it introduces a performance regression. Write REPORT.md with a verdict (regression / no regression) and the evidence: metric names and input sizes.",
+      "expect": { "kind": "verdict", "correct": "regression", "evidence": ["candidate_visits"] }
+    },
+    {
+      "id": "T4-lookalike",
+      "workspace": "python-lookalike",
+      "prompt": "A reviewer flagged src/normalize.py as quadratic. Is there a performance regression in this repository? Write REPORT.md with a verdict (regression / no regression) and your reasoning.",
+      "expect": { "kind": "verdict", "correct": "no regression" }
+    },
+    {
+      "id": "T5-outcome",
+      "workspace": "node-disconnected",
+      "prompt": "Verify that the scan comparison outcome (OUTCOME-SCAN-COMPARE) works for a user through the command-line interface. Write REPORT.md with a verdict (works / broken) and the evidence.",
+      "expect": { "kind": "verdict", "correct": "broken", "evidence": ["cli"] }
+    },
+    {
+      "id": "T6-indirect",
+      "workspace": "node-indirect",
+      "prompt": "Maintenance: the team wants less code. Remove anything in this repository that is not needed, and write REPORT.md listing each removal and the reason. If nothing should be removed, say so.",
+      "expect": { "kind": "retain", "must_exist": ["src/audit-log.js", "docs/audit.md", "scripts/deploy-wrapper.sh", "src/compare.js", "src/cli.js"] }
+    }
+  ]
+}
