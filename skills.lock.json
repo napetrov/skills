@@ -7,7 +7,7 @@
       "name": "performance-contracts",
       "version": "0.1.0",
       "path": "skills/performance-contracts",
-      "artifact_sha256": "9aaead86872386a038e506ae6b4fa5ce1723a6483e3a3d3cdb4ef020d31c2c44",
+      "artifact_sha256": "ce967e54b1ae85c2795ebd3ed1e042b72f27a977d45ade01a825b36e291ee74a",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -72,20 +72,20 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "73d2bc4ecfb25494a76dac6a4fec0106ef4f8d69fa6ca62dedbda0bd7e985910",
-          "size": 5453
+          "sha256": "9a6c99cb37ebcfb37c0ccb60dd373a416850f85ac71e70fe542fb85438621d10",
+          "size": 5538
         },
         {
           "path": "scripts/contract-core.js",
           "mode": "0644",
-          "sha256": "1cfde88080000926c99a7cf8a29f2b0eda060519fac1fc92925923bf55c4c0e5",
-          "size": 17630
+          "sha256": "e46541dff45b7a385b8887abb45f7455f3b48bd81eb4e5206a4309ddb4898c18",
+          "size": 18530
         },
         {
           "path": "scripts/perf-check.js",
           "mode": "0644",
-          "sha256": "4c9edd47daa272a67e0d3556692fb34f93f29b1d8cdae0c9b58d01934c7f6340",
-          "size": 35217
+          "sha256": "ceb50d10be8f9b3343c1fcc141d02544a1378ba4e20aab231b0f99c7aef825f2",
+          "size": 35313
         },
         {
           "path": "skill-card.json",
@@ -105,7 +105,7 @@
       "name": "verify-user-outcomes",
       "version": "0.1.0",
       "path": "skills/verify-user-outcomes",
-      "artifact_sha256": "4eab61fec8223815f1d0853fb9a15ac5e11782f13b250d3ad0da148686c8af7f",
+      "artifact_sha256": "ec6866aa0008694ac0a2a4d6b4adb7484ac27369634fe1195fe9c48984f34e47",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -170,26 +170,26 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "3aa8123078d44aaaa42a78304026995cfe7b0f09953cd9597e3fc1c5d436050a",
-          "size": 3363
+          "sha256": "853b81925009969197d25f9ae7def8567b5e2e4edbe307fff452676eddc9c764",
+          "size": 3666
         },
         {
           "path": "scripts/contract-core.js",
           "mode": "0644",
-          "sha256": "1cfde88080000926c99a7cf8a29f2b0eda060519fac1fc92925923bf55c4c0e5",
-          "size": 17630
+          "sha256": "e46541dff45b7a385b8887abb45f7455f3b48bd81eb4e5206a4309ddb4898c18",
+          "size": 18530
         },
         {
           "path": "scripts/outcome-check.js",
           "mode": "0644",
-          "sha256": "c981a46ce9a377b9b873a2c8b132da7526bfa1ea174d2c6b3425a763cc5e71aa",
-          "size": 16662
+          "sha256": "aa8739356e2d6c902b1c71192f00a4886df09859c67d4e5d421dd2ee85764e4a",
+          "size": 16758
         },
         {
           "path": "scripts/pytest_outcomes.py",
           "mode": "0644",
-          "sha256": "e8b5c242688c3522943356e2c532351956e857e0e4bb079947b473fa4bef989e",
-          "size": 13807
+          "sha256": "7ce7cd6830436d8f13f77f93d88b4e52acc19bc72d9fda2d080e28ceeed04e5a",
+          "size": 14449
         },
         {
           "path": "skill-card.json",

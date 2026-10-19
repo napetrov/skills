@@ -68,6 +68,9 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "outcome(*ids): the test is evidence for these outcome evidence ids")
+    # Reject a bad contracts dir before the suite runs, not after it.
+    if _enabled(config) and not hasattr(config, "workerinput"):
+        contracts_dir(config)
 
 
 def pytest_sessionstart(session):
@@ -106,7 +109,18 @@ def contracts_dir(config) -> str:
     posix = PurePosixPath(value)
     if value in ("", ".") or posix.is_absolute() or re.match(r"^[A-Za-z]:", value) or ".." in posix.parts:
         raise pytest.UsageError(f"contracts dir must be a relative path inside the repository: {raw}")
+    # As far as it exists, it must not lead outside the rootdir through a symlink.
+    root = Path(config.rootpath).resolve()
+    probe = root / str(posix)
+    while not probe.exists() and probe != probe.parent:
+        probe = probe.parent
+    if not _inside(probe.resolve(), root):
+        raise pytest.UsageError(f"contracts dir {posix} resolves outside the repository")
     return str(posix)
+
+
+def _inside(child: Path, parent: Path) -> bool:
+    return child == parent or parent in child.parents
 
 
 def _worst(verdicts) -> str:

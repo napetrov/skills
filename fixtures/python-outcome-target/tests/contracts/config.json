@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "artifact_dir": ".artifacts/contracts",
   "diff_base_policy": "explicit-or-pr-merge-base-or-head",
-  "commands": [
-    {
-      "id": "pytest-outcomes",
-      "argv": ["python3", "-m", "pytest", "-p", "pytest_outcomes", "--outcomes", "--contracts-dir=tests/contracts"],
-      "cwd": ".",
-      "timeout_seconds": 120
-    }
-  ],
+  "commands": [],
   "scopes": [
-    {"id": "monthly-totals", "paths": ["src/**", "tests/**", "docs/**"]}
+    {
+      "id": "monthly-totals",
+      "paths": [
+        "src/**",
+        "tests/**",
+        "docs/**"
+      ]
+    }
   ]
 }

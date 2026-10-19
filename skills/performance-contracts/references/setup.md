@@ -64,7 +64,8 @@ Then run `setup` again and review its report.
 State lives in `.verification/contracts/` unless the project keeps it elsewhere.
 Pass `--contracts-dir <dir>` (or set `CONTRACTS_DIR`) to every command, the same
 value each time; it must be a relative path inside the repository. The paths below
-are relative to that directory.
+are shown for the default directory; with `--contracts-dir <dir>`, replace
+`.verification/contracts/` with `<dir>/`.
 
 ## Files Written
 

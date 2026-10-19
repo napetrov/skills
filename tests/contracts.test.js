@@ -43,6 +43,7 @@ function gitInit(dir) {
 function run(script, args, cwd) {
   const env = { ...process.env };
   delete env.GITHUB_BASE_REF;
+  delete env.CONTRACTS_DIR;
   return spawnSync(process.execPath, [script, ...args], { cwd, encoding: "utf8", env });
 }
 
@@ -665,4 +666,27 @@ test("perf check reads contracts and baselines from --contracts-dir", { skip: sk
   const envelope = envelopeFrom(result);
   assert.equal(envelope.verdict, "pass");
   assert.deepEqual(envelope.coverage.passed, ["PERF-MATCH-001"]);
+});
+
+test("--contracts-dir without a value is an error, not the default", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "outcome-noval-"));
+  for (const args of [["setup", "--repo", dir, "--contracts-dir"], ["setup", "--contracts-dir", "--repo", dir]]) {
+    const result = run(OUTCOME_CHECK, args, dir);
+    assert.equal(result.status, 2, result.stdout + result.stderr);
+    assert.match(result.stderr, /--contracts-dir needs a directory/);
+  }
+  const perf = run(PERF_CHECK, ["setup", "--repo", dir, "--contracts-dir"], dir);
+  assert.equal(perf.status, 2, perf.stdout + perf.stderr);
+  assert.ok(!fs.existsSync(path.join(dir, ".verification")));
+});
+
+test("a contracts dir that symlinks outside the repository is rejected before setup writes", { skip: process.platform === "win32" && "symlink creation needs privilege on Windows" }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "outcome-link-"));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "outcome-outside-"));
+  fs.mkdirSync(path.join(dir, "tests"));
+  fs.symlinkSync(outside, path.join(dir, "tests", "contracts"), "dir");
+  const result = run(OUTCOME_CHECK, ["setup", "--repo", dir, "--contracts-dir", "tests/contracts"], dir);
+  assert.equal(result.status, 2, result.stdout + result.stderr);
+  assert.match(result.stderr, /resolves outside the repository/);
+  assert.deepEqual(fs.readdirSync(outside), []);
 });

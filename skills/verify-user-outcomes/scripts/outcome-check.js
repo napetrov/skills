@@ -278,7 +278,11 @@ function parseArgs(argv) {
     if (flag === "--repo") { options.repo = path.resolve(value); index += 1; }
     else if (flag === "--base") { options.base = value; index += 1; }
     else if (flag === "--outcome") { options.requested.push(value); index += 1; }
-    else if (flag === "--contracts-dir") { options.contractsDir = value; index += 1; }
+    else if (flag === "--contracts-dir") {
+      if (value === undefined || value.startsWith("--")) fail("--contracts-dir needs a directory");
+      options.contractsDir = value;
+      index += 1;
+    }
     else if (flag === "--all") options.all = true;
     else fail(`unknown argument ${flag}`);
   }
@@ -287,8 +291,8 @@ function parseArgs(argv) {
 
 function main() {
   const options = parseArgs(process.argv.slice(2));
-  if (options.contractsDir) core.setContractsDir(options.contractsDir);
   const repo = options.repo;
+  core.useContractsDir(repo, options.contractsDir);
   if (options.command === "validate") {
     const config = core.loadConfig(repo);
     console.log(JSON.stringify({ config: config ? "ok" : "absent", outcomes: loadOutcomes(repo).map((item) => `${item.id}:${item.status}`) }));

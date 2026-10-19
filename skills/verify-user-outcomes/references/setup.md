@@ -38,7 +38,8 @@ Then run `setup` again and review its report.
 State lives in `.verification/contracts/` unless the project keeps it elsewhere.
 Pass `--contracts-dir <dir>` (or set `CONTRACTS_DIR`) to every command, the same
 value each time; it must be a relative path inside the repository. The paths below
-are relative to that directory. For the pytest plugin, set `contracts_dir` in the
+are shown for the default directory; with `--contracts-dir <dir>`, replace
+`.verification/contracts/` with `<dir>/`. For the pytest plugin, set `contracts_dir` in the
 pytest ini file instead of repeating the flag.
 
 ## Files Written
@@ -47,10 +48,13 @@ pytest ini file instead of repeating the flag.
 - `.verification/contracts/outcomes/<ID>.json`: one contract per outcome, with its intent and implementation references.
 - `.verification/contracts/setup-lock.json`: digests of files setup manages.
 
-In a Python project the config's command is the pytest run with the plugin, for
-example `["python", "-m", "pytest", "-p", "pytest_outcomes", "--outcomes"]`, and the
-same command goes into CI with `PYTHONPATH` pointing at the skill's `scripts/`
-(or a copy of `pytest_outcomes.py` listed in `pytest_plugins`).
+In a Python project that uses the pytest plugin, the plugin is the check: add
+`python -m pytest -p pytest_outcomes --outcomes` to CI as its own step, with
+`PYTHONPATH` pointing at the skill's `scripts/` (or a copy of `pytest_outcomes.py`
+listed in `pytest_plugins`). Do not put that command in `config.json` for
+`outcome-check.js`: it reads TAP with bracketed ids in test names, and pytest
+output has neither, so every id would be unmatched. The plugin reads only
+`artifact_dir` from `config.json`; `commands` can stay empty.
 
 `node scripts/outcome-check.js setup --repo <repo>` writes the config and an
 example proposed outcome. It never overwrites an edited file: an edit with an

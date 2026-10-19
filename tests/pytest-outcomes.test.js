@@ -134,6 +134,7 @@ test("a contracts dir outside the repository is a usage error", { skip }, () => 
   const run = pytest(copy(), ["--outcomes", "--contracts-dir=../elsewhere"]);
   assert.notEqual(run.status, 0, run.output);
   assert.match(run.output, /contracts dir must be a relative path inside the repository/);
+  assert.doesNotMatch(run.output, /passed/, "a bad contracts dir must stop pytest before the suite runs");
   assert.equal(run.envelope, null);
 });
 
@@ -143,4 +144,14 @@ test("without --outcomes the plugin only registers the marker", { skip }, () => 
   assert.equal(run.status, 0, run.output);
   assert.equal(run.envelope, null);
   assert.ok(!fs.existsSync(path.join(dir, ".artifacts")));
+});
+
+test("a contracts dir that symlinks outside the repository is a usage error", { skip: skip || (process.platform === "win32" && "symlink creation needs privilege on Windows") }, () => {
+  const dir = copy();
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "pytest-outside-"));
+  fs.symlinkSync(outside, path.join(dir, "qa"), "dir");
+  const run = pytest(dir, ["--outcomes", "--contracts-dir=qa/contracts"]);
+  assert.notEqual(run.status, 0, run.output);
+  assert.match(run.output, /resolves outside the repository/);
+  assert.deepEqual(fs.readdirSync(outside), []);
 });

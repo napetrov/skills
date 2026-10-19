@@ -34,6 +34,25 @@ export function setContractsDir(relative) {
   return contractsDirectory;
 }
 
+// The contracts dir, as far as it exists, must not lead outside the repository
+// through a symlink: setup writes config and lock files into it.
+export function assertContractsDirInside(repo) {
+  const root = fs.realpathSync(repo);
+  let probe = path.resolve(repo, contractsDirectory);
+  while (!fs.existsSync(probe) && probe !== path.dirname(probe)) probe = path.dirname(probe);
+  const real = fs.realpathSync(probe);
+  if (real !== root && !real.startsWith(`${root}${path.sep}`)) {
+    throw new ContractError(`contracts dir ${contractsDirectory} resolves outside the repository`);
+  }
+}
+
+// Set the contracts dir for this run (null keeps the default) and check where it leads.
+export function useContractsDir(repo, relative) {
+  if (relative !== null && relative !== undefined) setContractsDir(relative);
+  if (fs.existsSync(repo)) assertContractsDirInside(repo);
+  return contractsDirectory;
+}
+
 export function contractsDir() {
   return contractsDirectory;
 }
