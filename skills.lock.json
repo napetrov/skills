@@ -7,7 +7,7 @@
       "name": "performance-contracts",
       "version": "0.1.0",
       "path": "skills/performance-contracts",
-      "artifact_sha256": "357f36d4a7d9dd90cee34b29ae95c27e21962fdc4736c8217c2a42292ef22519",
+      "artifact_sha256": "ce967e54b1ae85c2795ebd3ed1e042b72f27a977d45ade01a825b36e291ee74a",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -18,8 +18,8 @@
         {
           "path": "SKILL.md",
           "mode": "0644",
-          "sha256": "e7c6b70f026c9c7a8bc646d310d4890ca5869b1866467a42fc771a4fd3f101ca",
-          "size": 4798
+          "sha256": "3d1b9581c4c5b82a49b6bc88fab2543996958fe94b97c19a2f05b8a170b84155",
+          "size": 4948
         },
         {
           "path": "assets/config.template.json",
@@ -54,8 +54,8 @@
         {
           "path": "references/checking.md",
           "mode": "0644",
-          "sha256": "de5a03e92d71499389d539f2eff0677d1cb26cb882bda80fc933a09285c23567",
-          "size": 1853
+          "sha256": "86b142b4f25422eb3253d56c3c3b0e3d8337bc0aca0a915792bc52be43909964",
+          "size": 1890
         },
         {
           "path": "references/improving.md",
@@ -72,20 +72,20 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "c570c4f6aa43fc241986c954bf5205c45cce93d5bc09797391e0a23e444e37a9",
-          "size": 5153
+          "sha256": "9a6c99cb37ebcfb37c0ccb60dd373a416850f85ac71e70fe542fb85438621d10",
+          "size": 5538
         },
         {
           "path": "scripts/contract-core.js",
           "mode": "0644",
-          "sha256": "a3698233dca59080d4628e303b6892fc63c98ebcc60e1e45ecbcf175a5bf1c31",
-          "size": 16567
+          "sha256": "e46541dff45b7a385b8887abb45f7455f3b48bd81eb4e5206a4309ddb4898c18",
+          "size": 18530
         },
         {
           "path": "scripts/perf-check.js",
           "mode": "0644",
-          "sha256": "c5a78136f1982397847cd0ae5ae03fb6ee857968740e35b01bf3e894a16c1cc8",
-          "size": 34959
+          "sha256": "ceb50d10be8f9b3343c1fcc141d02544a1378ba4e20aab231b0f99c7aef825f2",
+          "size": 35313
         },
         {
           "path": "skill-card.json",
@@ -105,19 +105,19 @@
       "name": "verify-user-outcomes",
       "version": "0.1.0",
       "path": "skills/verify-user-outcomes",
-      "artifact_sha256": "a46342c8168e297a434daf62eb11de637b547b82d0bbe98862db6cbdebe851f6",
+      "artifact_sha256": "ec6866aa0008694ac0a2a4d6b4adb7484ac27369634fe1195fe9c48984f34e47",
       "files": [
         {
           "path": "BENCHMARK.md",
           "mode": "0644",
-          "sha256": "837d06d819a772e14cfc2150f250c98ecaab17b8102fb3f5f2d4c46b3e6153d8",
-          "size": 1321
+          "sha256": "e79312a217ac1c2d071ac48e0b671ae32774d016839828d2c06df573985ab723",
+          "size": 2574
         },
         {
           "path": "SKILL.md",
           "mode": "0644",
-          "sha256": "2fb09fe1a114d163c152e4d22ffc1eaa312f0ae3825f51ef04dc33516eddb04b",
-          "size": 3410
+          "sha256": "fe6dd02c12f864b963d8b305be8b8fba9df1b8992255d5b009db081ca99d5247",
+          "size": 4127
         },
         {
           "path": "assets/config.template.json",
@@ -152,8 +152,8 @@
         {
           "path": "references/checking.md",
           "mode": "0644",
-          "sha256": "ed54c83099e9afa5ce6a77b52b4c0599ef86cf3d3bd86f3a1ea6881b75e70b84",
-          "size": 1379
+          "sha256": "9140938523d9e767a8f87ebe22c134f158b4464dd295c994a125b6f823188fdf",
+          "size": 2343
         },
         {
           "path": "references/improving.md",
@@ -170,32 +170,38 @@
         {
           "path": "references/setup.md",
           "mode": "0644",
-          "sha256": "d8c8e6fb57c708cf63f8f92027a04716063fde80bee37b5296621cd64c7e7c7f",
-          "size": 2579
+          "sha256": "853b81925009969197d25f9ae7def8567b5e2e4edbe307fff452676eddc9c764",
+          "size": 3666
         },
         {
           "path": "scripts/contract-core.js",
           "mode": "0644",
-          "sha256": "a3698233dca59080d4628e303b6892fc63c98ebcc60e1e45ecbcf175a5bf1c31",
-          "size": 16567
+          "sha256": "e46541dff45b7a385b8887abb45f7455f3b48bd81eb4e5206a4309ddb4898c18",
+          "size": 18530
         },
         {
           "path": "scripts/outcome-check.js",
           "mode": "0644",
-          "sha256": "90c265b7b7a8d3c21d9da9fa2a3c1ba62dd9fed83fe21ccd73f52e567d409e2e",
-          "size": 16349
+          "sha256": "aa8739356e2d6c902b1c71192f00a4886df09859c67d4e5d421dd2ee85764e4a",
+          "size": 16758
+        },
+        {
+          "path": "scripts/pytest_outcomes.py",
+          "mode": "0644",
+          "sha256": "7ce7cd6830436d8f13f77f93d88b4e52acc19bc72d9fda2d080e28ceeed04e5a",
+          "size": 14449
         },
         {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "250309a608d7b10145183cc5988e79d591c313e6eaafe227f2b4bbdc2a09fe50",
-          "size": 2060
+          "sha256": "9a565ec1e7fe7c3ca29caf14a640f9c6cb14a6043c36b7385ddec3cdf37f61b1",
+          "size": 2108
         },
         {
           "path": "skill-card.md",
           "mode": "0644",
-          "sha256": "059d66443bfe7ca3a37323749da3e97fcb0fbadc971489100a6ce15eed843528",
-          "size": 895
+          "sha256": "e7ea7bfbe64f106f1bce3849ad76c0a5189990e21c485371ae293f1d6bbd0e46",
+          "size": 1079
         }
       ]
     }

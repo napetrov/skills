@@ -9,9 +9,9 @@ import * as core from "./contract-core.js";
 
 const GENERATOR = "verify-user-outcomes@0.1.0";
 const SKILL_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUTCOME_DIR = [".verification", "contracts", "outcomes"];
 const CRITICALITY = new Set(["high", "medium", "low"]);
-const INVALIDATING = [/^\.verification\/contracts\//, /^tools\/contracts\//];
+// A change to contract state or the shared runtime selects every enabled outcome.
+const invalidating = () => [new RegExp(`^${core.escapeRegExp(core.contractsDir())}/`), /^tools\/contracts\//];
 const LOCKFILE = /(^|\/)(package-lock\.json|uv\.lock|poetry\.lock|requirements[^/]*\.txt)$/;
 
 function fail(message) {
@@ -47,7 +47,7 @@ export function validateOutcomeContract(contract, file = "contract") {
 }
 
 export function loadOutcomes(repo) {
-  const dir = path.join(repo, ...OUTCOME_DIR);
+  const dir = core.resolveUnder(repo, core.contractsPath("outcomes"));
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
@@ -87,7 +87,7 @@ export function selectOutcomes(outcomes, config, changed, requested) {
     return { selected: outcomes.filter((outcome) => requested.includes(outcome.id)), uncovered: [], reason: "requested" };
   }
   if (changed.files === null) return { selected: enabled, uncovered: [], reason: "full-enrolled-scope" };
-  if (changed.files.some((file) => INVALIDATING.some((pattern) => pattern.test(file)) || LOCKFILE.test(file))) {
+  if (changed.files.some((file) => invalidating().some((pattern) => pattern.test(file)) || LOCKFILE.test(file))) {
     return { selected: enabled, uncovered: [], reason: "shared-input-changed" };
   }
   const scopePaths = config.scopes.flatMap((scope) => scope.paths);
@@ -95,7 +95,7 @@ export function selectOutcomes(outcomes, config, changed, requested) {
     changed.files.some((file) => [...outcome.intent_refs, ...outcome.implementation_refs].some((ref) => file === ref.split("#")[0] || file.startsWith(`${ref.split("#")[0]}/`))),
   );
   const uncovered = changed.files.filter(
-    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(".verification/") && !file.startsWith(".artifacts/"),
+    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(`${core.contractsDir()}/`) && !file.startsWith(".artifacts/"),
   );
   return { selected, uncovered, reason: "changed-paths" };
 }
@@ -138,7 +138,7 @@ function evaluateOutcome(outcome, execution, tests) {
 function check(repo, { base, requested, all, artifactRoot, skillPath }) {
   const startedAt = new Date();
   const config = core.loadConfig(repo);
-  if (!config) return unconfigured(repo, startedAt, "no .verification/contracts/config.json; run setup for the requested scope");
+  if (!config) return unconfigured(repo, startedAt, `no ${core.contractsPath("config.json")}; run setup for the requested scope`);
   const outcomes = loadOutcomes(repo);
   const changed = core.resolveChangedFiles(repo, { base });
   const selection = all
@@ -263,21 +263,26 @@ function readiness(repo) {
 
 function setup(repo) {
   const templates = [
-    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: ".verification/contracts/config.json" },
-    { source: path.join(SKILL_DIR, "assets", "outcome-contract.template.json"), target: ".verification/contracts/outcomes/EXAMPLE-OUTCOME-001.json" },
+    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: core.contractsPath("config.json") },
+    { source: path.join(SKILL_DIR, "assets", "outcome-contract.template.json"), target: core.contractsPath("outcomes", "EXAMPLE-OUTCOME-001.json") },
   ];
   return core.scaffold(repo, { templates, generator: GENERATOR });
 }
 
 function parseArgs(argv) {
   const [command, ...rest] = argv;
-  const options = { command, repo: process.cwd(), base: null, requested: [] };
+  const options = { command, repo: process.cwd(), base: null, requested: [], contractsDir: process.env.CONTRACTS_DIR || null };
   for (let index = 0; index < rest.length; index += 1) {
     const flag = rest[index];
     const value = rest[index + 1];
     if (flag === "--repo") { options.repo = path.resolve(value); index += 1; }
     else if (flag === "--base") { options.base = value; index += 1; }
     else if (flag === "--outcome") { options.requested.push(value); index += 1; }
+    else if (flag === "--contracts-dir") {
+      if (value === undefined || value.startsWith("--")) fail("--contracts-dir needs a directory");
+      options.contractsDir = value;
+      index += 1;
+    }
     else if (flag === "--all") options.all = true;
     else fail(`unknown argument ${flag}`);
   }
@@ -287,6 +292,7 @@ function parseArgs(argv) {
 function main() {
   const options = parseArgs(process.argv.slice(2));
   const repo = options.repo;
+  core.useContractsDir(repo, options.contractsDir);
   if (options.command === "validate") {
     const config = core.loadConfig(repo);
     console.log(JSON.stringify({ config: config ? "ok" : "absent", outcomes: loadOutcomes(repo).map((item) => `${item.id}:${item.status}`) }));
@@ -313,7 +319,7 @@ function main() {
     console.log(JSON.stringify({ verdict: envelope.verdict, result: file, outcomes: envelope.results }, null, 2));
     return core.exitCodeFor(envelope.verdict);
   }
-  fail("usage: outcome-check.js validate|check|readiness|setup [--repo DIR] [--base REF] [--outcome ID] [--all]");
+  fail("usage: outcome-check.js validate|check|readiness|setup [--repo DIR] [--contracts-dir DIR] [--base REF] [--outcome ID] [--all]");
   return 2;
 }
 

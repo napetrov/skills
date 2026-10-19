@@ -9,3 +9,4 @@ tmp/
 results/
 reports/
 .artifacts/
+__pycache__/
