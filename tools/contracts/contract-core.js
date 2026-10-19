@@ -19,6 +19,34 @@ const PLACEHOLDER_PATTERN = /\b(TODO|TBD|PLACEHOLDER|UNRESOLVED)\b/;
 
 export class ContractError extends Error {}
 
+// Contract state lives in one repository-relative directory. The default is
+// .verification/contracts; --contracts-dir or CONTRACTS_DIR moves it, for example
+// into tests/contracts in a repository that keeps no dot-directories.
+export const DEFAULT_CONTRACTS_DIR = ".verification/contracts";
+let contractsDirectory = DEFAULT_CONTRACTS_DIR;
+
+export function setContractsDir(relative) {
+  const value = String(relative ?? "").replace(/\\/g, "/").replace(/\/+$/, "");
+  if (value === "" || value === "." || path.posix.isAbsolute(value) || value.split("/").includes("..")) {
+    throw new ContractError(`contracts dir must be a relative path inside the repository: ${relative}`);
+  }
+  contractsDirectory = path.posix.normalize(value);
+  return contractsDirectory;
+}
+
+export function contractsDir() {
+  return contractsDirectory;
+}
+
+// Repository-relative POSIX path under the contracts directory.
+export function contractsPath(...parts) {
+  return [contractsDirectory, ...parts].join("/");
+}
+
+export function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export function readJson(file) {
   let text;
   try {
@@ -203,7 +231,7 @@ export function matchesAny(file, globs) {
 }
 
 export function loadConfig(repo) {
-  const file = path.join(repo, ".verification", "contracts", "config.json");
+  const file = resolveUnder(repo, contractsPath("config.json"));
   if (!fs.existsSync(file)) return null;
   const config = readJson(file);
   validateConfig(config);
@@ -333,7 +361,7 @@ export function scanEnabledContract(contract, where) {
 // Optional templates are created only when createIf() holds, and are never recreated
 // after the user removed a file that setup had written.
 export function scaffold(repo, { templates, generator }) {
-  const lockFile = path.join(repo, ".verification", "contracts", "setup-lock.json");
+  const lockFile = resolveUnder(repo, contractsPath("setup-lock.json"));
   const previous = fs.existsSync(lockFile) ? readJson(lockFile) : { managed_files: {} };
   const managed = { ...(previous.managed_files ?? {}) };
   const report = { created: [], updated: [], unchanged: [], user_owned: [], conflicts: [], skipped: [] };

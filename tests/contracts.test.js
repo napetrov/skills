@@ -599,3 +599,70 @@ test("stale implementation reference is reported as a stale mapping", () => {
   const envelope = envelopeFrom(result);
   assert.ok(envelope.findings.some((finding) => finding.category === "stale_mapping"));
 });
+
+// Contract state can live outside .verification/: the scripts take --contracts-dir
+// or CONTRACTS_DIR, relative to the repository.
+function moveContracts(dir, target) {
+  fs.mkdirSync(path.dirname(path.join(dir, target)), { recursive: true });
+  fs.renameSync(path.join(dir, ".verification", "contracts"), path.join(dir, target));
+  fs.rmSync(path.join(dir, ".verification"), { recursive: true, force: true });
+}
+
+test("contracts dir is normalized and must stay inside the repository", () => {
+  try {
+    assert.equal(core.setContractsDir("tests\\contracts/"), "tests/contracts");
+    assert.equal(core.contractsPath("outcomes", "A.json"), "tests/contracts/outcomes/A.json");
+    for (const bad of ["", ".", "/abs", "../outside", "a/../../b"]) {
+      assert.throws(() => core.setContractsDir(bad), core.ContractError, bad);
+    }
+  } finally {
+    core.setContractsDir(core.DEFAULT_CONTRACTS_DIR);
+  }
+});
+
+test("outcome check reads contracts from --contracts-dir", () => {
+  const dir = tmpCopy(NODE_FIXTURE, "outcome-dir");
+  moveContracts(dir, "tests/contracts");
+  const moved = run(OUTCOME_CHECK, ["check", "--repo", dir, "--contracts-dir", "tests/contracts", "--all"], dir);
+  assert.equal(moved.status, 0, moved.stdout + moved.stderr);
+  assert.equal(envelopeFrom(moved).verdict, "pass");
+  const missing = run(OUTCOME_CHECK, ["check", "--repo", dir, "--all"], dir);
+  assert.notEqual(missing.status, 0, "the default location is empty, so the check must not pass");
+});
+
+test("CONTRACTS_DIR selects the contracts dir when no flag is given", () => {
+  const dir = tmpCopy(NODE_FIXTURE, "outcome-env");
+  moveContracts(dir, "qa/contracts");
+  const env = { ...process.env, CONTRACTS_DIR: "qa/contracts" };
+  delete env.GITHUB_BASE_REF;
+  const result = spawnSync(process.execPath, [OUTCOME_CHECK, "check", "--repo", dir, "--all"], { cwd: dir, encoding: "utf8", env });
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.equal(envelopeFrom(result).verdict, "pass");
+});
+
+test("setup writes into --contracts-dir and leaves .verification alone", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "outcome-setup-dir-"));
+  const result = run(OUTCOME_CHECK, ["setup", "--repo", dir, "--contracts-dir", "tests/contracts"], dir);
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(fs.existsSync(path.join(dir, "tests", "contracts", "config.json")));
+  assert.ok(fs.existsSync(path.join(dir, "tests", "contracts", "outcomes", "EXAMPLE-OUTCOME-001.json")));
+  assert.ok(fs.existsSync(path.join(dir, "tests", "contracts", "setup-lock.json")));
+  assert.ok(!fs.existsSync(path.join(dir, ".verification")));
+});
+
+test("a contracts dir outside the repository is an error", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "outcome-escape-"));
+  const result = run(OUTCOME_CHECK, ["validate", "--repo", dir, "--contracts-dir", "../elsewhere"], dir);
+  assert.equal(result.status, 2, result.stdout + result.stderr);
+  assert.match(result.stderr + result.stdout, /contracts dir must be a relative path inside the repository/);
+});
+
+test("perf check reads contracts and baselines from --contracts-dir", { skip: skipPython }, () => {
+  const dir = tmpCopy(PY_FIXTURE, "perf-dir");
+  moveContracts(dir, "tests/perf-contracts");
+  const result = run(PERF_CHECK, ["check", "--repo", dir, "--contracts-dir", "tests/perf-contracts", "--all"], dir);
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  const envelope = envelopeFrom(result);
+  assert.equal(envelope.verdict, "pass");
+  assert.deepEqual(envelope.coverage.passed, ["PERF-MATCH-001"]);
+});

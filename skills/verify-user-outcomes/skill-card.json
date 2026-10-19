@@ -22,7 +22,8 @@
   ],
   "tools": [
     "node",
-    "git"
+    "git",
+    "python"
   ],
   "network": {
     "required": false,
@@ -30,7 +31,8 @@
   },
   "scripts": [
     "scripts/contract-core.js",
-    "scripts/outcome-check.js"
+    "scripts/outcome-check.js",
+    "scripts/pytest_outcomes.py"
   ],
   "permissions": [
     "read repository files and intent documents",

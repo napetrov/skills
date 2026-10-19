@@ -15,7 +15,8 @@ required evidence is missing, and it proves that the check can fail.
    well as UI flows.
 4. **Prove discrimination.** In a disposable copy, disconnect the result from its
    consumer, or violate one acceptance condition. The outcome check must fail.
-5. **Register stable identities.** Each evidence id appears in a test name. A
+5. **Register stable identities.** Each evidence id appears in a test name, or,
+   with the pytest plugin, in `@pytest.mark.outcome("<id>")` on the test. A
    selector that matches no test is an error.
 6. **Wire CI and report.** Add the command to CI with failure artifacts. Report the
    scope, files, commands, CI state, and gaps.
@@ -32,11 +33,24 @@ mv <previous-state-dir>/contracts .verification/contracts
 
 Then run `setup` again and review its report.
 
+## Contract Location
+
+State lives in `.verification/contracts/` unless the project keeps it elsewhere.
+Pass `--contracts-dir <dir>` (or set `CONTRACTS_DIR`) to every command, the same
+value each time; it must be a relative path inside the repository. The paths below
+are relative to that directory. For the pytest plugin, set `contracts_dir` in the
+pytest ini file instead of repeating the flag.
+
 ## Files Written
 
 - `.verification/contracts/config.json`: the test command as an argument array and the enrolled scope.
 - `.verification/contracts/outcomes/<ID>.json`: one contract per outcome, with its intent and implementation references.
 - `.verification/contracts/setup-lock.json`: digests of files setup manages.
+
+In a Python project the config's command is the pytest run with the plugin, for
+example `["python", "-m", "pytest", "-p", "pytest_outcomes", "--outcomes"]`, and the
+same command goes into CI with `PYTHONPATH` pointing at the skill's `scripts/`
+(or a copy of `pytest_outcomes.py` listed in `pytest_plugins`).
 
 `node scripts/outcome-check.js setup --repo <repo>` writes the config and an
 example proposed outcome. It never overwrites an edited file: an edit with an

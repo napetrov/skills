@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "id": "OUTCOME-MONTHLY-TOTALS",
+  "status": "enabled",
+  "scope": "monthly-totals",
+  "actor": "bookkeeper",
+  "entry_point": "cli: ledger totals <file.csv>",
+  "preconditions": ["a CSV with date,amount rows"],
+  "result": "one total per month, in calendar order",
+  "acceptance": ["each month's total is the sum of its rows", "months are printed in calendar order"],
+  "negative_behavior": ["an unparsable amount is refused with its line number, never counted as zero"],
+  "intent_refs": ["docs/journeys.md#monthly-totals"],
+  "implementation_refs": ["src/ledger/totals.py"],
+  "evidence_ids": ["monthly-totals-happy", "monthly-totals-bad-amount"],
+  "command_id": "pytest-outcomes",
+  "performance_contract_ids": [],
+  "criticality": "high"
+}

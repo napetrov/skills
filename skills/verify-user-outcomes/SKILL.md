@@ -56,6 +56,23 @@ node scripts/outcome-check.js setup --repo <repo>
 Evidence is matched to tests by a bracketed id in the test name, for example
 `[scan-comparison-happy] ...`. Zero matches are errors. Skipped tests are
 inconclusive. `check` writes `result.json` under `.artifacts/contracts/<run-id>/`.
+
+Contract state defaults to `.verification/contracts/`. Every command takes
+`--contracts-dir <dir>` (or `CONTRACTS_DIR`), relative to the repository, for a
+project that keeps it elsewhere, such as `tests/contracts`.
+
+### Python projects: pytest plugin, no Node
+
+`scripts/pytest_outcomes.py` checks the same contracts inside a pytest run. A
+test claims an id with `@pytest.mark.outcome("<id>")`:
+
+```bash
+PYTHONPATH=<skill>/scripts python -m pytest -p pytest_outcomes --outcomes [--contracts-dir=<dir>]
+```
+
+It writes the same result envelope, uses the same verdicts and exit codes, and
+checks every enabled outcome; diff selection is `outcome-check.js` only. Pass
+path options with `=`. See `references/checking.md`.
 Exit codes: 0 pass or not applicable, 1 violation, 2 error, 3 inconclusive.
 `scripts/contract-core.js` is the shared runtime copied from the source;
 do not edit the copy.
