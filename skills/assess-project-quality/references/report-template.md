@@ -1,4 +1,4 @@
-# Project verification assessment
+# Project models and verification assessment
 
 This is the full-report template, not mandatory output length. Default to
 400–800 words covering scope, cited findings, limits and up to three pilots.
@@ -15,9 +15,26 @@ verified before execution.
 - Unavailable evidence and excluded scope:
 - Main finding in plain language:
 
+## Models and search scope
+
+Selected profile/families; inspected entry points, reads/writes and build variants;
+excluded/unsupported areas; tools used and remaining search limits. Summarize
+recovered models and rule provenance. For focused requests, only the requested
+family and necessary dependencies need assessment. Do not claim "all" without a
+justified finite domain and a complete method for it.
+
+## Findings and opportunities
+
+Use finding-card.md classifications and stable IDs. Separate confirmed defects,
+validation gaps, optional improvements, safe patterns and unresolved candidates.
+Give cited rule, consumer impact, refutation attempt, validation result and next
+step. No-change conclusions are valid. Add transition/ownership/decision tables
+only when they clarify evidence; do not label every implicit model a defect.
+
 ## What already works and where evidence is weak
 
-Use every category from assessment.md; justify non-applicability.
+For broad audits triage every category from assessment.md; for focused audits
+report relevant categories and scope exclusions. Keep full tables optional.
 
 | Category | Existing mechanism | Evidence IDs | Gap / uncertainty | User impact |
 | --- | --- | --- | --- | --- |

@@ -18,6 +18,10 @@ exercise the promised consumer outcome.
 | AI/evaluator validity | held-out tasks, judge calibration, grounding, stochastic runs | Is the harness correct, and separately does its score measure useful behavior? |
 | CI and operational evidence | triggers, filters, selected tests, reports, deployment signals | What ran at this revision, and what actually blocks integration? |
 
+Use this as the validation view alongside pattern-catalog.md, which is the
+discovery view. In broad audits triage all categories; in focused audits record
+which categories are relevant without expanding the task unnecessarily.
+
 For each category record **existing mechanism**, **evidence**, **gap**, **risk**,
 and **applicability**. Distinguish "not applicable", "unknown" and "not found".
 Do not penalize a small library for not having a web UI or a distributed protocol.

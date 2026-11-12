@@ -48,3 +48,14 @@ Supply one concrete pilot per work item:
 
 Do not ask the agent to install every tool in the method table. Avoid deploying
 infrastructure or changing required checks unless that implementation is authorized.
+
+## From discovered pattern to maintained protection
+
+Reference the finding/model ID and contract, not just a tool name. A one-off
+reproducer becomes a regression first; a recurring cross-codebase pattern may
+justify a static rule after testing violating and legitimate lookalikes. State
+parser/language/build scope and skipped analysis alongside detector findings.
+A noisy heuristic stays advisory. Track baseline findings separately from new
+ones; review exceptions with an owner and expiry instead of silently ignoring
+whole directories. Invalidate model evidence when relevant guards, writers,
+callers, support contracts or build variants change.

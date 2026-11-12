@@ -3,8 +3,8 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "description": "Use when assessing project logic, flows, coverage and validation gaps to propose risk-based testing and formal verification in development and CI.",
-      "version": "0.1.0",
+      "description": "Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.",
+      "version": "0.2.0",
       "product": "project-quality",
       "product_family": "engineering-quality",
       "tags": [

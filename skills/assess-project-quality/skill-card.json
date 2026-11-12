@@ -33,12 +33,14 @@
   "risks": [
     "overstate static or bounded evidence",
     "disclose private project data",
-    "recommend costly or irrelevant gates"
+    "recommend costly or irrelevant gates",
+    "mistake implicit patterns or local missing guards for reachable defects"
   ],
   "mitigations": [
     "separate implementation, execution, enforcement and proof scope",
     "keep private evidence within authorized output destinations",
-    "limit initial pilots, use compact reports and require measured rollout criteria"
+    "limit initial pilots, use compact reports and require measured rollout criteria",
+    "recover contract and caller context, attempt refutation and distinguish candidates from confirmed findings"
   ],
   "ethical_considerations": [
     "do not overstate unverified outcomes"

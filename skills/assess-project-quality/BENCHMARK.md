@@ -1,8 +1,8 @@
 # Benchmark Status
 
 - Skill: `assess-project-quality`
-- Version: `0.1.0`
-- Status: package validation passed; three paired development tasks and one compact-output retest completed.
+- Version: `0.2.0`
+- Status: historical 0.1.0 experiments below; 0.2.0 model-discovery validation recorded separately.
 
 ## Acceptance scope
 
@@ -53,3 +53,19 @@ An extra chunk-order oracle weakness found by the skill agent was independently
 reproduced, but not added to the frozen score. Portable executable checks, rubric,
 reports, calibration limitations and Dokimi aggregation are in
 `evals/project-quality/hard/`. No production or general-effectiveness claim.
+
+## Model-discovery revision (0.2.0)
+
+The workflow now includes family-specific discovery, rule recovery, refutation,
+classification and organizational profiles. Earlier experiments evaluated 0.1.0;
+they are not a measured effectiveness claim for the expanded workflow. New scope
+and validation are tracked in `evals/project-quality/discovery/`.
+
+Two fresh focused forward-tests on caller-guard fixtures completed: the protected
+variant was classified safe within its supported API with a validation gap; the
+worker-only variant produced a confirmed stale-first publication defect. Both
+reconstructed source-linked transitions and limited scope without demanding a
+framework rewrite. The independent public-API oracle passes the protected case
+and fails the unfenced one. This is author-reviewed qualitative evidence, not
+a new A/B comparison or validation of all twelve families. Dokimi strict skill
+check loads the revised skill with the existing catalog-metadata warning only.

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Assess project logic, consumer flows, coverage and validation strength; produce
-an evidence-backed plan for selective integration into development and CI.
+Recover hidden behavioral models and contracts, validate candidate risks and
+existing checks, and propose selective integration into development and CI.
 
 ## Owner
 
@@ -12,7 +12,8 @@ Skills contributors.
 ## Inputs And Outputs
 
 Reads project files and available execution evidence. Produces a Markdown report
-with evidence ledger, risk-ranked pilots and implementation-agent handoffs.
+with model inventory, classified finding cards, evidence, prioritized pilots
+and implementation-agent handoffs.
 No bundled scripts, external accounts or network dependency. Local tools or
 connectors may be used when available and authorized.
 
@@ -39,3 +40,12 @@ A harder three-task source-discovery pilot found the same core defects in both
 arms; the skill reports met more completeness criteria and found one additional
 oracle weakness. Reviewer calibration was imperfect; see BENCHMARK.md. This is
 experimental evidence, not a verified general improvement.
+
+## Model-discovery workflow (0.2.0)
+
+Discovers hidden state, ordering, ownership, concurrency, retry, decision, error,
+representation, cache, boundary, oracle and build models. Profiles prioritize
+questions for personal and enterprise repositories without prescribing company
+policy. A common finding card separates candidates, defects, validation gaps,
+opportunities and safe-in-scope patterns. No new executable scanner is bundled.
+Historical 0.1.0 task results do not validate every 0.2.0 discovery family.
