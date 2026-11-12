@@ -1,0 +1,8 @@
+test_consumer (test_rules.Rules.test_consumer) ... ok
+test_generated (test_rules.Rules.test_generated) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+always_true_mutant {'generated': 9, 'passed': 9, 'pass_percent': 100.0} tests_passed True

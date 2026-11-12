@@ -34,3 +34,8 @@ Three paired development tasks reached the same correct verdicts with and withou
 the skill. A targeted compact-output retest retained its verdicts with less text.
 Default output is now 400–800 words; full ledgers are optional. See BENCHMARK.md
 for limits. No novelty or production-effectiveness claim is made.
+
+A harder three-task source-discovery pilot found the same core defects in both
+arms; the skill reports met more completeness criteria and found one additional
+oracle weakness. Reviewer calibration was imperfect; see BENCHMARK.md. This is
+experimental evidence, not a verified general improvement.

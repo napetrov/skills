@@ -38,3 +38,18 @@ LLM novelty was estimate-only because no external model backend was configured.
 
 Full methods, limitations and small evidence records: `evals/project-quality/`.
 This is three task units, one run per arm, not a broad effectiveness benchmark.
+
+## Harder source-discovery pilot (2026-11-12)
+
+Three new source-based cases, six fresh task runs, no answer choices or verdict
+keys, all supplied suites green, including one correct implementation. Both arms
+found the seeded bugs and avoided false alarms. Two blinded reviewers agreed on
+18/18 required report criteria with the skill versus 16/18 without; these are
+agent-judged completeness criteria from three task units, not accuracy statistics.
+One reviewer passed 6/6 calibration controls, the other 5/6; scores remain
+provisional. No hard-case tuning of skill instructions was performed.
+
+An extra chunk-order oracle weakness found by the skill agent was independently
+reproduced, but not added to the frozen score. Portable executable checks, rubric,
+reports, calibration limitations and Dokimi aggregation are in
+`evals/project-quality/hard/`. No production or general-effectiveness claim.

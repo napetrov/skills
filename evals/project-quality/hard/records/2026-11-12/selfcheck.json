@@ -1,0 +1,41 @@
+{
+  "cedar": {
+    "visible_suite_exit": 0,
+    "visible_suite": "test_all_answered (test_service.Service.test_all_answered) ... ok\ntest_finish (test_service.Service.test_finish) ... ok\ntest_takeover (test_service.Service.test_takeover) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+    "lease_witness": {
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 5, in <module>\nAssertionError: (True, {'worker': 'worker', 'epoch': 2, 'deadline': 21, 'result': 'stale'})\n"
+    },
+    "metric_witness": {
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\nAssertionError: {'visibility': 0.5, 'coverage': 1.0}\n"
+    }
+  },
+  "harbor": {
+    "visible_suite_exit": 0,
+    "visible_suite": "test_consumer (test_rules.Rules.test_consumer) ... ok\ntest_generated (test_rules.Rules.test_generated) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+    "consumer_witness": {
+      "exit": 1,
+      "stdout": "{'compatible': True, 'observed': {'a': 7, 'b': 47244640256}, 'expected': {'a': 7, 'b': 11}}\n",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 6, in <module>\nAssertionError\n"
+    },
+    "domain": {
+      "exit": 0,
+      "stdout": "8 layouts,64 pairs,9 emitted\n",
+      "stderr": ""
+    }
+  },
+  "quartz": {
+    "visible_suite_exit": 0,
+    "visible_suite": "test_batch (test_core.Core.test_batch) ... ok\ntest_domain (test_core.Core.test_domain) ... ok\ntest_invalid (test_core.Core.test_invalid) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nOK\n",
+    "modulo_mutation_detected": true
+  },
+  "controls": {
+    "lease_fix_rejects_stale": true,
+    "metric_fix_meets_contract": true,
+    "layout_fix_rejects_break": true,
+    "quartz_mutation_detected": true
+  }
+}

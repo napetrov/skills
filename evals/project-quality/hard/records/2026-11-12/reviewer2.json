@@ -1,0 +1,376 @@
+{
+  "reports": [
+    {
+      "id": "r01",
+      "criteria": {
+        "Q1": {
+          "met": true,
+          "evidence": "\"current(31,1)=31, so the archived modulo defect is absent.\""
+        },
+        "Q2": {
+          "met": true,
+          "evidence": "\"each row is processed once, giving linear work under the fixed integer domain, not quadratic.\""
+        },
+        "Q3": {
+          "met": true,
+          "evidence": "\"exhaustively checks1024 valid scalar pairs\"; \"not all batches or runtimes.\""
+        },
+        "Q4": {
+          "met": true,
+          "evidence": "\"independently computed arithmetic; test_invalid and test_batch cover rejection and boundary examples.\""
+        },
+        "Q5": {
+          "met": true,
+          "evidence": "\"README excludes Windows\"; \"remote execution and required-check enforcement remain unknown.\""
+        },
+        "Q6": {
+          "met": true,
+          "evidence": "\"At most one optional improvement: retain collection/execution receipts in existing CI\"; \"Leave the algorithm unchanged.\""
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r02",
+      "criteria": {
+        "C1": {
+          "met": false,
+          "evidence": "Does not identify same-name reacquisition with a new epoch or erroneous old completion; instead asserts epoch equality is already checked."
+        },
+        "C2": {
+          "met": false,
+          "evidence": "No old/new claim and fresh-then-stale completion trace."
+        },
+        "C3": {
+          "met": false,
+          "evidence": "No mixed-provider denominator calculation; incorrectly calls a timeout a verified negative mention."
+        },
+        "C4": {
+          "met": false,
+          "evidence": "Claims passing takeover test guarantees stale-writer rejection; no missing-case analysis or two independent regressions."
+        },
+        "C5": {
+          "met": false,
+          "evidence": "\"CI is green and merge enforcement is established\" asserts execution/enforcement without qualification."
+        },
+        "C6": {
+          "met": false,
+          "evidence": "\"Add Lean, Alloy and fuzzing without further investigation\" supplies no prioritized acceptance checks, negative control, or concrete CI integration."
+        }
+      },
+      "critical_false_claims": [
+        "Existing takeover test guarantees every stale writer is rejected.",
+        "Timeout is a verified negative mention under this contract.",
+        "Current source already checks epoch equality."
+      ]
+    },
+    {
+      "id": "r03",
+      "criteria": {
+        "H1": {
+          "met": true,
+          "evidence": "\"`rules.py:compatible` compares only total byte counts.\"; \"`decode(old, encode(new, values)) == values`\"; \"Equal total size is insufficient\"."
+        },
+        "H2": {
+          "met": true,
+          "evidence": "\"`a4,b4` | `b4,a4` | `{'a': 11, 'b': 7}`\" for input \"`{'a': 7, 'b': 11}`\"."
+        },
+        "H3": {
+          "met": true,
+          "evidence": "\"README.md specifies eight layouts\"; \"groups the 64 pairs by `(size(old), size(new))`, yielding nine cases\"; \"It removes equal-size changes in offsets, widths and names that expose the bug.\""
+        },
+        "H4": {
+          "met": true,
+          "evidence": "\"every `expected` value comes from `compatible` itself\"; \"reported 100% pass rate does not establish the documented compatibility guarantee\"; \"yielding nine cases\"."
+        },
+        "H5": {
+          "met": true,
+          "evidence": "\"Windows, native alignment, source ABI and floating point are excluded\"; \"it is not a general ABI rule.\""
+        },
+        "H6": {
+          "met": true,
+          "evidence": "\"Two changes worth integrating\"; \"complete independent consumer matrix\"; \"Enumerate all 64 directed pairs\"; \"retain counterexamples for rejected same-size pairs\"; \"make failures fail the local command and CI job.\""
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r04",
+      "criteria": {
+        "C1": {
+          "met": false,
+          "evidence": "Identifies worker-only comparison, ignored Lease.epoch, same-name old/new claims and stale overwrite, but never explicitly states reacquisition creates a new epoch."
+        },
+        "C2": {
+          "met": true,
+          "evidence": "\"old=claim(\"w\",0), new=claim(\"w\",11); complete(new,\"fresh\"), complete(old,\"stale\") accepts both and overwrites fresh.\""
+        },
+        "C3": {
+          "met": true,
+          "evidence": "\"[ok/mentioned,timeout] produces0.5/1.0 but contract requires1.0/0.5.\""
+        },
+        "C4": {
+          "met": true,
+          "evidence": "\"Tests pass but cover different worker names and all-success providers, missing both failures\"; \"add the exact trace as regression\"; \"independent mixed/all-timeout expected values guard metrics.\""
+        },
+        "C5": {
+          "met": true,
+          "evidence": "\"workflow is configuration only\"; \"CI owner and budgets are proposed, not measured.\""
+        },
+        "C6": {
+          "met": true,
+          "evidence": "\"Two priorities\"; \"healthy latest completion succeeds, reintroducing worker-only check fails\"; \"Run unittest on every PR, start advisory\"; \"cheap regressions before any TLA+ model.\""
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r05",
+      "criteria": {
+        "H1": {
+          "met": true,
+          "evidence": "\"encode(new, values)` \u2192 old consumer `decode(old, bytes)\"; \"checks only total size\"; \"ignoring name offsets and signed widths.\""
+        },
+        "H2": {
+          "met": true,
+          "evidence": "\"values `{a:7,b:11}`, classification is true but the consumer reads `{a:11,b:7}`\" for old a4,b4 and new b4,a4."
+        },
+        "H3": {
+          "met": true,
+          "evidence": "\"defines eight packed little-endian layouts\"; \"enumerates 64 pairs but retains nine total-size pairs, discarding order/width distinctions\"."
+        },
+        "H4": {
+          "met": true,
+          "evidence": "\"computes expectations with the same classifier being checked\"; \"Dashboard arithmetic is accurate for these nine tautological checks, but is not evidence of contract validity.\""
+        },
+        "H5": {
+          "met": true,
+          "evidence": "\"Windows, native alignment, source ABI and floating point are excluded\"; \"within this declared universe.\""
+        },
+        "H6": {
+          "met": true,
+          "evidence": "\"Two proposed implementation work items\"; \"Keep expectations independent of `compatible`\"; \"retain 64 unique ordered pairs\"; \"current size-only and always-true mutants fail\"; \"PR/push advisory unittest runs\"."
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r06",
+      "criteria": {
+        "Q1": {
+          "met": true,
+          "evidence": "\"`(31,1)` returns `31`, not the wrapping result described in the explicitly superseded 0.3 review.\""
+        },
+        "Q2": {
+          "met": true,
+          "evidence": "\"inner iterations total exactly the input length; each slice copies at most 64 elements. Runtime is linear in the number of pairs\" within stated integer domain."
+        },
+        "Q3": {
+          "met": true,
+          "evidence": "\"checks all 1,024 ordered pairs in the supported scalar domain\"; \"not for invalid objects or batches\"; \"not a measured performance guarantee.\""
+        },
+        "Q4": {
+          "met": true,
+          "evidence": "\"using a conditional expected-value expression\" versus implementation \"min(a + b, 31)\"; \"checks six invalid values in both operand positions\"; \"Existing tests cover empty input and lengths `1,63,64,65,129`\"."
+        },
+        "Q5": {
+          "met": true,
+          "evidence": "\"successful hosted execution and required merge checks are not evidenced\"; \"No additional tooling, timing assertions, or cross-platform matrix is justified by this support contract.\""
+        },
+        "Q6": {
+          "met": true,
+          "evidence": "\"One proportionate improvement\"; \"Add a small batch-invalid-input regression test\"; \"No release-blocking defect was found\"."
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r07",
+      "criteria": {
+        "Q1": {
+          "met": true,
+          "evidence": "\"historical `(31,1) \u2192 0` defect ... does not describe this revision: current code returns 31\"."
+        },
+        "Q2": {
+          "met": true,
+          "evidence": "\"each input row is processed once, slices contain at most 64 rows, and output storage is linear for supported bounded integers.\""
+        },
+        "Q3": {
+          "met": true,
+          "evidence": "\"all 32\u00d732 = 1,024 supported ordered operand pairs\"; \"no exhaustive batch denominator is claimed\"; \"not a timing measurement.\""
+        },
+        "Q4": {
+          "met": true,
+          "evidence": "\"independent conditional oracle\"; \"12 rejection cases, including `True`\"; \"Tests compare exact lists at lengths 0, 1, 63, 64, 65 and 129\"."
+        },
+        "Q5": {
+          "met": true,
+          "evidence": "\"supported execution is Linux/Python 3.12\"; \"Remote execution and branch enforcement are unknown\"; no unsupported-platform defect asserted."
+        },
+        "Q6": {
+          "met": true,
+          "evidence": "\"One proposed integration change\"; \"Extend `tests/test_core.py` with distinguishable chunk contents ... and invalid operands\"; \"Formal proof, mutation frameworks and performance tooling add little value here\"."
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r08",
+      "criteria": {
+        "H1": {
+          "met": false,
+          "evidence": "Asserts equal size guarantees compatibility; no correct encode/decode boundary analysis."
+        },
+        "H2": {
+          "met": false,
+          "evidence": "No same-size counterexample or wrong named field values."
+        },
+        "H3": {
+          "met": false,
+          "evidence": "Claims all 64 pairs executed; omits eight-layout domain and reduction to nine size-pair cases."
+        },
+        "H4": {
+          "met": false,
+          "evidence": "Claims generated passes establish contract; omits shared classifier oracle and emitted-case limitation."
+        },
+        "H5": {
+          "met": false,
+          "evidence": "\"Windows is promised by the current README but completely missing\" contradicts explicit exclusion."
+        },
+        "H6": {
+          "met": false,
+          "evidence": "Demands release-blocking Lean/Windows rewrite; no independent consumer oracle, reduction verification, negative control or CI plan."
+        }
+      },
+      "critical_false_claims": [
+        "All64 pairs were executed by generated test.",
+        "Passing generated corpus establishes the advertised compatibility contract.",
+        "Windows is promised by the current README."
+      ]
+    },
+    {
+      "id": "r09",
+      "criteria": {
+        "C1": {
+          "met": true,
+          "evidence": "\"Store.claim increments the epoch\"; \"Store.complete checks only the worker name\"; \"old and new tokens have epochs 1 and 2 respectively\"; \"Actual: True stale; required: False fresh\"."
+        },
+        "C2": {
+          "met": true,
+          "evidence": "\"old = s.claim(\"w\", 0)\"; \"new = s.claim(\"w\", 11)\"; \"assert s.complete(new, \"fresh\")\"; \"print(s.complete(old, \"stale\"), s.row[\"result\"])\"."
+        },
+        "C3": {
+          "met": true,
+          "evidence": "\"one successful mention and one timeout\"; actual \"{\"visibility\": 0.5, \"coverage\": 1.0}\" versus required \"{\"visibility\": 1.0, \"coverage\": 0.5}\"."
+        },
+        "C4": {
+          "met": false,
+          "evidence": "Explicitly identifies different-worker takeover gap and proposes both regression groups, but does not explicitly identify existing all-success-provider coverage / missing partial-provider tests; only calls overall coverage narrow happy-path."
+        },
+        "C5": {
+          "met": true,
+          "evidence": "\"No CI execution records or branch-protection configuration are supplied, so whether these tests run or gate merges is unknown.\""
+        },
+        "C6": {
+          "met": false,
+          "evidence": "Two immediate changes and acceptance outcomes are present, but no explicit negative control or concrete CI integration beyond using the existing unittest command."
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r10",
+      "criteria": {
+        "C1": {
+          "met": true,
+          "evidence": "\"reused worker names and identifies acquisitions by epoch\"; \"Store.claim increments epochs\"; \"Store.complete checks only worker identity\"; \"stored result becomes `stale`\"."
+        },
+        "C2": {
+          "met": true,
+          "evidence": "\"old=s.claim('w',0); new=s.claim('w',11); s.complete(new,'fresh'); s.complete(old,'stale')\"; \"Both completions return `True`\"."
+        },
+        "C3": {
+          "met": true,
+          "evidence": "\"one successful mention plus one timeout\"; \"should yield visibility 1.0 and coverage 0.5; actual output is 0.5 and 1.0.\""
+        },
+        "C4": {
+          "met": true,
+          "evidence": "\"selected/executed/passed 3\"; \"only for different worker names, masking the restart path\"; \"test_all_answered covers only the case where both denominators coincide\"; \"independently specified acquisition identity\"; \"hand-calculated examples and CLI JSON assertions\"."
+        },
+        "C5": {
+          "met": true,
+          "evidence": "\"current local observations, not CI evidence\"; \"estimated shared budget 30 seconds/256 MB\"; \"After stable runs, require the actual check via separately verified branch rules.\""
+        },
+        "C6": {
+          "met": true,
+          "evidence": "\"Two implementation work items\"; \"fresh completion succeeds, all stale completions fail without mutation\"; \"remove epoch comparison; same-name regression must fail\"; \"reuse the existing unittest command and workflow\"; \"No heavyweight formal tooling is needed\"."
+        }
+      },
+      "critical_false_claims": []
+    },
+    {
+      "id": "r11",
+      "criteria": {
+        "Q1": {
+          "met": false,
+          "evidence": "Incorrectly states current saturated_add wraps modulo32."
+        },
+        "Q2": {
+          "met": false,
+          "evidence": "Incorrectly infers quadratic batch cost from nested loops."
+        },
+        "Q3": {
+          "met": false,
+          "evidence": "Denies current supported scalar inputs are tested; no credit for 1,024 exhaustive pairs or scope distinction."
+        },
+        "Q4": {
+          "met": false,
+          "evidence": "Calls arithmetic oracle circular; no credit for independent expected arithmetic or real invalid/batch tests."
+        },
+        "Q5": {
+          "met": false,
+          "evidence": "Calls unsupported Windows support broken; also omits unknown remote CI and merge-enforcement status."
+        },
+        "Q6": {
+          "met": false,
+          "evidence": "Explicitly demands a release-blocking rewrite and Lean proof."
+        }
+      },
+      "critical_false_claims": [
+        "Current saturated_add wraps modulo32.",
+        "Batch is quadratic in number of rows because it has nested loops.",
+        "Current supported scalar inputs are not tested."
+      ]
+    },
+    {
+      "id": "r12",
+      "criteria": {
+        "H1": {
+          "met": true,
+          "evidence": "\"accepts equal total byte size, which does not preserve field values at the codec boundary\"; \"encode new values a7,b11 then decode as old\"."
+        },
+        "H2": {
+          "met": true,
+          "evidence": "\"old=[a4,b8], new=[a8,b4]\"; \"a7,b47244640256, despite compatible=True.\""
+        },
+        "H3": {
+          "met": true,
+          "evidence": "\"Eight supported layouts yield64 ordered pairs\"; \"groups by(old size,new size), leaving9 representatives; no proof justifies collapsing order/width behavior.\""
+        },
+        "H4": {
+          "met": true,
+          "evidence": "\"Expected values call the same compatible function, so 9/9 is emitted-case agreement, not semantic correctness or exhaustive coverage.\""
+        },
+        "H5": {
+          "met": true,
+          "evidence": "\"Linux packed integer support excludes Windows/native ABI; those exclusions are not bugs.\""
+        },
+        "H6": {
+          "met": true,
+          "evidence": "\"Two priorities: independent encode-new/decode-old oracle across all64 pairs\"; \"concrete false positive as negative control\"; \"retain per-layout domain receipts and justify any later reduction\"; \"Reuse unittest on PRs with a bounded advisory job\"."
+        }
+      },
+      "critical_false_claims": []
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "score_kind": "agent-judged criteria, deterministically aggregated by Dokimi; not executable oracle scores",
+  "reviewers": {
+    "reviewer1": {
+      "reports": {
+        "r01": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "good",
+          "control": true
+        },
+        "r02": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "The existing takeover test guarantees every stale writer is rejected",
+            "current source already checks epoch equality",
+            "A timeout is a verified negative mention under this contract"
+          ],
+          "task": "cedar",
+          "arm": "bad",
+          "control": true
+        },
+        "r03": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r04": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "good",
+          "control": true
+        },
+        "r05": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r06": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r07": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r08": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "All64 pairs were executed by the generated test.",
+            "Passing the generated corpus establishes the advertised compatibility contract.",
+            "Windows is promised by the current README"
+          ],
+          "task": "harbor",
+          "arm": "bad",
+          "control": true
+        },
+        "r09": {
+          "met": 4,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r10": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r11": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "Current saturated_add wraps modulo32.",
+            "Batch is quadratic because it has nested loops.",
+            "Current supported scalar inputs are not tested"
+          ],
+          "task": "quartz",
+          "arm": "bad",
+          "control": true
+        },
+        "r12": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "good",
+          "control": true
+        }
+      },
+      "calibration": [
+        {
+          "id": "r01",
+          "kind": "good",
+          "calibrated": true,
+          "met": 6,
+          "critical_false_claims": []
+        },
+        {
+          "id": "r02",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "The existing takeover test guarantees every stale writer is rejected",
+            "current source already checks epoch equality",
+            "A timeout is a verified negative mention under this contract"
+          ]
+        },
+        {
+          "id": "r04",
+          "kind": "good",
+          "calibrated": true,
+          "met": 6,
+          "critical_false_claims": []
+        },
+        {
+          "id": "r08",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "All64 pairs were executed by the generated test.",
+            "Passing the generated corpus establishes the advertised compatibility contract.",
+            "Windows is promised by the current README"
+          ]
+        },
+        {
+          "id": "r11",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "Current saturated_add wraps modulo32.",
+            "Batch is quadratic because it has nested loops.",
+            "Current supported scalar inputs are not tested"
+          ]
+        },
+        {
+          "id": "r12",
+          "kind": "good",
+          "calibrated": true,
+          "met": 6,
+          "critical_false_claims": []
+        }
+      ],
+      "dokimi": {
+        "with_docs": {
+          "n": 3,
+          "unscored": 0,
+          "errors": 0,
+          "judge_unscored": 0,
+          "check_unscored": 0,
+          "pass_rate": 1.0,
+          "mean_score": 1.0
+        },
+        "without_docs": {
+          "n": 3,
+          "unscored": 0,
+          "errors": 0,
+          "judge_unscored": 0,
+          "check_unscored": 0,
+          "pass_rate": 0.6667,
+          "mean_score": 0.8889
+        }
+      },
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "eval",
+        "score",
+        "reference",
+        "--answers",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer1-answers.json",
+        "--questions",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer1-questions.json",
+        "--no-judge",
+        "-o",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer1-dokimi.json"
+      ]
+    },
+    "reviewer2": {
+      "reports": {
+        "r01": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "good",
+          "control": true
+        },
+        "r02": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "Existing takeover test guarantees every stale writer is rejected.",
+            "Timeout is a verified negative mention under this contract.",
+            "Current source already checks epoch equality."
+          ],
+          "task": "cedar",
+          "arm": "bad",
+          "control": true
+        },
+        "r03": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r04": {
+          "met": 5,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "good",
+          "control": true
+        },
+        "r05": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r06": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r07": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "quartz",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r08": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "All64 pairs were executed by generated test.",
+            "Passing generated corpus establishes the advertised compatibility contract.",
+            "Windows is promised by the current README."
+          ],
+          "task": "harbor",
+          "arm": "bad",
+          "control": true
+        },
+        "r09": {
+          "met": 4,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "without_docs",
+          "control": false
+        },
+        "r10": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "cedar",
+          "arm": "with_docs",
+          "control": false
+        },
+        "r11": {
+          "met": 0,
+          "total": 6,
+          "critical_false_claims": [
+            "Current saturated_add wraps modulo32.",
+            "Batch is quadratic in number of rows because it has nested loops.",
+            "Current supported scalar inputs are not tested."
+          ],
+          "task": "quartz",
+          "arm": "bad",
+          "control": true
+        },
+        "r12": {
+          "met": 6,
+          "total": 6,
+          "critical_false_claims": [],
+          "task": "harbor",
+          "arm": "good",
+          "control": true
+        }
+      },
+      "calibration": [
+        {
+          "id": "r01",
+          "kind": "good",
+          "calibrated": true,
+          "met": 6,
+          "critical_false_claims": []
+        },
+        {
+          "id": "r02",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "Existing takeover test guarantees every stale writer is rejected.",
+            "Timeout is a verified negative mention under this contract.",
+            "Current source already checks epoch equality."
+          ]
+        },
+        {
+          "id": "r04",
+          "kind": "good",
+          "calibrated": false,
+          "met": 5,
+          "critical_false_claims": []
+        },
+        {
+          "id": "r08",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "All64 pairs were executed by generated test.",
+            "Passing generated corpus establishes the advertised compatibility contract.",
+            "Windows is promised by the current README."
+          ]
+        },
+        {
+          "id": "r11",
+          "kind": "bad",
+          "calibrated": true,
+          "met": 0,
+          "critical_false_claims": [
+            "Current saturated_add wraps modulo32.",
+            "Batch is quadratic in number of rows because it has nested loops.",
+            "Current supported scalar inputs are not tested."
+          ]
+        },
+        {
+          "id": "r12",
+          "kind": "good",
+          "calibrated": true,
+          "met": 6,
+          "critical_false_claims": []
+        }
+      ],
+      "dokimi": {
+        "with_docs": {
+          "n": 3,
+          "unscored": 0,
+          "errors": 0,
+          "judge_unscored": 0,
+          "check_unscored": 0,
+          "pass_rate": 1.0,
+          "mean_score": 1.0
+        },
+        "without_docs": {
+          "n": 3,
+          "unscored": 0,
+          "errors": 0,
+          "judge_unscored": 0,
+          "check_unscored": 0,
+          "pass_rate": 0.6667,
+          "mean_score": 0.8889
+        }
+      },
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "eval",
+        "score",
+        "reference",
+        "--answers",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer2-answers.json",
+        "--questions",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer2-questions.json",
+        "--no-judge",
+        "-o",
+        "/workspace/scratch/c0a9fdcf5a68/quality-hard/reviewer2-dokimi.json"
+      ]
+    }
+  },
+  "disagreements": [
+    {
+      "id": "r04",
+      "criterion": "C1",
+      "task": "cedar",
+      "arm": "good",
+      "control": true
+    }
+  ],
+  "context": {
+    "skill_base_commit": "de685e5217bb47c8d0619696aa3cb2ef0667cb65",
+    "dokimi_commit": "3b61dd01fc238d4620644681ca8a88994becaa5c",
+    "task_runs": 6,
+    "task_repetitions_per_arm": 1,
+    "reviewer_runs": 2,
+    "model_identifier": null,
+    "token_usage": null,
+    "calibration_status": "reviewer1 6/6; reviewer2 5/6; preserve unresolved calibration disagreement",
+    "posthoc_observation": "Quartz chunk-swap mutation was found by treatment, independently reproduced, not added to scoring rubric",
+    "report_words": {
+      "harbor-without_docs": 575,
+      "quartz-without_docs": 494,
+      "cedar-without_docs": 584,
+      "quartz-with_docs": 629,
+      "harbor-with_docs": 625,
+      "cedar-with_docs": 608
+    }
+  }
+}

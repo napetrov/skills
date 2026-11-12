@@ -1,0 +1,22 @@
+{
+  "task.txt": "080b84c3123d8bec7fc09cc409c23a3e291778c600864b6f483b04b3307db33d",
+  "rubric.json": "3ec49490134e313673f1bb8b0a7aabc2726636e3d26e27f92b4356a930d2cc00",
+  "prepare.py": "40a8c0939e7d9d419176a8949dabca9cef9ec1e317452c7dce200bf2c49d673a",
+  "fixtures/cedar/store.py": "4ac7bda14f48d273ad80cec61aa1bd69c60392a2425cafbe0d478462424adcf5",
+  "fixtures/cedar/cli.py": "c2147ac2d25111aecaedf65b01d1da59ae2e8cdbb8bd484756671b87439e0a46",
+  "fixtures/cedar/README.md": "559ca879f38b8cfc9b8ce2f083b3649cb4c4f204293545f7e1825252bcc1cd3c",
+  "fixtures/cedar/report.py": "733f9f5bf6faa128228694dd7b02db44d24b6eac0afa62ba5929ec6d1a832193",
+  "fixtures/harbor/codec.py": "1c3a773484f9c43317d639b44797e7eac92c43eb4e650bb70e02f8f0671e6e5d",
+  "fixtures/harbor/cli.py": "108accd01122e363a3759d957cea03b94252c73458c6919d84e792191bbd9537",
+  "fixtures/harbor/README.md": "c1cf25d6dff8dc1c41a2417fc90d86ad731f798baa4d236a61d2db1828bccf2a",
+  "fixtures/harbor/generate.py": "da3dbdee9bd2feb4694ce3960a9268d44d57022b8e9f691c8739e5bce0562451",
+  "fixtures/harbor/rules.py": "17fa94a1e1d4e8c7a6828efa90d17881ce64a38c050cb04d261ca2d92edbc5f4",
+  "fixtures/quartz/core.py": "6916e9f43acc7911df2b03864f0936a39f9067eb2b4a220dc24bec65eb972da5",
+  "fixtures/quartz/README.md": "24e82599831ebbf8ceb025f230c2f8369d997d70db63b7aefcc0886a397c4fe7",
+  "fixtures/cedar/tests/test_service.py": "b61b6543650c583fa31fc5d4ec5c5c74aa207b6db9586b24214e745bee21034e",
+  "fixtures/cedar/.github/workflows/test.yml": "e815dec38b21885d9a2f8bdbc97269e84470d7e60c2e66c7f51b8c8f175028e1",
+  "fixtures/harbor/tests/test_rules.py": "e2ae3af28d5933c82e7a2b6ee01a05e3514f6931c4bc1e8227782d8c0a9a6588",
+  "fixtures/quartz/tests/test_core.py": "cfec431a7ba53e82c30dbd94c1fabaeee4f122a543d284c1f2904421987add9d",
+  "fixtures/quartz/docs/archive/v0.3-review.md": "1af5049723da4b28a93cc8c74b305717f2a5d77aaf1eb3f3ec27f95c9ea189e7",
+  "fixtures/quartz/.github/workflows/test.yml": "b04ba62d3f6ff1d077709471329dac6e3f0eeba3f1cf9fc0483c953bdac3acc7"
+}

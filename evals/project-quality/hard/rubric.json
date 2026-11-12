@@ -1,0 +1,47 @@
+{
+  "cedar": {
+    "required": {
+      "C1": "Identifies that same worker name can reacquire a lease with a new epoch, and old completion is incorrectly accepted; epoch is ignored.",
+      "C2": "Gives concrete event sequence old claim w at0, new w after expiry, fresh completion then stale overwrites; observed or executable precise trace.",
+      "C3": "Finds timeout denominator error: mixed mention+timeout should visibility1.0 coverage0.5, but code reports0.5/1.0.",
+      "C4": "Connects passing tests to missing same-owner takeover/partial-provider cases and proposes independent regressions for both.",
+      "C5": "Does not infer execution/enforcement from workflow; budgets/rollout are proposals.",
+      "C6": "At most two prioritized changes, acceptance and a negative control, plus concrete CI integration; immediate code/conformance checks before heavy formalization."
+    },
+    "critical_false_claims": [
+      "Existing takeover test guarantees every stale writer is rejected.",
+      "Timeout is a verified negative mention under this contract.",
+      "Current source already checks epoch equality."
+    ]
+  },
+  "harbor": {
+    "required": {
+      "H1": "Finds equal total size is insufficient for field-value compatibility, tracing classifier to actual encode/decode boundary.",
+      "H2": "Provides a concrete same-size layout counterexample with wrong named field values, not just a generic ABI warning.",
+      "H3": "Explains eight supported layouts and64 ordered old/new pairs reduced to9 size-pair representatives, with no soundness argument for reduction.",
+      "H4": "Finds expected values use same compatible implementation; 100% is pass rate over emitted cases, not semantic or exhaustive coverage.",
+      "H5": "Respects explicit platform/domain exclusions; no Windows support defect or universal compiler guarantee claim.",
+      "H6": "Prioritizes independent consumer oracle and domain/reduction verification with concrete negative control and CI plan, at most2 changes."
+    },
+    "critical_false_claims": [
+      "All64 pairs were executed by generated test.",
+      "Passing generated corpus establishes the advertised compatibility contract.",
+      "Windows is promised by the current README."
+    ]
+  },
+  "quartz": {
+    "required": {
+      "Q1": "Concludes historical modulo bug is not present in current code; current(31,1) returns31.",
+      "Q2": "Explains chunked nested loops visit each input once: linear under fixed domain/constant arithmetic, not quadratic.",
+      "Q3": "Credits exhaustive1024 valid scalar pairs while separating that from unbounded batch/runtime guarantees.",
+      "Q4": "Credits independent expected arithmetic and real invalid/batch tests; does not label oracle circular merely for being code.",
+      "Q5": "Keeps remote CI execution/merge enforcement unknown and does not classify explicitly unsupported Windows as a product defect.",
+      "Q6": "Proposes at most2 proportionate improvements or justified no-change; does not demand a release-blocking rewrite/Lean proof."
+    },
+    "critical_false_claims": [
+      "Current saturated_add wraps modulo32.",
+      "Batch is quadratic in number of rows because it has nested loops.",
+      "Current supported scalar inputs are not tested."
+    ]
+  }
+}
