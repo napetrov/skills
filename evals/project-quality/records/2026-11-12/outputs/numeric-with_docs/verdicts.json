@@ -1,0 +1,6 @@
+{
+  "normalize_complexity": "linear",
+  "matcher_candidate_visits": "linear",
+  "release_block_for_normalize": "unjustified",
+  "universal_performance_proved": "no"
+}

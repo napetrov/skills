@@ -38,7 +38,7 @@
   "mitigations": [
     "separate implementation, execution, enforcement and proof scope",
     "keep private evidence within authorized output destinations",
-    "limit initial pilots and require measured rollout criteria"
+    "limit initial pilots, use compact reports and require measured rollout criteria"
   ],
   "ethical_considerations": [
     "do not overstate unverified outcomes"

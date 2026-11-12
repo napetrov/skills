@@ -27,3 +27,10 @@ metadata does not authorize disclosure of private input repositories.
 Check the evidence-to-claim mapping, coverage denominator, oracle independence,
 formal-model boundary and concrete pilot acceptance conditions. See BENCHMARK.md
 for validation scope; no quantitative improvement claim is made.
+
+## Experimental Evidence
+
+Three paired development tasks reached the same correct verdicts with and without
+the skill. A targeted compact-output retest retained its verdicts with less text.
+Default output is now 400–800 words; full ledgers are optional. See BENCHMARK.md
+for limits. No novelty or production-effectiveness claim is made.

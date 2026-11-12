@@ -1,0 +1,1 @@
+{"schema_version": "questions.v2", "questions": [{"id": "partial", "question": "Return OK and cite evidence.", "grading": {"checks": [{"type": "match", "values": ["OK"], "location": "exact"}, {"type": "judge", "criterion": "The answer cites actual evidence."}]}}]}

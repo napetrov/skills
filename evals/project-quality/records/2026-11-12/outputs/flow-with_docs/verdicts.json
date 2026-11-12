@@ -1,0 +1,6 @@
+{
+  "cli_outcome": "broken",
+  "compare_helper": "works",
+  "failure_boundary": "presentation",
+  "merge_enforcement": "unknown"
+}

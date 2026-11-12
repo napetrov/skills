@@ -1,8 +1,9 @@
 # Project verification assessment
 
-For a compact response, summarize scope, existing evidence, material gaps and
-up to three pilots; place the ledger/category details in an appendix or linked
-report when available. Do not discard uncertainty to shorten the report. Under
+This is the full-report template, not mandatory output length. Default to
+400–800 words covering scope, cited findings, limits and up to three pilots.
+Consider all categories during inspection; include full category/ledger tables
+only on request or when needed to resolve uncertainty. Avoid repeated findings. Do not discard uncertainty to shorten the report. Under
 restricted tool access, mark command designs provisional and list what must be
 verified before execution.
 

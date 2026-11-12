@@ -1,6 +1,6 @@
 ---
 name: assess-project-quality
-description: Audit project logic, flows, coverage and validation evidence; propose risk-based testing and formal-method integration into development and CI.
+description: Use when assessing project logic, flows, coverage and validation gaps to propose risk-based testing and formal verification in development and CI.
 version: 0.1.0
 license: Apache-2.0
 product: project-quality
@@ -43,7 +43,8 @@ permission to deploy gates. It does not require a network service or new runtime
    intent → consumer boundary → implementation → assertion → execution.
    Include a failure/retry or invalid-input path. Start with
    [assessment.md](references/assessment.md); examine every category there,
-   marking non-applicable categories with a reason.
+   marking non-applicable categories with a reason in working notes; do not
+   repeat all categories in the final answer unless useful.
 3. **Separate evidence from claims.** For each finding record file/line and
    revision, or a CI run URL with revision and selected jobs. Distinguish
    implemented, CI-configured, executed and enforced. Classify outcomes as
@@ -61,10 +62,13 @@ permission to deploy gates. It does not require a network service or new runtime
    maintenance and rollback. Follow [integration.md](references/integration.md).
    Reference existing `verify-user-outcomes` and `performance-contracts` when
    applicable; do not duplicate them or assume they are installed in the target.
-6. **Deliver a reviewable report.** Fill [report-template.md](references/report-template.md)
-   in the user's language. Include what already works, limitations, prioritized
-   gaps, staged proposals and an implementation-agent handoff. Label measured
-   versus estimated cost. Keep supporting details separate from the summary.
+6. **Deliver a reviewable report.** Use [report-template.md](references/report-template.md)
+   in the user's language. Default to a compact report of 400–800 words (shorter
+   for simple projects): findings with evidence, limits and up to three actionable
+   pilots. Include full category tables/ledgers only when requested or necessary
+   to resolve uncertainty; do not repeat the same finding in multiple sections.
+   Keep owner, acceptance/negative control, CI stage/budget and rollback concise.
+   Label measured versus estimated cost and include an implementation handoff.
    If the user also authorized implementation, proceed with a bounded pilot in
    an isolated branch; preserve the assessment and run its acceptance checks.
 
