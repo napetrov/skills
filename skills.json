@@ -2,6 +2,43 @@
   "generated_by": "tools/generate-catalog.js",
   "skills": [
     {
+      "name": "assess-project-quality",
+      "description": "Audit project logic, flows, coverage and validation evidence; propose risk-based testing and formal-method integration into development and CI.",
+      "version": "0.1.0",
+      "product": "project-quality",
+      "product_family": "engineering-quality",
+      "tags": [
+        "verification",
+        "testing",
+        "formal-methods",
+        "ci"
+      ],
+      "problems": [
+        "validation-gaps",
+        "incomplete-flows",
+        "weak-oracles"
+      ],
+      "agents": [
+        "codex",
+        "claude-code"
+      ],
+      "maturity": "experimental",
+      "data_classification": "public",
+      "source_url": "https://github.com/napetrov/skills",
+      "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/assess-project-quality",
+      "source": {
+        "repository": "https://github.com/napetrov/skills",
+        "ref": "main",
+        "path": "skills/assess-project-quality"
+      },
+      "catalog": {
+        "repository": "https://github.com/napetrov/skills",
+        "path": "skills/assess-project-quality"
+      },
+      "verification_status": "unverified",
+      "path": "skills/assess-project-quality"
+    },
+    {
       "name": "performance-contracts",
       "description": "Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects.",
       "version": "0.1.0",
