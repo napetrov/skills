@@ -10,7 +10,6 @@ import * as core from "./contract-core.js";
 
 const GENERATOR = "performance-contracts@0.1.0";
 const SKILL_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const CONTRACT_DIR = [".verification", "contracts", "performance"];
 const SHAPES = {
   constant: () => 1,
   linear: (n) => n,
@@ -28,7 +27,7 @@ const BENCH_DIR = /^(bench|benchmarks?|asv_bench|perf)$/i;
 const BENCH_FILE = /(^|\/)(bench|benchmark|perf)[^/]*\.(py|cc|cpp|js|mjs|ts)$|(^|\/)test_[^/]*(perf|bench)[^/]*\.py$/i;
 const BENCH_WORKFLOW = /bench|perf|asv|pytest|bazel test/i;
 // Changes here invalidate every enabled contract because they change what is measured.
-const INVALIDATING = [/^\.verification\/contracts\//, /^benchmarks\/contracts\//, /^tools\/contracts\//];
+const invalidating = () => [new RegExp(`^${core.escapeRegExp(core.contractsDir())}/`), /^benchmarks\/contracts\//, /^tools\/contracts\//];
 const LOCKFILE = /(^|\/)(package-lock\.json|uv\.lock|poetry\.lock|requirements[^/]*\.txt)$/;
 
 function fail(message) {
@@ -86,7 +85,7 @@ export function validatePerformanceContract(contract, file = "contract") {
 }
 
 export function loadContracts(repo) {
-  const dir = path.join(repo, ...CONTRACT_DIR);
+  const dir = core.resolveUnder(repo, core.contractsPath("performance"));
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
@@ -163,8 +162,8 @@ export function discover(repo) {
       const rel = dir ? `${dir}/${entry.name}` : entry.name;
       if (entry.isDirectory()) {
         if (SKIP_DIRS.has(entry.name)) continue;
-        // Contract state lives under .verification/ and is never a benchmark candidate.
-        if (BENCH_DIR.test(entry.name) && !rel.startsWith(".verification/")) found.benchmarks.push(`${rel}/`);
+        // Contract state is never a benchmark candidate.
+        if (BENCH_DIR.test(entry.name) && !`${rel}/`.startsWith(`${core.contractsDir()}/`)) found.benchmarks.push(`${rel}/`);
         queue.push(rel);
       } else if (entry.isFile()) {
         files.push(rel);
@@ -190,7 +189,7 @@ export function discover(repo) {
       const match = readSmall(rel).match(BENCH_WORKFLOW);
       if (match) found.ci_workflows.push({ path: rel, matched: match[0].toLowerCase() });
     }
-    if (/^\.verification\/contracts\/performance\/[^/]+\.json$/.test(rel)) found.existing_contracts.push(rel);
+    if (path.posix.dirname(rel) === core.contractsPath("performance") && rel.endsWith(".json")) found.existing_contracts.push(rel);
   }
   return { ...found, truncated, note: "candidates only; nothing was run or verified" };
 }
@@ -208,13 +207,13 @@ export function selectContracts(contracts, config, changed, requested) {
     return { selected: enabled, uncovered: [], reason: "full-enrolled-scope" };
   }
   const invalidated = changed.files.some(
-    (file) => INVALIDATING.some((pattern) => pattern.test(file)) || LOCKFILE.test(file),
+    (file) => invalidating().some((pattern) => pattern.test(file)) || LOCKFILE.test(file),
   );
   if (invalidated) return { selected: enabled, uncovered: [], reason: "shared-input-changed" };
   const selected = enabled.filter((contract) => changed.files.some((file) => core.matchesAny(file, contract.paths)));
   const scopePaths = config.scopes.flatMap((scope) => scope.paths);
   const uncovered = changed.files.filter(
-    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(".verification/") && !file.startsWith(".artifacts/"),
+    (file) => !core.matchesAny(file, scopePaths) && !file.startsWith(`${core.contractsDir()}/`) && !file.startsWith(".artifacts/"),
   );
   return { selected, uncovered, reason: "changed-paths" };
 }
@@ -224,7 +223,7 @@ function resolveBaseline(repo, ref) {
   if (!/^[a-z0-9][a-z0-9.-]*-v\d+$/.test(ref ?? "")) {
     return { ok: false, reason: `baseline_ref ${ref} must be a versioned name such as fixture-reference-v1` };
   }
-  const file = path.join(repo, ".verification", "contracts", "baselines", `${ref}.json`);
+  const file = core.resolveUnder(repo, core.contractsPath("baselines", `${ref}.json`));
   if (!fs.existsSync(file)) return { ok: false, reason: `baseline ${ref} not found` };
   return { ok: true, digest: `sha256:${core.sha256Text(fs.readFileSync(file, "utf8"))}` };
 }
@@ -318,7 +317,7 @@ function check(repo, { base, requested, all, artifactRoot, skillPath }) {
   const startedAt = new Date();
   const config = core.loadConfig(repo);
   if (!config) {
-    return unconfiguredEnvelope(repo, startedAt, "no .verification/contracts/config.json; run setup for the requested scope");
+    return unconfiguredEnvelope(repo, startedAt, `no ${core.contractsPath("config.json")}; run setup for the requested scope`);
   }
   const contracts = loadContracts(repo);
   const changed = core.resolveChangedFiles(repo, { base });
@@ -458,7 +457,7 @@ function latestRun(repo, config) {
 }
 
 function hasContractFiles(repo) {
-  const dir = path.join(repo, ...CONTRACT_DIR);
+  const dir = core.resolveUnder(repo, core.contractsPath("performance"));
   return fs.existsSync(dir) && fs.readdirSync(dir).some((name) => name.endsWith(".json"));
 }
 
@@ -466,10 +465,10 @@ function hasContractFiles(repo) {
 // the discovery inventory and the agent's reading of the repository, and are written as contract files.
 function setup(repo) {
   const templates = [
-    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: ".verification/contracts/config.json" },
+    { source: path.join(SKILL_DIR, "assets", "config.template.json"), target: core.contractsPath("config.json") },
     {
       source: path.join(SKILL_DIR, "assets", "performance-contract.template.json"),
-      target: ".verification/contracts/performance/EXAMPLE-PERF-001.json",
+      target: core.contractsPath("performance", "EXAMPLE-PERF-001.json"),
       optional: { createIf: () => !hasContractFiles(repo), reason: "contracts_exist" },
     },
   ];
@@ -538,7 +537,7 @@ function runVariant(repo, config, contract, { label, mutation, tmpRoot, artifact
 // violate that assertion's own metric. Counters that never change across sizes or runs are reported as warnings.
 function discriminate(repo, { requested }) {
   const config = core.loadConfig(repo);
-  if (!config) fail("no .verification/contracts/config.json; run setup first");
+  if (!config) fail(`no ${core.contractsPath("config.json")}; run setup first`);
   const contracts = loadContracts(repo);
   const unknown = requested.filter((id) => !contracts.some((contract) => contract.id === id));
   if (unknown.length > 0) fail(`unknown contract id(s): ${unknown.join(", ")}`);
@@ -636,13 +635,18 @@ function discriminate(repo, { requested }) {
 
 function parseArgs(argv) {
   const [command, ...rest] = argv;
-  const options = { command, repo: process.cwd(), base: null, requested: [] };
+  const options = { command, repo: process.cwd(), base: null, requested: [], contractsDir: process.env.CONTRACTS_DIR || null };
   for (let index = 0; index < rest.length; index += 1) {
     const flag = rest[index];
     const value = rest[index + 1];
     if (flag === "--repo") { options.repo = path.resolve(value); index += 1; }
     else if (flag === "--base") { options.base = value; index += 1; }
     else if (flag === "--contract") { options.requested.push(value); index += 1; }
+    else if (flag === "--contracts-dir") {
+      if (value === undefined || value.startsWith("--")) fail("--contracts-dir needs a directory");
+      options.contractsDir = value;
+      index += 1;
+    }
     else if (flag === "--all") options.all = true;
     else fail(`unknown argument ${flag}`);
   }
@@ -652,6 +656,7 @@ function parseArgs(argv) {
 function main() {
   const options = parseArgs(process.argv.slice(2));
   const repo = options.repo;
+  core.useContractsDir(repo, options.contractsDir);
   if (options.command === "validate") {
     const config = core.loadConfig(repo);
     const contracts = loadContracts(repo);
@@ -689,7 +694,7 @@ function main() {
     console.log(JSON.stringify({ verdict: envelope.verdict, result: file, contracts: envelope.results }, null, 2));
     return core.exitCodeFor(envelope.verdict);
   }
-  fail("usage: perf-check.js validate|check|readiness|discover|setup|discriminate [--repo DIR] [--base REF] [--contract ID] [--all]");
+  fail("usage: perf-check.js validate|check|readiness|discover|setup|discriminate [--repo DIR] [--contracts-dir DIR] [--base REF] [--contract ID] [--all]");
   return 2;
 }
 

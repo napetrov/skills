@@ -59,6 +59,14 @@ mv <previous-state-dir>/contracts .verification/contracts
 
 Then run `setup` again and review its report.
 
+## Contract Location
+
+State lives in `.verification/contracts/` unless the project keeps it elsewhere.
+Pass `--contracts-dir <dir>` (or set `CONTRACTS_DIR`) to every command, the same
+value each time; it must be a relative path inside the repository. The paths below
+are shown for the default directory; with `--contracts-dir <dir>`, replace
+`.verification/contracts/` with `<dir>/`.
+
 ## Files Written
 
 - `.verification/contracts/config.json`: command argument arrays, scopes, artifact directory.

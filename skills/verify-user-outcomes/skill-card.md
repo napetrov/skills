@@ -11,13 +11,15 @@ Skills contributors.
 
 ## Inputs And Outputs
 
-- Reads repository files, intent documents, and test output produced by a declared command.
+- Reads repository files, intent documents, and test output produced by a declared command,
+  or, with the pytest plugin, the outcomes of the tests in the current pytest session.
 - Writes ignored evidence under `.artifacts/contracts/<run-id>/`.
 - Writes tracked contract and config files only in setup mode, through the scaffold helper.
 
 ## Limits
 
 - Fixture assertions show behavior inside the fixture only.
+- The pytest plugin checks every enabled outcome; diff-based selection needs `outcome-check.js`.
 - Evidence levels describe how strong the evidence is. They are not a product quality score.
 - The agent comparison pilot has not been run.
 

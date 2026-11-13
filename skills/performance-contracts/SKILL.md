@@ -60,6 +60,9 @@ node scripts/perf-check.js check --repo <repo> [--base <ref>] [--contract <id>] 
 - `setup` writes config, and an example only while no contract exists. It chooses no benchmark, oracle, scope or budget. It never overwrites a user-edited file.
 - `discriminate` runs the unmodified case, then each assertion's negative control in a copy of the repository. Each control must violate its own metric. Exit 0 pass, 1 a control was not detected, 2 error, 3 nothing enabled.
 
+Contract state defaults to `.verification/contracts/`; every command takes
+`--contracts-dir <dir>` (or `CONTRACTS_DIR`), relative to the repository.
+
 `check` writes `result.json` under `.artifacts/contracts/<run-id>/`. Exit codes:
 0 pass or not applicable, 1 violation, 2 error, 3 inconclusive.
 `scripts/contract-core.js` is the shared runtime copied from the source;
