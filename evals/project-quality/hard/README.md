@@ -100,3 +100,10 @@ This reports control calibration, disagreements and agent-judged criterion
 coverage. It does not gate on the apparent winner. See RESULTS.md for the retained
 calibration disagreement in the first run. Calibration controls are in
 `calibration.json`; they are not agent-task inputs.
+
+## Fixture workflow maintenance
+
+After the recorded experiments, Cedar and Quartz workflow examples were hardened
+with immutable action pins, read-only contents permission and disabled credential
+persistence. Application/test semantics are unchanged. Historical freeze hashes
+refer to the original inputs; new preparation runs hash the updated fixtures.
