@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+    "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+    "eval",
+    "score",
+    "reference",
+    "--answers",
+    "/workspace/scratch/c0a9fdcf5a68/brown-eval/scored/answers.json",
+    "--questions",
+    "/workspace/scratch/c0a9fdcf5a68/brown-eval/scored/questions.json",
+    "--no-judge",
+    "-o",
+    "/workspace/scratch/c0a9fdcf5a68/brown-eval/scored/score.json"
+  ],
+  "exit_code": 0,
+  "stdout": "with_docs: {\"n\": 1, \"unscored\": 0, \"errors\": 0, \"judge_unscored\": 0, \"check_unscored\": 0, \"pass_rate\": 1.0, \"mean_score\": 1.0}\nwithout_docs: {\"n\": 1, \"unscored\": 0, \"errors\": 0, \"judge_unscored\": 0, \"check_unscored\": 0, \"pass_rate\": 1.0, \"mean_score\": 1.0}\nWrote eval artifact to /workspace/scratch/c0a9fdcf5a68/brown-eval/scored/score.json\n",
+  "stderr": ""
+}

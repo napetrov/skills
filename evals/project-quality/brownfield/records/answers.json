@@ -1,0 +1,18 @@
+{
+  "schema_version": "answers.v1",
+  "model": null,
+  "provider": null,
+  "answers": [
+    {
+      "question_id": "migration",
+      "question_text": "Assess migration readiness using the target README contract.",
+      "with_docs": {
+        "answer": "{\n  \"zero_change_is_regression\": false,\n  \"differential_pass_proves_contract\": false,\n  \"tests_preserve_assertions\": false,\n  \"default_activates_modern\": false,\n  \"fallback_presence_is_defect\": false,\n  \"ready_to_release\": false\n}\n"
+      },
+      "without_docs": {
+        "answer": "{\n  \"zero_change_is_regression\": false,\n  \"differential_pass_proves_contract\": false,\n  \"tests_preserve_assertions\": false,\n  \"default_activates_modern\": false,\n  \"fallback_presence_is_defect\": false,\n  \"ready_to_release\": false\n}\n"
+      }
+    }
+  ],
+  "total_questions": 1
+}

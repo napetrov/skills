@@ -73,3 +73,11 @@ check loads the revised skill with the existing catalog-metadata warning only.
 ## Change assessment (0.3.0)
 
 New brownfield guidance has packaging validation only. Prior agent experiments do not validate this mode; no new migration accuracy or production effectiveness claim is made.
+
+## Brownfield forward-test follow-up
+
+Two fresh runs (with/without 0.3.0) on one scaffolded synthetic migration were
+scored by real Dokimi: both passed the whole-task verdict. Both found the seeded
+defects and avoided false alarms on intentional changes. No accuracy improvement
+is established; reports were author-reviewed, not blindly scored. See
+`evals/project-quality/brownfield/` for records, controls and coverage limits.

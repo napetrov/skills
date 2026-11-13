@@ -7,13 +7,13 @@
       "name": "assess-project-quality",
       "version": "0.3.0",
       "path": "skills/assess-project-quality",
-      "artifact_sha256": "6138534b75ce9ed10f3bc64c7b355715137db77ba9e0911fb9040447b3540456",
+      "artifact_sha256": "185383dc82f496f7b193dc2f114870829878517b4b603c2b5574372e7eb4e008",
       "files": [
         {
           "path": "BENCHMARK.md",
           "mode": "0644",
-          "sha256": "a6a53e8fb416df9988d61e2ec8326fb9cb5e5dd54ca0f5973a1fd394a8ce7967",
-          "size": 4233
+          "sha256": "cc7816886aee7582a8a2e5e2ae4d6b6e97a9cd85e2083972e9f6f184d3f7977c",
+          "size": 4662
         },
         {
           "path": "SKILL.md",

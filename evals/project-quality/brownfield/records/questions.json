@@ -1,0 +1,26 @@
+{
+  "schema_version": "questions.v2",
+  "questions": [
+    {
+      "id": "migration",
+      "question": "Assess migration readiness using the target README contract.",
+      "grading": {
+        "checks": [
+          {
+            "type": "json",
+            "values": [
+              {
+                "zero_change_is_regression": false,
+                "differential_pass_proves_contract": false,
+                "tests_preserve_assertions": false,
+                "default_activates_modern": false,
+                "fallback_presence_is_defect": false,
+                "ready_to_release": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
