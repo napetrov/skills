@@ -35,6 +35,21 @@ large bounded searches often belong in scheduled/advisory runs. Separate fast PR
 checks from broader nightly/release sweeps. Inspect path filters, fork behavior,
 matrix exclusions, fail-open settings and all-skipped selections.
 
+## Merging parallel pilots
+
+Pilots built in parallel branches were each validated against an older base.
+Before merging each one: update it to the current default branch, re-run the
+full required CI, and merge only when that run is green. Merge one at a time;
+after each merge, confirm CI on the default branch itself is green before the
+next. A green run on a stale base is not evidence for the merged result.
+
+## Triage a red CI before blaming the pilot
+
+When a pilot's CI fails, first check whether the same job fails on the default
+branch and on sibling PRs. An identical failure across unrelated branches points
+to the base, the environment or a sibling merge; fix it there (or in a separate
+change) rather than inside the pilot. Record which runs were compared.
+
 ## Handoff to an implementation agent
 
 Supply one concrete pilot per work item:

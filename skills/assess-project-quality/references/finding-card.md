@@ -28,6 +28,11 @@ entry an issue or duplicate one root cause across every affected file.
   valid behavior from the specific fault; no empty/skip/timeout success.
 - **Integration:** proposed files/commands, owner role, estimated/measured cost,
   CI trigger/stage/artifacts, maintenance/expiry, exception and rollback.
+  Cost for a new check is measured time and peak memory on every OS/runtime in
+  the CI matrix that will run it, not one local run; label anything unmeasured
+  as an estimate. Property-based and fuzz tests declare explicit limits on
+  example count, input size and per-example deadline, so they cannot exhaust a
+  CI worker.
 
 Compact reports can combine these fields into a short paragraph or table row;
 full cards belong in an appendix when requested or needed for review. Do not pad

@@ -50,6 +50,10 @@ policy. A common finding card separates candidates, defects, validation gaps,
 opportunities and safe-in-scope patterns. No new executable scanner is bundled.
 Historical 0.1.0 task results do not validate every 0.2.0 discovery family.
 
+## Multi-round lessons (0.4.0)
+
+Adds full-output differential oracles, sequential merging of parallel pilots on a fresh base, cross-branch CI triage, matrix-wide cost measurement, profiles as hypotheses, an optional next-round step with stop criteria, a cost warning, and where to check enforcement.
+
 ## Change assessment (0.3.0)
 
 Adds optional change contracts, replay/shadow assessment, test-integrity and release-activation checks. Legacy behavior is not automatically normative.
