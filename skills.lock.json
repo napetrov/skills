@@ -5,27 +5,33 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "path": "skills/assess-project-quality",
-      "artifact_sha256": "6a121ec39e4565ef76b513c653b8392d9d8f08977ad32776a3eb5dbbfc3dc8d6",
+      "artifact_sha256": "6138534b75ce9ed10f3bc64c7b355715137db77ba9e0911fb9040447b3540456",
       "files": [
         {
           "path": "BENCHMARK.md",
           "mode": "0644",
-          "sha256": "b24d936391739f41966135d70d0107e2c969575cbde1979751b7f26322a45075",
-          "size": 4027
+          "sha256": "a6a53e8fb416df9988d61e2ec8326fb9cb5e5dd54ca0f5973a1fd394a8ce7967",
+          "size": 4233
         },
         {
           "path": "SKILL.md",
           "mode": "0644",
-          "sha256": "9958ec6e1f133c458abb0ecf387dc032feaf18f3b9c5020b9932050daf7f0de9",
-          "size": 5631
+          "sha256": "ca21a6a4b58516260b5254c8668ffd6c40874e2bcaa507e56a8a61d4d2e26ead",
+          "size": 5829
         },
         {
           "path": "references/assessment.md",
           "mode": "0644",
           "sha256": "fb9c3efafd3311b0af930716828a711e680c13656dd1f6e451587006df4701b8",
           "size": 4420
+        },
+        {
+          "path": "references/change-assessment.md",
+          "mode": "0644",
+          "sha256": "d76531059a1e85bf00a4d7a1bd0e44cfc5e77313567d2a080b36c8847e4f4f8f",
+          "size": 5531
         },
         {
           "path": "references/discovery.md",
@@ -84,14 +90,14 @@
         {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "14da4c88f91026367261f76152e807f05050701a2eab55410daa51d2e4848406",
-          "size": 1816
+          "sha256": "3de87079251ad65da0bcf2b1974bbb8e12628aed008ebe7534703c41774d12ad",
+          "size": 1986
         },
         {
           "path": "skill-card.md",
           "mode": "0644",
-          "sha256": "0cc401ed5c8e7faa96e8b7f7b2b1a838f163345abb9c453a211fda2e16a25c47",
-          "size": 2212
+          "sha256": "3b4af3e4421908c9279b9442ae0b83cbdadb42aec55580bf9af7b6b3236bdabf",
+          "size": 2395
         }
       ]
     },

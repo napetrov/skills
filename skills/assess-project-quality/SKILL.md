@@ -1,7 +1,7 @@
 ---
 name: assess-project-quality
 description: Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.
-version: 0.2.0
+version: 0.3.0
 license: Apache-2.0
 product: project-quality
 product_family: engineering-quality
@@ -24,6 +24,9 @@ Supports libraries, numerical/HPC software, CLIs, services and agent evaluators.
 Examples: "Find implicit state machines", "Audit resource lifetimes", or
 "Assess logic, flows and validation, and propose integration into our processes."
 An implicit model is not inherently a defect. Start from consumer promises.
+For rewrites, refactors and migrations, also use the optional
+[change assessment](references/change-assessment.md): define preservation and
+intentional differences before comparing implementations.
 
 ## When Not To Use
 

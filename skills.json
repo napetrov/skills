@@ -4,7 +4,7 @@
     {
       "name": "assess-project-quality",
       "description": "Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "product": "project-quality",
       "product_family": "engineering-quality",
       "tags": [

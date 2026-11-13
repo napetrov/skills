@@ -49,3 +49,7 @@ questions for personal and enterprise repositories without prescribing company
 policy. A common finding card separates candidates, defects, validation gaps,
 opportunities and safe-in-scope patterns. No new executable scanner is bundled.
 Historical 0.1.0 task results do not validate every 0.2.0 discovery family.
+
+## Change assessment (0.3.0)
+
+Adds optional change contracts, replay/shadow assessment, test-integrity and release-activation checks. Legacy behavior is not automatically normative.

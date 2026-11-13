@@ -69,3 +69,7 @@ framework rewrite. The independent public-API oracle passes the protected case
 and fails the unfenced one. This is author-reviewed qualitative evidence, not
 a new A/B comparison or validation of all twelve families. Dokimi strict skill
 check loads the revised skill with the existing catalog-metadata warning only.
+
+## Change assessment (0.3.0)
+
+New brownfield guidance has packaging validation only. Prior agent experiments do not validate this mode; no new migration accuracy or production effectiveness claim is made.
