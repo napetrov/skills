@@ -1,0 +1,5 @@
+stale completion accepted: True
+stored result: stale
+mixed {'visibility': 0.5, 'coverage': 1.0}
+all-timeout {'visibility': 0.0, 'coverage': 1.0}
+empty {'visibility': None, 'coverage': 0}

@@ -1,0 +1,220 @@
+{
+  "skill_version": "0.3.0",
+  "tested_public_commit": "5f363985fea0e81b467064e3ff3e16e518ab4d49",
+  "dokimi_commit": "3b61dd01fc238d4620644681ca8a88994becaa5c",
+  "new_task_score": {
+    "with_docs": {
+      "n": 1,
+      "unscored": 0,
+      "errors": 0,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 1.0,
+      "mean_score": 1.0
+    },
+    "without_docs": {
+      "n": 1,
+      "unscored": 0,
+      "errors": 0,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 1.0,
+      "mean_score": 1.0
+    }
+  },
+  "saved_answer_rescore": {
+    "with_docs": {
+      "n": 3,
+      "unscored": 0,
+      "errors": 0,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 1.0,
+      "mean_score": 1.0
+    },
+    "without_docs": {
+      "n": 3,
+      "unscored": 0,
+      "errors": 0,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 1.0,
+      "mean_score": 1.0
+    }
+  },
+  "grader_controls": {
+    "with_docs": {
+      "n": 22,
+      "unscored": 0,
+      "errors": 0,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 1.0,
+      "mean_score": 1.0
+    },
+    "without_docs": {
+      "n": 19,
+      "unscored": 0,
+      "errors": 3,
+      "judge_unscored": 0,
+      "check_unscored": 0,
+      "pass_rate": 0.0,
+      "mean_score": 0.0
+    }
+  },
+  "routing": {
+    "confusion": {
+      "assess-project-quality": {
+        "assess-project-quality": 3
+      },
+      "performance-contracts": {
+        "performance-contracts": 2,
+        "verify-user-outcomes": 1
+      },
+      "verify-user-outcomes": {
+        "(none)": 1,
+        "verify-user-outcomes": 3
+      }
+    },
+    "own_rate": {
+      "assess-project-quality": 1.0,
+      "performance-contracts": 0.6667,
+      "verify-user-outcomes": 0.75
+    },
+    "n_scored": {
+      "assess-project-quality": 3,
+      "performance-contracts": 3,
+      "verify-user-outcomes": 4
+    },
+    "n_unscored": {
+      "assess-project-quality": 1,
+      "performance-contracts": 1
+    },
+    "attractors": [
+      {
+        "skill": "verify-user-outcomes",
+        "wrongly_picked": 1,
+        "sibling_queries": 6,
+        "rate": 0.1667,
+        "from": [
+          "performance-contracts"
+        ]
+      }
+    ],
+    "note": "(none) counts a query no card shares a word with; in the model arm it also counts an abstention. (tie) counts a query on which two or more other cards tie for the top score, so no field order decides it. A query with no content word, and a failed model call, is not scored: it is in neither the confusion matrix nor any rate (see n_unscored)."
+  },
+  "commands": [
+    {
+      "label": "catalog",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "catalog",
+        "check",
+        "--root",
+        "/workspace/scratch/c0a9fdcf5a68/skills-repo",
+        "--kind",
+        "skills",
+        "--strict",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8032
+    },
+    {
+      "label": "routing",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "novelty",
+        "routing",
+        "--all-vs-all",
+        "--catalog",
+        "/workspace/scratch/c0a9fdcf5a68/skills-repo/skills",
+        "--queries-by-skill",
+        "/workspace/scratch/c0a9fdcf5a68/skills-repo/evals/project-quality/routing-queries.json",
+        "--out",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/routing.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6986
+    },
+    {
+      "label": "inspect-skills",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "repo",
+        "inspect",
+        "/workspace/scratch/c0a9fdcf5a68/skills-repo",
+        "--out",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/repo-skills.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.634
+    },
+    {
+      "label": "inspect-dokimi",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "repo",
+        "inspect",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi",
+        "--out",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/repo-dokimi.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6257
+    },
+    {
+      "label": "score",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "eval",
+        "score",
+        "reference",
+        "--answers",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/answers.json",
+        "--questions",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/questions.json",
+        "--no-judge",
+        "-o",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/score.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.917
+    },
+    {
+      "label": "control-score",
+      "command": [
+        "/workspace/scratch/c0a9fdcf5a68/dokimi-env/bin/python",
+        "/workspace/scratch/c0a9fdcf5a68/dokimi/dokimi/cli.py",
+        "eval",
+        "score",
+        "reference",
+        "--answers",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/control-answers.json",
+        "--questions",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/control-questions.json",
+        "--no-judge",
+        "-o",
+        "/workspace/scratch/c0a9fdcf5a68/brown-eval/dokimi-regression/control-score.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5598
+    }
+  ],
+  "report_words": {
+    "baseline": 408,
+    "skill": 602
+  },
+  "target_hashes": {
+    "checks.py": "35fdff215a8fd645803557ed7fee9bd44afe900c59d7b797eeab934e0d72c45e",
+    "app.py": "05872154c76b3dcb9ecb6cadf4ac282372a7d980684665ab4ece98f7e0fe64d6",
+    "engines.py": "e97044ea3dae19e7eee20faf24d10921c44c1665f37516ff40235ef41d5fbc4d",
+    "README.md": "915d01b2bae62aa4aecc685152da4049fe584a17ed82de759902be3a3ac80382"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "visible_checks_pass": true,
+  "zero_old": 3,
+  "zero_new": 0,
+  "negative_old": 3,
+  "negative_new": 0,
+  "default_zero": 3
+}

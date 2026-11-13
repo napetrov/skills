@@ -1,0 +1,723 @@
+{
+  "date": "2026-11-12",
+  "dokimi_commit": "3b61dd01fc238d4620644681ca8a88994becaa5c",
+  "subject_base_commit": "13482741042daf225d15244d484571e9043acf9c",
+  "agent_runner": "fresh collaboration agents, inherited parent model, one run per task and arm",
+  "model_identifier": null,
+  "tokens": null,
+  "scores": {
+    "reference-score": {
+      "with_docs": {
+        "n": 3,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      },
+      "without_docs": {
+        "n": 3,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      }
+    },
+    "control-score": {
+      "with_docs": {
+        "n": 22,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      },
+      "without_docs": {
+        "n": 19,
+        "unscored": 0,
+        "errors": 3,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 0.0,
+        "mean_score": 0.0
+      }
+    },
+    "retest": {
+      "with_docs": {
+        "n": 1,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      },
+      "without_docs": {
+        "n": 1,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      }
+    },
+    "partial": {
+      "with_docs": {
+        "n": 1,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 1,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      }
+    }
+  },
+  "report_words": {
+    "compat-with_docs": 1854,
+    "compat-without_docs": 711,
+    "flow-with_docs": 1739,
+    "flow-without_docs": 461,
+    "numeric-with_docs": 1812,
+    "numeric-without_docs": 1021,
+    "compat-v2": 786
+  },
+  "catalog": {
+    "before": [
+      {
+        "name": "assess-project-quality",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          },
+          {
+            "level": "warn",
+            "code": "description-no-when",
+            "message": "description has no 'when' clause (e.g. 'use when ...'); the model chooses the skill from the description alone"
+          }
+        ],
+        "content_sha256": "b2ae4b60898988132992669a3add75a3c0863dcacbe20c160bf7860a9ffbec3d",
+        "skill_sha256": "4e5cc850f2678ba6feac98220154ea80a04f5848bb7422a101b5a83ef33336c0"
+      },
+      {
+        "name": "performance-contracts",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          },
+          {
+            "level": "warn",
+            "code": "description-no-when",
+            "message": "description has no 'when' clause (e.g. 'use when ...'); the model chooses the skill from the description alone"
+          }
+        ],
+        "content_sha256": "e7c6b70f026c9c7a8bc646d310d4890ca5869b1866467a42fc771a4fd3f101ca",
+        "skill_sha256": "6872486ffc905cb10a4c7c9674b852ebdff4eb1b22b1d3fba5e388fb1a86eaf2"
+      },
+      {
+        "name": "verify-user-outcomes",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          },
+          {
+            "level": "warn",
+            "code": "description-no-when",
+            "message": "description has no 'when' clause (e.g. 'use when ...'); the model chooses the skill from the description alone"
+          }
+        ],
+        "content_sha256": "2fb09fe1a114d163c152e4d22ffc1eaa312f0ae3825f51ef04dc33516eddb04b",
+        "skill_sha256": "3b710683c511400ee3ed085738dd2f48909ddd018c3cb563b9e3cc5657e9bdfe"
+      }
+    ],
+    "after": [
+      {
+        "name": "assess-project-quality",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          }
+        ],
+        "content_sha256": "c835d83fe85207cd6b28a3609331b454a4599362369176166e1369433b6e1e62",
+        "skill_sha256": "5c759dde3d29dff32c503e51025ea62b1ea3287f4567672314f35072df51248b"
+      },
+      {
+        "name": "performance-contracts",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          },
+          {
+            "level": "warn",
+            "code": "description-no-when",
+            "message": "description has no 'when' clause (e.g. 'use when ...'); the model chooses the skill from the description alone"
+          }
+        ],
+        "content_sha256": "e7c6b70f026c9c7a8bc646d310d4890ca5869b1866467a42fc771a4fd3f101ca",
+        "skill_sha256": "6872486ffc905cb10a4c7c9674b852ebdff4eb1b22b1d3fba5e388fb1a86eaf2"
+      },
+      {
+        "name": "verify-user-outcomes",
+        "state": "warn",
+        "findings": [
+          {
+            "level": "warn",
+            "code": "frontmatter-unknown-key",
+            "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+          },
+          {
+            "level": "warn",
+            "code": "description-no-when",
+            "message": "description has no 'when' clause (e.g. 'use when ...'); the model chooses the skill from the description alone"
+          }
+        ],
+        "content_sha256": "2fb09fe1a114d163c152e4d22ffc1eaa312f0ae3825f51ef04dc33516eddb04b",
+        "skill_sha256": "3b710683c511400ee3ed085738dd2f48909ddd018c3cb563b9e3cc5657e9bdfe"
+      }
+    ]
+  },
+  "routing": {
+    "before": {
+      "n_skills": 3,
+      "n_queries": 12,
+      "tied_groups": [],
+      "lexical": {
+        "confusion": {
+          "assess-project-quality": {
+            "assess-project-quality": 3
+          },
+          "performance-contracts": {
+            "performance-contracts": 2,
+            "verify-user-outcomes": 1
+          },
+          "verify-user-outcomes": {
+            "(none)": 1,
+            "verify-user-outcomes": 3
+          }
+        },
+        "own_rate": {
+          "assess-project-quality": 1.0,
+          "performance-contracts": 0.6667,
+          "verify-user-outcomes": 0.75
+        },
+        "n_scored": {
+          "assess-project-quality": 3,
+          "performance-contracts": 3,
+          "verify-user-outcomes": 4
+        },
+        "n_unscored": {
+          "assess-project-quality": 1,
+          "performance-contracts": 1
+        },
+        "attractors": [
+          {
+            "skill": "verify-user-outcomes",
+            "wrongly_picked": 1,
+            "sibling_queries": 6,
+            "rate": 0.1667,
+            "from": [
+              "performance-contracts"
+            ]
+          }
+        ],
+        "note": "(none) counts a query no card shares a word with; in the model arm it also counts an abstention. (tie) counts a query on which two or more other cards tie for the top score, so no field order decides it. A query with no content word, and a failed model call, is not scored: it is in neither the confusion matrix nor any rate (see n_unscored)."
+      }
+    },
+    "after": {
+      "n_skills": 3,
+      "n_queries": 12,
+      "tied_groups": [],
+      "lexical": {
+        "confusion": {
+          "assess-project-quality": {
+            "(none)": 1,
+            "assess-project-quality": 2
+          },
+          "performance-contracts": {
+            "performance-contracts": 2,
+            "verify-user-outcomes": 1
+          },
+          "verify-user-outcomes": {
+            "(none)": 1,
+            "verify-user-outcomes": 3
+          }
+        },
+        "own_rate": {
+          "assess-project-quality": 0.6667,
+          "performance-contracts": 0.6667,
+          "verify-user-outcomes": 0.75
+        },
+        "n_scored": {
+          "assess-project-quality": 3,
+          "performance-contracts": 3,
+          "verify-user-outcomes": 4
+        },
+        "n_unscored": {
+          "assess-project-quality": 1,
+          "performance-contracts": 1
+        },
+        "attractors": [
+          {
+            "skill": "verify-user-outcomes",
+            "wrongly_picked": 1,
+            "sibling_queries": 6,
+            "rate": 0.1667,
+            "from": [
+              "performance-contracts"
+            ]
+          }
+        ],
+        "note": "(none) counts a query no card shares a word with; in the model arm it also counts an abstention. (tie) counts a query on which two or more other cards tie for the top score, so no field order decides it. A query with no content word, and a failed model call, is not scored: it is in neither the confusion matrix nor any rate (see n_unscored)."
+      }
+    }
+  },
+  "repo_inspection": {
+    "skills": {
+      "findings": [
+        {
+          "id": "checks.lint.missing",
+          "rule": "checks.lint.missing",
+          "severity": "warning",
+          "confidence": "medium",
+          "stages": [
+            "verify"
+          ],
+          "path": null,
+          "why": "no lint script, target, config or pre-commit hook found"
+        },
+        {
+          "id": "checks.typecheck.missing",
+          "rule": "checks.typecheck.missing",
+          "severity": "info",
+          "confidence": "low",
+          "stages": [
+            "verify"
+          ],
+          "path": null,
+          "why": "node code, no type-check script or config found"
+        }
+      ],
+      "stages": [
+        {
+          "stage": "orient",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "bootstrap",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "navigate",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "edit",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "verify",
+          "status": "attention",
+          "findings": [
+            "checks.lint.missing"
+          ]
+        },
+        {
+          "stage": "deploy",
+          "status": "no_known_blocker",
+          "findings": []
+        }
+      ],
+      "risk": "low"
+    },
+    "dokimi": {
+      "findings": [
+        {
+          "id": "files.large:dokimi/docs/assets/readme/ab-test.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/ab-test.png",
+          "why": "138789 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/assets/readme/annotated-skill.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/annotated-skill.png",
+          "why": "127061 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/assets/readme/improvement-loop.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/improvement-loop.png",
+          "why": "113926 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/assets/readme/novelty-outcomes.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/novelty-outcomes.png",
+          "why": "117062 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/assets/readme/shortening-strategies.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/shortening-strategies.png",
+          "why": "273522 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/assets/readme/three-questions.png",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/assets/readme/three-questions.png",
+          "why": "126565 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/reference/cli-interface.json",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/reference/cli-interface.json",
+          "why": "508813 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/repo-evaluation-contract.md",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/repo-evaluation-contract.md",
+          "why": "198032 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/skill-novelty-evidence.md",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/skill-novelty-evidence.md",
+          "why": "102101 bytes"
+        },
+        {
+          "id": "files.large:dokimi/docs/skill-novelty.md",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/docs/skill-novelty.md",
+          "why": "104953 bytes"
+        },
+        {
+          "id": "files.large:dokimi/requirements-ci.lock.txt",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/requirements-ci.lock.txt",
+          "why": "134562 bytes"
+        },
+        {
+          "id": "files.large:dokimi/requirements.lock.txt",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/requirements.lock.txt",
+          "why": "281728 bytes"
+        },
+        {
+          "id": "files.large:dokimi/tests/test_judge_validity.py",
+          "rule": "files.large",
+          "severity": "info",
+          "confidence": "high",
+          "stages": [
+            "navigate",
+            "edit"
+          ],
+          "path": "dokimi/tests/test_judge_validity.py",
+          "why": "105042 bytes"
+        }
+      ],
+      "stages": [
+        {
+          "stage": "orient",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "bootstrap",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "navigate",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "edit",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "verify",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "deploy",
+          "status": "no_known_blocker",
+          "findings": []
+        }
+      ],
+      "risk": "low"
+    },
+    "prove2me": {
+      "findings": [
+        {
+          "id": "checks.test.missing",
+          "rule": "checks.test.missing",
+          "severity": "error",
+          "confidence": "medium",
+          "stages": [
+            "verify"
+          ],
+          "path": null,
+          "why": "no test files and no way to run tests found"
+        },
+        {
+          "id": "checks.lint.missing",
+          "rule": "checks.lint.missing",
+          "severity": "warning",
+          "confidence": "medium",
+          "stages": [
+            "verify"
+          ],
+          "path": null,
+          "why": "no lint script, target, config or pre-commit hook found"
+        },
+        {
+          "id": "instructions.missing",
+          "rule": "instructions.missing",
+          "severity": "warning",
+          "confidence": "high",
+          "stages": [
+            "orient",
+            "navigate"
+          ],
+          "path": null,
+          "why": "no AGENTS.md, CLAUDE.md, GEMINI.md, .github/copilot-instructions.md or other root instruction file"
+        }
+      ],
+      "stages": [
+        {
+          "stage": "orient",
+          "status": "attention",
+          "findings": [
+            "instructions.missing"
+          ]
+        },
+        {
+          "stage": "bootstrap",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "navigate",
+          "status": "attention",
+          "findings": [
+            "instructions.missing"
+          ]
+        },
+        {
+          "stage": "edit",
+          "status": "no_known_blocker",
+          "findings": []
+        },
+        {
+          "stage": "verify",
+          "status": "blocked",
+          "findings": [
+            "checks.test.missing",
+            "checks.lint.missing"
+          ]
+        },
+        {
+          "stage": "deploy",
+          "status": "no_known_blocker",
+          "findings": []
+        }
+      ],
+      "risk": "low"
+    }
+  },
+  "prove2me_skill_findings": [
+    {
+      "level": "warn",
+      "code": "body-too-large",
+      "message": "SKILL.md body is 196 lines and about 5137 tokens (characters / 4); the limit is 500 lines or 5000 tokens. Move the detail into bundled files."
+    }
+  ],
+  "novelty": {
+    "status": "estimate-only",
+    "reason": "No external LLM API credential configured; claude-cli absent; Codex CLI initialization failed with read-only filesystem. Agent task outputs were imported instead of generated by Dokimi.",
+    "estimate": {
+      "spans": 252,
+      "tokens": 6778,
+      "atom_cap": 25,
+      "estimate": {
+        "n_atoms": 25,
+        "paired_probes": 25,
+        "reversal_probes": 0,
+        "probe_calls": 100,
+        "stage_calls": 12,
+        "oracle_pairs": 0,
+        "total_calls": 112,
+        "total_calls_if_every_pair_escalates": 112,
+        "by_role": {
+          "extractor": 12,
+          "answerer": 50,
+          "judge": 50
+        },
+        "expected_calls": 112
+      },
+      "tier": {
+        "name": "triage",
+        "forfeits": [
+          "`added` is a rate over the sample of extracted atoms the cap kept, not over every atom: usable as a sign, not as a figure, and not comparable with another artifact's; pass --all-atoms for the full sweep",
+          "atoms are not checked against the spans they were extracted from, so `faithfulness` is empty and distortion is unbounded",
+          "no shortening candidates are scored, so nothing here says what could be cut",
+          "no paraphrase probe, so a `redundant` verdict is unprotected against the model matching the artifact's own wording",
+          "no reversal probe, so planted-inversion resistance is unmeasured",
+          "atoms are not checked against the spans cited for them, so no span colour is confirmed",
+          "content categories are not judged, so `harmful_conflicting` is unmeasured -- the one category that can make an artifact worse than nothing"
+        ],
+        "overrides": {}
+      },
+      "caveat": "forfeits assume the atom cap is reached; the run recomputes them from the atoms it extracts",
+      "expected_usd": 1.080704,
+      "usd_extrapolated": true
+    },
+    "not_measured": [
+      "knowledge novelty",
+      "model-based skill routing",
+      "independent LLM judge agreement"
+    ]
+  },
+  "frozen_input_hashes": {
+    "compat/TASK.md": "9c76ce995a60934c47f34fa9e2b9ffe1656d2b3d21ba0b947e0ce13874a5eb0c",
+    "compat/evidence.md": "7fdb6653822cd058b1ebca157c46f333eaedc8607a4f614f8e4e78f4f5b2e407",
+    "flow/.verification/contracts/config.json": "78739e0f6aacbbb29bf89deaf4a83adb8b88d94e4baa15eef237107eab2f4adf",
+    "flow/.verification/contracts/outcomes/OUTCOME-SCAN-COMPARE.json": "36f360196e61bdc8ef1bd8d85048454c459365c2b746373007e492072eefa521",
+    "flow/TASK.md": "60a5717d62753c8a2ce895f64fbd3178f245ede97a682231d8de4f7dd626ea4b",
+    "flow/data/measurements.json": "5fba9dfc29d2458c6bc51cb0d886398405dc96fe8d57164b7bbbf12612db21cf",
+    "flow/docs/journeys.md": "af753d5f1fa97e7a94096f62793df0b23627397933ca5d3d8bec21df32d62dfa",
+    "flow/package.json": "48d6bf8de57600b8ed668101eaf1f46a991827d207d97db9155b5c06b32c4086",
+    "flow/src/cli.js": "045b2f6957e74dac8d782cf8660488f842822415218466c05ca6f94c9371e4ca",
+    "flow/src/compare.js": "a7f52786b8324ecbc7f947a77c4416fd1582f30e36b272d30184ceab81f64603",
+    "flow/src/store.js": "1ecede2651eb9b4bfed569837d87e3e34731c4052e00af4adb3ccaf033c052ed",
+    "flow/tests/scan-compare.test.js": "0cbed9b44dac0846e860cd085632128778c8a6eca278f03e5269ea3ed4f40803",
+    "numeric/.verification/contracts/baselines/fixture-reference-v1.json": "eb5950d4b1edb00e3661cdf5e9bd13b95455ad62fbcc884ead4920ad7070499c",
+    "numeric/.verification/contracts/config.json": "163b2eb861633472488c2035be9ff86ca9454b83995e9d45124a57d442f983e0",
+    "numeric/.verification/contracts/performance/PERF-MATCH-001.json": "c8b1278573e47227da8ba27f501c666526cda9421a0327db003959b4880f6bd9",
+    "numeric/README.md": "7b41b5efc7cc1ed3558a08d65b037d3c925d3cb7f2fcd7312a74b8f11a279e93",
+    "numeric/TASK.md": "8caf855aae4f7d9e25254c3deb683bf41f8e6b904a51b3f335f10d4dc1d305e6",
+    "numeric/benchmarks/contracts/bench_symbol_match.py": "1ab4111453bdb3d502fe70837f39906ca3eb0d4fbedccfa25d1ccc5246b07ce6",
+    "numeric/ci-example/contracts.workflow.example.yml": "dbedda07f5a3c3ba197de3bbbfcc270233819ad4dd2a12b666edfc5c3675a41d",
+    "numeric/src/matcher.py": "5829e1a77932363897f0b1471539bb8b995806498a81c4bb759fa322997d9e86",
+    "numeric/src/normalize.py": "5a96509e1e1436fb117e14a5edb8ed7b05052f6eae559568f7c989f0aad6cad5",
+    "numeric/tests/contracts/test_matcher.py": "6b714a1a82d842a084d5ad202a8192230623898df08c3dcb5b1f70e3654fb02f",
+    "frozen-skill/BENCHMARK.md": "c56860bce282a4df48f96dd83e6675a4292430a7cfc860a642f5e90a4f8ea570",
+    "frozen-skill/SKILL.md": "b2ae4b60898988132992669a3add75a3c0863dcacbe20c160bf7860a9ffbec3d",
+    "frozen-skill/references/assessment.md": "b12b0bc3c9aa828c85cb12212e477d1b9b23d62c4e4cf0b07f5b8b196c87f57b",
+    "frozen-skill/references/formal-evidence.md": "9356e025f2486b76207b44de8c2fdf13bd7a123042a2523e46f90482b98a8392",
+    "frozen-skill/references/integration.md": "97cb15aaf4453c5d55ab481187ecc2ed13da09b59205726829d02d67a4f6b281",
+    "frozen-skill/references/methods.md": "a95bbc58b5011b2ee90ca8b1ba4d96647d0aafc7692ea9204732a633ca558871",
+    "frozen-skill/references/report-template.md": "f4f47f05f62a3994d43a867940d1014f7cde39c892766eb181d5cb3816b6c221",
+    "frozen-skill/skill-card.json": "56db587cb6931ba1dc4976c57566473d7b40c6d9019c640eefd5539519240587",
+    "frozen-skill/skill-card.md": "f52072a166263a824d98fb6cae6ee18bb8d7124cc10a865bc469d4592ff597f7",
+    "frozen-skill-v2/BENCHMARK.md": "c56860bce282a4df48f96dd83e6675a4292430a7cfc860a642f5e90a4f8ea570",
+    "frozen-skill-v2/SKILL.md": "021f0e64252c4a7b538e310635516b20ed2563cb878e4df1988999de76e4d653",
+    "frozen-skill-v2/references/assessment.md": "b12b0bc3c9aa828c85cb12212e477d1b9b23d62c4e4cf0b07f5b8b196c87f57b",
+    "frozen-skill-v2/references/formal-evidence.md": "9356e025f2486b76207b44de8c2fdf13bd7a123042a2523e46f90482b98a8392",
+    "frozen-skill-v2/references/integration.md": "97cb15aaf4453c5d55ab481187ecc2ed13da09b59205726829d02d67a4f6b281",
+    "frozen-skill-v2/references/methods.md": "a95bbc58b5011b2ee90ca8b1ba4d96647d0aafc7692ea9204732a633ca558871",
+    "frozen-skill-v2/references/report-template.md": "0d1844f52273bc3c924ef4628b5aa9e3895822ffc6a43d268ed194c753e95bf3",
+    "frozen-skill-v2/skill-card.json": "56db587cb6931ba1dc4976c57566473d7b40c6d9019c640eefd5539519240587",
+    "frozen-skill-v2/skill-card.md": "f52072a166263a824d98fb6cae6ee18bb8d7124cc10a865bc469d4592ff597f7"
+  }
+}

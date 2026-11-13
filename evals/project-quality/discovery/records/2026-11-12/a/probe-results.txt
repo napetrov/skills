@@ -1,0 +1,9 @@
+Python 3.12.14; local in-memory probe; no target writes
+AST parsed store.py; calls: self.row.update:5
+AST parsed service.py; calls: Store:6, Lock:7, row.update:13, self._store._save:20, ValueError:12
+PASS early reclaim rejected
+PASS same-name reacquisition; stale before/after fresh and duplicate rejected; terminal claim rejected
+PASS wrong worker rejected and current worker accepted
+PASS queued publish rejected
+PASS 100 two-thread duplicate publication trials: exactly one success per trial (scheduler coverage not guaranteed)
+Duration 0.0204s

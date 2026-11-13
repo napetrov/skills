@@ -1,0 +1,65 @@
+{
+  "schema_version": "eval.v1",
+  "run_id": "20261113T013909Z-c2a000b2",
+  "dokimi_version": "0.2.0",
+  "evaluated_at": "2026-11-13T01:39:10Z",
+  "judge_model": null,
+  "judge_provider": null,
+  "total_evaluations": 1,
+  "evaluations": [
+    {
+      "question_id": "migration",
+      "question_text": "Assess migration readiness using the target README contract.",
+      "with_docs": {
+        "aggregate": 100.0,
+        "passed": true,
+        "checks": [
+          {
+            "type": "json",
+            "passed": true,
+            "score": 1.0
+          }
+        ],
+        "scorer": "reference"
+      },
+      "without_docs": {
+        "aggregate": 100.0,
+        "passed": true,
+        "checks": [
+          {
+            "type": "json",
+            "passed": true,
+            "score": 1.0
+          }
+        ],
+        "scorer": "reference"
+      },
+      "delta": 0.0
+    }
+  ],
+  "run_metadata": {
+    "scorer": "reference",
+    "questions": "/workspace/scratch/c0a9fdcf5a68/brown-eval/scored/questions.json",
+    "summary": {
+      "with_docs": {
+        "n": 1,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      },
+      "without_docs": {
+        "n": 1,
+        "unscored": 0,
+        "errors": 0,
+        "judge_unscored": 0,
+        "check_unscored": 0,
+        "pass_rate": 1.0,
+        "mean_score": 1.0
+      }
+    },
+    "ungraded_questions": 0
+  }
+}

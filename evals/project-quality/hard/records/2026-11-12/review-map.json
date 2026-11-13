@@ -1,0 +1,62 @@
+{
+  "r01": {
+    "task": "quartz",
+    "arm": "good",
+    "control": true
+  },
+  "r02": {
+    "task": "cedar",
+    "arm": "bad",
+    "control": true
+  },
+  "r03": {
+    "task": "harbor",
+    "arm": "without_docs",
+    "control": false
+  },
+  "r04": {
+    "task": "cedar",
+    "arm": "good",
+    "control": true
+  },
+  "r05": {
+    "task": "harbor",
+    "arm": "with_docs",
+    "control": false
+  },
+  "r06": {
+    "task": "quartz",
+    "arm": "without_docs",
+    "control": false
+  },
+  "r07": {
+    "task": "quartz",
+    "arm": "with_docs",
+    "control": false
+  },
+  "r08": {
+    "task": "harbor",
+    "arm": "bad",
+    "control": true
+  },
+  "r09": {
+    "task": "cedar",
+    "arm": "without_docs",
+    "control": false
+  },
+  "r10": {
+    "task": "cedar",
+    "arm": "with_docs",
+    "control": false
+  },
+  "r11": {
+    "task": "quartz",
+    "arm": "bad",
+    "control": true
+  },
+  "r12": {
+    "task": "harbor",
+    "arm": "good",
+    "control": true
+  }
+}

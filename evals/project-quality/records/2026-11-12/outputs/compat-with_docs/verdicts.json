@@ -1,0 +1,7 @@
+{
+  "ci_behavior_verified": "no",
+  "property_tests_implemented": "unknown",
+  "oracle_independent": "no",
+  "whole_product_proved": "no",
+  "merge_enforcement": "unknown"
+}

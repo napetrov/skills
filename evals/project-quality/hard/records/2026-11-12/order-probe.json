@@ -1,0 +1,14 @@
+{
+  "original": {
+    "tests": 3,
+    "passed": true
+  },
+  "chunk_swap": {
+    "tests": 3,
+    "passed": true
+  },
+  "independent_distinct_chunk_case": {
+    "original_pass": true,
+    "mutant_rejected": true
+  }
+}

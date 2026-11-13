@@ -1,0 +1,48 @@
+{
+  "skill_version": "0.2.0",
+  "date": "2026-11-12",
+  "runner": "two fresh collaboration sessions, inherited configuration",
+  "model_id": null,
+  "tokens": null,
+  "review": "author qualitative review; not blinded, not an A/B result",
+  "scope": "P01/P04 focused caller-boundary examples only",
+  "a": {
+    "classification": "safe-in-supported-scope plus validation-gap",
+    "caller_guard_recognized": true,
+    "transition_model_present": true,
+    "no_exhaustive_claim": true
+  },
+  "b": {
+    "classification": "confirmed-defect plus validation-gap",
+    "public_api_stale_first_trace": true,
+    "transition_model_present": true,
+    "helper_not_separately_blamed": true,
+    "no_exhaustive_claim": true
+  },
+  "dokimi_check": {
+    "state": "warn",
+    "findings": [
+      {
+        "level": "warn",
+        "code": "frontmatter-unknown-key",
+        "message": "frontmatter has 'agents', 'data_classification', 'implementation_url', 'maturity', 'problems', 'product', 'product_family', 'source_url', 'tags', which no spec or Claude Code field is named; a typo, or a field no harness reads"
+      }
+    ]
+  },
+  "frozen_skill_hashes": {
+    "SKILL.md": "9958ec6e1f133c458abb0ecf387dc032feaf18f3b9c5020b9932050daf7f0de9",
+    "skill-card.json": "14da4c88f91026367261f76152e807f05050701a2eab55410daa51d2e4848406",
+    "skill-card.md": "8b524d2e052aeb7f90bbc2d042c29ba631c61d5fb7f85361c2078a67a3645eec",
+    "BENCHMARK.md": "68f2eec5fab57a8cd94507525b7d6246b1715f3ecc6079f2d822b1b3eb129134",
+    "references/discovery.md": "5c9abab36176d45eaefec181604cfe13654dd13bfb0d26ca402665ad098ce2d9",
+    "references/integration.md": "7ca537540c3434b0e6539eebb770fbd37ec22ab5a0a4aa42992e6f6bcf045c16",
+    "references/report-template.md": "9813e7ff22f91a1db2ad2d2e7afdf27d7767a2fad099b64e10a8850bb4e74e6d",
+    "references/pattern-catalog.md": "3ab0501e83e505967c25323056f8d702f0e5e64b61aaa2920de24518deee7456",
+    "references/methods.md": "a95bbc58b5011b2ee90ca8b1ba4d96647d0aafc7692ea9204732a633ca558871",
+    "references/project-profiles.md": "db132b54288a9f31c229fe93bbebfdf5c1c229804025d32b2e0a411f200ce412",
+    "references/finding-card.md": "4bb8f1385e3c87c15178df0537f595fc426ebf848f1013b2808c60fccb70fd33",
+    "references/assessment.md": "fb9c3efafd3311b0af930716828a711e680c13656dd1f6e451587006df4701b8",
+    "references/state-machines.md": "f0f22be28613aab88a32f6cc289b7f31340612fb3ca8bc5c85918e121a58c533",
+    "references/formal-evidence.md": "9356e025f2486b76207b44de8c2fdf13bd7a123042a2523e46f90482b98a8392"
+  }
+}

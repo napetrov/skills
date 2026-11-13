@@ -1,0 +1,61 @@
+{
+  "name": "assess-project-quality",
+  "owner": "Skills contributors",
+  "source_url": "https://github.com/napetrov/skills",
+  "implementation_url": "https://github.com/napetrov/skills/tree/main/skills/assess-project-quality",
+  "source": {
+    "repository": "https://github.com/napetrov/skills",
+    "ref": "main",
+    "path": "skills/assess-project-quality"
+  },
+  "catalog": {
+    "repository": "https://github.com/napetrov/skills",
+    "path": "skills/assess-project-quality"
+  },
+  "data_classification": "public",
+  "output": {
+    "type": "agent-instructions",
+    "format": "markdown"
+  },
+  "deployment_geography": [
+    "global"
+  ],
+  "tools": [],
+  "network": {
+    "required": false,
+    "destinations": []
+  },
+  "scripts": [],
+  "permissions": [
+    "read repository files and available CI evidence",
+    "write assessment report when requested"
+  ],
+  "risks": [
+    "overstate static or bounded evidence",
+    "disclose private project data",
+    "recommend costly or irrelevant gates",
+    "mistake implicit patterns or local missing guards for reachable defects",
+    "preserve legacy defects or accept migration based on a weak comparator"
+  ],
+  "mitigations": [
+    "separate implementation, execution, enforcement and proof scope",
+    "keep private evidence within authorized output destinations",
+    "limit initial pilots, use compact reports and require measured rollout criteria",
+    "recover contract and caller context, attempt refutation and distinguish candidates from confirmed findings",
+    "classify intended differences, test comparator controls and trace release activation"
+  ],
+  "ethical_considerations": [
+    "do not overstate unverified outcomes"
+  ],
+  "release_evidence": {
+    "artifact_manifest": "skills.lock.json",
+    "attestation": "none",
+    "signing_workflow": ".github/workflows/release.yml"
+  },
+  "signature": {
+    "status": "unsigned",
+    "identity": "none",
+    "subjects": []
+  },
+  "verification_status": "unverified"
+}

@@ -1,0 +1,20 @@
+{
+  "assess-project-quality": [
+    "Assess our repository and propose checks for logic, workflow completeness and validation quality.",
+    "Which testing and formal verification tools fit this project, and how should we integrate them into CI?",
+    "Посмотри проект: где пробелы в логике и проверках, что внедрить в процессы?",
+    "Do we need TLA+, Z3 or Lean for this codebase? Give an evidence-backed integration plan."
+  ],
+  "performance-contracts": [
+    "Set up a repeatable performance budget for the symbol matcher.",
+    "Check whether this change makes the matcher quadratic.",
+    "The performance contract fails: investigate the regression and retain the baseline.",
+    "Проверь регрессию производительности и бюджет времени."
+  ],
+  "verify-user-outcomes": [
+    "Verify that users can compare completed scans through the CLI.",
+    "Trace the promised user outcome to an executed assertion.",
+    "The helper returns results, but the user sees an empty report. Verify the complete journey.",
+    "Проверь что пользовательский сценарий работает через CLI."
+  ]
+}
