@@ -7,7 +7,7 @@
       "name": "assess-project-quality",
       "version": "0.4.0",
       "path": "skills/assess-project-quality",
-      "artifact_sha256": "b3ddec864a1c482adcafbfdb7c7c3146178ff40dcd4ac7845e471a95243b081d",
+      "artifact_sha256": "36d6176254e552a90260c81f03b7bcdac57e0c8984c65ef6368ba57b505815bf",
       "files": [
         {
           "path": "BENCHMARK.md",
@@ -42,8 +42,8 @@
         {
           "path": "references/finding-card.md",
           "mode": "0644",
-          "sha256": "2f20b83458b7934ff5ae5f6dccdeb78294c3e3a852968f1264633bf20353c059",
-          "size": 3214
+          "sha256": "df37600e5057fd2ca0dcad8c42169e8f3dfa49399a07c6c175b23d936f75d308",
+          "size": 3442
         },
         {
           "path": "references/formal-evidence.md",
@@ -54,8 +54,8 @@
         {
           "path": "references/integration.md",
           "mode": "0644",
-          "sha256": "b027db79565061d430d7cf2b41ebca452fa40aa170dbbc062f8ec53cb9f146c6",
-          "size": 4296
+          "sha256": "9add1884bfad2bbeb80f86fc62f7574ba8f17de3ae279ebb7a8872d34a37d67f",
+          "size": 4590
         },
         {
           "path": "references/methods.md",
@@ -90,8 +90,8 @@
         {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "3de87079251ad65da0bcf2b1974bbb8e12628aed008ebe7534703c41774d12ad",
-          "size": 1986
+          "sha256": "c1e82736b73d32e6bc5d07d7cca2d45ab04a32da48136199db3ad1862319331e",
+          "size": 2338
         },
         {
           "path": "skill-card.md",

@@ -31,8 +31,10 @@ entry an issue or duplicate one root cause across every affected file.
   Cost for a new check is measured time and peak memory on every OS/runtime in
   the CI matrix that will run it, not one local run; label anything unmeasured
   as an estimate. Property-based and fuzz tests declare explicit limits on
-  example count, input size and per-example deadline, so they cannot exhaust a
-  CI worker.
+  example count, input size and per-example deadline, plus a hard process or job
+  timeout (a per-example deadline is checked only after the example returns, so
+  it cannot stop a hang) and a worker-appropriate memory bound or isolation (for
+  example libFuzzer's RSS limit); small inputs alone do not bound allocation.
 
 Compact reports can combine these fields into a short paragraph or table row;
 full cards belong in an appendix when requested or needed for review. Do not pad

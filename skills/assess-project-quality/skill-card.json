@@ -42,7 +42,11 @@
     "keep private evidence within authorized output destinations",
     "limit initial pilots, use compact reports and require measured rollout criteria",
     "recover contract and caller context, attempt refutation and distinguish candidates from confirmed findings",
-    "classify intended differences, test comparator controls and trace release activation"
+    "classify intended differences, test comparator controls and trace release activation",
+    "compare full serialized public output in differential oracles",
+    "merge parallel pilots one at a time on a fresh base and re-validate the merged revision",
+    "measure check cost on every CI matrix platform and bound property/fuzz tests by time and memory",
+    "verify enforcement from rulesets or branch protection, else report it unknown"
   ],
   "ethical_considerations": [
     "do not overstate unverified outcomes"
