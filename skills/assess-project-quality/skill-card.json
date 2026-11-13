@@ -35,7 +35,11 @@
     "disclose private project data",
     "recommend costly or irrelevant gates",
     "mistake implicit patterns or local missing guards for reachable defects",
-    "preserve legacy defects or accept migration based on a weak comparator"
+    "preserve legacy defects or accept migration based on a weak comparator",
+    "accept a differential check that compares only a projection of output",
+    "merge pilots validated on a stale base and break the default branch",
+    "add checks that pass locally but exhaust or fail CI workers on other platforms",
+    "claim a check blocks merges without enforcement evidence"
   ],
   "mitigations": [
     "separate implementation, execution, enforcement and proof scope",
