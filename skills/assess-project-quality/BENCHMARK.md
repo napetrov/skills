@@ -70,6 +70,10 @@ and fails the unfenced one. This is author-reviewed qualitative evidence, not
 a new A/B comparison or validation of all twelve families. Dokimi strict skill
 check loads the revised skill with the existing catalog-metadata warning only.
 
+## Multi-round lessons (0.4.0)
+
+Guidance derived from one two-round assessment of a real repository (seven merged pilot PRs). Packaging validation only; no new A/B comparison or accuracy claim.
+
 ## Change assessment (0.3.0)
 
 New brownfield guidance has packaging validation only. Prior agent experiments do not validate this mode; no new migration accuracy or production effectiveness claim is made.

@@ -27,6 +27,15 @@ the risk more cheaply.
 | Is performance/recovery acceptable? | Benchmarks, load tests, observability | Environment-specific budgets and production signals; distinguish noise from regression. |
 | Does an LLM evaluator measure what matters? | Human-labeled holdout, calibration, repeated trials, adversarial cases | Agreement, uncertainty and bias evidence; mocked judge tests prove only harness behavior. |
 
+## Differential oracles compare the full public output
+
+A differential or live-vs-stored oracle compares the complete serialized public
+output (report, JSON, exit status), including order and every field consumers can
+observe. A projection such as the verdict or the set of findings may be added as
+a diagnostic, never used as the only comparison: it misses ordering, duplicated
+or reworded entries, and dropped fields. Normalize only documented non-determinism
+(timestamps, paths), and list each normalization with its reason.
+
 ## One simple example across methods
 
 Promise: a vending machine with one can never sells two cans.

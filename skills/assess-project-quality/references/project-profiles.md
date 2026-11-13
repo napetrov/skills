@@ -2,13 +2,17 @@
 
 Profiles prioritize questions; they are not audits of named repositories and do
 not hard-code corporate policy. Start with declared support contracts and actual
-architecture, then override this guidance using project evidence.
+architecture, then override this guidance using project evidence. A named
+profile is an example and a starting hypothesis, not a complete list: add a
+family whenever the repository shows its signal (a cache or persisted snapshot →
+P09, a non-trivial native or multi-variant build → P12, and so on), and record
+why each family was added or skipped.
 
 | Profile / examples | Initial families | Specific boundaries to recover |
 | --- | --- | --- |
 | Numerical/HPC library; oneDAL | P02/P03/P04/P06/P08/P10 | Training/inference lifecycle, device buffers, async dependencies, backend dispatch, numerical error contracts, binary consumers |
 | Array/device interface; dpnp/dpctl | P02/P03/P04/P06/P08 | Queue/context association, USM/borrowed memory lifetime, event completion, dtype/device combinations |
-| Compatibility analyzer; abicheck | P06/P07/P08/P10/P11 | Unknown versus compatible, layout representation, independent consumers, generator domain and reduction soundness |
+| Compatibility analyzer; abicheck | P06/P07/P08/P09/P10/P11/P12 | Unknown versus compatible, layout representation, independent consumers, generator domain and reduction soundness, snapshot/cache invalidation, native toolchain and build-variant reproducibility |
 | Evaluation system; Dokimi | P07/P09/P11 | Partial/unscored outcomes, denominator and provenance, cached results, judge failure, report completeness |
 | SaaS/workers; AIReady | P01/P04/P05/P07/P09/P10 | Jobs, retries/cancellation, provider incompleteness, tenant boundaries, cache invalidation, billing effects |
 | Build/infrastructure | P02/P06/P12 | Declared inputs/tools, dependency graph, hermetic actions, generated artifacts, cache correctness, migration parity |

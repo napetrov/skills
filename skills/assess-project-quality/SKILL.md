@@ -1,7 +1,7 @@
 ---
 name: assess-project-quality
 description: Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.
-version: 0.3.0
+version: 0.4.0
 license: Apache-2.0
 product: project-quality
 product_family: engineering-quality
@@ -38,7 +38,8 @@ It requires no cloud account, proprietary service or bundled execution runtime.
 
 1. **Scope and profile.** Read repository guidance; record revision, dirty state,
    consumer promises, support boundaries and authorized operations. Select the
-   applicable [project profile](references/project-profiles.md). Broad audit:
+   applicable [project profile](references/project-profiles.md) as a starting
+   hypothesis, then add families the actual architecture shows. Broad audit:
    triage every [assessment category](references/assessment.md) and
    [pattern family](references/pattern-catalog.md), then investigate the highest
    impact candidates. Focused request: inspect that family and its dependencies;
@@ -72,6 +73,18 @@ It requires no cloud account, proprietary service or bundled execution runtime.
    Include proposed files, acceptance and negative control, owner role, estimated
    or measured cost, CI stage, maintenance and rollback. If implementation was
    authorized, continue with a bounded pilot and validate it in an isolated branch.
+   Merge parallel pilots one at a time on a fresh base (see integration.md).
+7. **Next round (optional).** The not-inspected list and deferred candidates become
+   the next round's backlog; re-run steps 1–6 on it. Stop when a round yields no
+   new validation gap or defect in its highest-impact candidates, the remaining
+   items are low impact, or the agreed budget is spent. Say which applied.
+
+## Cost
+
+A single-agent read-only report is the cheap default. Fanning out to subagents
+or parallel implementation sessions can cost several times more in tokens and CI
+minutes. Say so before starting, and offer the cheaper variant: one auditor,
+pilots implemented sequentially.
 
 ## Safety And Limits
 
