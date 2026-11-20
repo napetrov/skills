@@ -5,21 +5,27 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "version": "0.4.0",
+      "version": "0.6.0",
       "path": "skills/assess-project-quality",
-      "artifact_sha256": "35b1c5ae762f09ac46ed64c7058e93f9cb1977f84794bd45f67b8b061b45ccee",
+      "artifact_sha256": "d029306344cbfc1d67b7f497e4a37baf7d180487dc191eb0723814f9952c02cb",
       "files": [
         {
           "path": "BENCHMARK.md",
           "mode": "0644",
-          "sha256": "8fa9ad2568e72d1d1628b80ed9e57a06baef9ff2759e85f4b2d038c75823fc12",
-          "size": 4857
+          "sha256": "63023147d3e4e4881bc1c915324adcc9b666a205860d5393958b4241fd7bc7be",
+          "size": 6580
         },
         {
           "path": "SKILL.md",
           "mode": "0644",
-          "sha256": "8a412ec408e46894179568b8c9091ca0bc726638b7e91b6a82d10baa57bbe435",
-          "size": 6585
+          "sha256": "05df75acc02bc8157914379c0bb60844cb766cdcb9459e3ee3f32d69b19cabbe",
+          "size": 8158
+        },
+        {
+          "path": "references/assessment-plan.md",
+          "mode": "0644",
+          "sha256": "a9b9f64b33bc4ee2e0b332f22d27ab01741c3a2f81316bf17f66522370d33344",
+          "size": 3060
         },
         {
           "path": "references/assessment.md",
@@ -32,6 +38,12 @@
           "mode": "0644",
           "sha256": "d76531059a1e85bf00a4d7a1bd0e44cfc5e77313567d2a080b36c8847e4f4f8f",
           "size": 5531
+        },
+        {
+          "path": "references/ci-matrix.md",
+          "mode": "0644",
+          "sha256": "89df9e0eceb8fa4ec5285bca718806d1c15908185f1ad657674c1280735fcb1d",
+          "size": 3776
         },
         {
           "path": "references/discovery.md",
@@ -88,16 +100,28 @@
           "size": 3804
         },
         {
+          "path": "references/test-scope-reduction.md",
+          "mode": "0644",
+          "sha256": "5f99b7338cd179f113075aadee66e69cd256686b00d95cf757c2144a69d84d8a",
+          "size": 7316
+        },
+        {
+          "path": "references/tool-references.md",
+          "mode": "0644",
+          "sha256": "214259cb88a2b2db88e550dd7702f0ad19d4d29bf5e0c252e6f9261a59a0e829",
+          "size": 3525
+        },
+        {
           "path": "skill-card.json",
           "mode": "0644",
-          "sha256": "a06633d9c4bcaf5239469ff395fcd298cea649261076633b014cfc2d2ceb80b5",
-          "size": 2640
+          "sha256": "7c10c6af20ff934852ac0245cb49810778c064a5c7eae9fa6e69b987ff3eb5c2",
+          "size": 3043
         },
         {
           "path": "skill-card.md",
           "mode": "0644",
-          "sha256": "41212d88e65e7e2126f01d1cab283520ac5710199af76fef6031db8c28dc4fa8",
-          "size": 2696
+          "sha256": "f3f6e3967d130f1a7a09b893eb0ead1fe7d1eff9904fe6bde245d1fbb0840896",
+          "size": 3317
         }
       ]
     },

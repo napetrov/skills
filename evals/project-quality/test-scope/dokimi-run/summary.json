@@ -1,0 +1,239 @@
+{
+  "dokimi_commit": "52160e9cbfe88f6cdf3b9a9a73369efadd1526fd",
+  "skill_version": "0.6.0",
+  "strict_check_exit": 0,
+  "warnings_before": 3,
+  "warnings_after": 1,
+  "lexical": {
+    "confusion": {
+      "assess-project-quality": {
+        "assess-project-quality": 5,
+        "performance-contracts": 1,
+        "verify-user-outcomes": 1
+      },
+      "performance-contracts": {
+        "performance-contracts": 2,
+        "verify-user-outcomes": 1
+      },
+      "verify-user-outcomes": {
+        "(none)": 1,
+        "verify-user-outcomes": 3
+      }
+    },
+    "own_rate": {
+      "assess-project-quality": 0.7143,
+      "performance-contracts": 0.6667,
+      "verify-user-outcomes": 0.75
+    },
+    "n_scored": {
+      "assess-project-quality": 7,
+      "performance-contracts": 3,
+      "verify-user-outcomes": 4
+    },
+    "n_unscored": {
+      "assess-project-quality": 1,
+      "performance-contracts": 1
+    },
+    "attractors": [
+      {
+        "skill": "verify-user-outcomes",
+        "wrongly_picked": 2,
+        "sibling_queries": 10,
+        "rate": 0.2,
+        "from": [
+          "assess-project-quality",
+          "performance-contracts"
+        ]
+      },
+      {
+        "skill": "performance-contracts",
+        "wrongly_picked": 1,
+        "sibling_queries": 11,
+        "rate": 0.0909,
+        "from": [
+          "assess-project-quality"
+        ]
+      }
+    ],
+    "note": "(none) counts a query no card shares a word with; in the model arm it also counts an abstention. (tie) counts a query on which two or more other cards tie for the top score, so no field order decides it. A query with no content word, and a failed model call, is not scored: it is in neither the confusion matrix nor any rate (see n_unscored).",
+    "per_query": [
+      {
+        "query": "Assess our repository and propose checks for logic, workflow completeness and validation quality.",
+        "gold": "assess-project-quality",
+        "rank": 1,
+        "picked": "assess-project-quality",
+        "scores": {
+          "assess-project-quality": 3.312358197888439,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "Which testing and formal verification tools fit this project, and how should we integrate them into CI?",
+        "gold": "assess-project-quality",
+        "rank": 1,
+        "picked": "assess-project-quality",
+        "scores": {
+          "assess-project-quality": 2.3482160210149083,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u043f\u0440\u043e\u0435\u043a\u0442: \u0433\u0434\u0435 \u043f\u0440\u043e\u0431\u0435\u043b\u044b \u0432 \u043b\u043e\u0433\u0438\u043a\u0435 \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430\u0445, \u0447\u0442\u043e \u0432\u043d\u0435\u0434\u0440\u0438\u0442\u044c \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u044b?",
+        "gold": "assess-project-quality",
+        "rank": null,
+        "reason": "no content words"
+      },
+      {
+        "query": "Do we need TLA+, Z3 or Lean for this codebase? Give an evidence-backed integration plan.",
+        "gold": "assess-project-quality",
+        "rank": 1,
+        "picked": "assess-project-quality",
+        "scores": {
+          "assess-project-quality": 0.9641421768735307,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "Reduce our CI configuration matrix while preserving platform regressions.",
+        "gold": "assess-project-quality",
+        "rank": 2,
+        "picked": "performance-contracts",
+        "scores": {
+          "assess-project-quality": 0.9641421768735307,
+          "performance-contracts": 0.9641421768735307,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "Create a complete project quality assessment plan with resumable deep dives.",
+        "gold": "assess-project-quality",
+        "rank": 1,
+        "picked": "assess-project-quality",
+        "scores": {
+          "assess-project-quality": 2.7681476882827556,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "Investigate Q04 in depth and determine whether we can remove redundant tests.",
+        "gold": "assess-project-quality",
+        "rank": 3,
+        "picked": "verify-user-outcomes",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 1.0159984294145372
+        }
+      },
+      {
+        "query": "\u0421\u043e\u043a\u0440\u0430\u0442\u0438 \u043c\u0430\u0442\u0440\u0438\u0446\u0443 CI \u0438 \u0441\u043e\u0441\u0442\u0430\u0432\u044c \u043f\u043b\u0430\u043d \u0433\u043b\u0443\u0431\u043e\u043a\u043e\u0433\u043e \u0430\u0443\u0434\u0438\u0442\u0430 \u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f.",
+        "gold": "assess-project-quality",
+        "rank": 1,
+        "picked": "assess-project-quality",
+        "scores": {
+          "assess-project-quality": 0.9641421768735307,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "Set up a repeatable performance budget for the symbol matcher.",
+        "gold": "performance-contracts",
+        "rank": 1,
+        "picked": "performance-contracts",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 3.2722307174526497,
+          "verify-user-outcomes": 0.9737126980389742
+        }
+      },
+      {
+        "query": "Check whether this change makes the matcher quadratic.",
+        "gold": "performance-contracts",
+        "rank": 2,
+        "picked": "verify-user-outcomes",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.4620073482188705,
+          "verify-user-outcomes": 0.4868563490194871
+        }
+      },
+      {
+        "query": "The performance contract fails: investigate the regression and retain the baseline.",
+        "gold": "performance-contracts",
+        "rank": 1,
+        "picked": "performance-contracts",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 1.3840738441413778,
+          "verify-user-outcomes": 0.0
+        }
+      },
+      {
+        "query": "\u041f\u0440\u043e\u0432\u0435\u0440\u044c \u0440\u0435\u0433\u0440\u0435\u0441\u0441\u0438\u044e \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0438 \u0431\u044e\u0434\u0436\u0435\u0442 \u0432\u0440\u0435\u043c\u0435\u043d\u0438.",
+        "gold": "performance-contracts",
+        "rank": null,
+        "reason": "no content words"
+      },
+      {
+        "query": "Verify that users can compare completed scans through the CLI.",
+        "gold": "verify-user-outcomes",
+        "rank": 1,
+        "picked": "verify-user-outcomes",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 1.0159984294145372
+        }
+      },
+      {
+        "query": "Trace the promised user outcome to an executed assertion.",
+        "gold": "verify-user-outcomes",
+        "rank": 1,
+        "picked": "verify-user-outcomes",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 2.452706067628897
+        }
+      },
+      {
+        "query": "The helper returns results, but the user sees an empty report. Verify the complete journey.",
+        "gold": "verify-user-outcomes",
+        "rank": 1,
+        "picked": "verify-user-outcomes",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 2.452706067628897
+        }
+      },
+      {
+        "query": "\u041f\u0440\u043e\u0432\u0435\u0440\u044c \u0447\u0442\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439 \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0439 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u0447\u0435\u0440\u0435\u0437 CLI.",
+        "gold": "verify-user-outcomes",
+        "rank": 3,
+        "picked": "(none)",
+        "scores": {
+          "assess-project-quality": 0.0,
+          "performance-contracts": 0.0,
+          "verify-user-outcomes": 0.0
+        }
+      }
+    ]
+  },
+  "model": {
+    "status": "not_measured",
+    "attempts_failed": 14,
+    "successful_calls": 0,
+    "error": "codex-cli: Error: failed to initialize in-process app-server client: Read-only file system (os error 30)"
+  },
+  "limitations": [
+    "development queries, no held-out estimate",
+    "routing is not task quality or A/B effectiveness",
+    "NIST ACTS referenced, not installed or executed"
+  ]
+}

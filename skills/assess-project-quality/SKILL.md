@@ -1,7 +1,7 @@
 ---
 name: assess-project-quality
-description: Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.
-version: 0.4.0
+description: Use when planning or deeply assessing project quality, contracts and validation gaps, or reducing test suites and CI matrices with evidence.
+version: 0.6.0
 license: Apache-2.0
 product: project-quality
 product_family: engineering-quality
@@ -28,11 +28,34 @@ For rewrites, refactors and migrations, also use the optional
 [change assessment](references/change-assessment.md): define preservation and
 intentional differences before comparing implementations.
 
+For slow or oversized test suites, use [test-scope-reduction](references/test-scope-reduction.md).
+Assess the repository's own tests; do not substitute an evaluation of its users'
+workloads. Reuse the same contract inventory and finding cards. A focused cost
+audit does not require a whole-project quality assessment.
+
 ## When Not To Use
 
 A narrow fix with no assessment need, a certification, or an isolated theorem
 proof. This is a portable agent workflow, not an exhaustive autonomous scanner.
 It requires no cloud account, proprietary service or bundled execution runtime.
+
+## Operating modes
+
+Choose the mode from the request; default to focused assessment when unspecified.
+- **Plan:** inventory all assessment categories and applicable pattern families,
+  including test cost and CI configurations, with inspected/unknown/not-applicable
+  status. Produce a resumable backlog, not just three pilots. Follow
+  [assessment-plan.md](references/assessment-plan.md). Planning does not authorize
+  implementation or require running every expensive check.
+- **Deep dive:** investigate a selected backlog ID through contracts, transitive
+  dependencies, actual execution and counterexamples; update its evidence and
+  remaining questions. Use the same planning reference for depth and stop rules.
+- **Implement:** execute authorized bounded pilots and validate before/after.
+  Preserve the plan and unresolved items rather than declaring the audit complete.
+
+For CI job/configuration reduction read [ci-matrix.md](references/ci-matrix.md).
+For method selection and primary tool links read
+[tool-references.md](references/tool-references.md) alongside methods.md.
 
 ## Workflow
 
@@ -105,3 +128,8 @@ pilots implemented sequentially.
   bounds. No model automatically certifies implementation. Do not prescribe a
   state-machine framework, enum, rewrite or formal tool merely because a pattern
   exists. A justified no-change conclusion is valid.
+
+## Assessment evidence
+
+Read [BENCHMARK.md](BENCHMARK.md) for measured evaluation scope and limitations,
+and [skill-card.md](skill-card.md) for the skill's purpose and review boundaries.
