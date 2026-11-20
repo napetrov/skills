@@ -1,7 +1,7 @@
 ---
 name: assess-project-quality
-description: Assess hidden contracts and validation gaps, or reduce a project's own test-suite cost with evidence-backed scope and CI recommendations.
-version: 0.5.0
+description: Plan or deeply assess project quality, hidden contracts and validation gaps; reduce test suites and CI matrices with evidence-backed recommendations.
+version: 0.6.0
 license: Apache-2.0
 product: project-quality
 product_family: engineering-quality
@@ -38,6 +38,24 @@ audit does not require a whole-project quality assessment.
 A narrow fix with no assessment need, a certification, or an isolated theorem
 proof. This is a portable agent workflow, not an exhaustive autonomous scanner.
 It requires no cloud account, proprietary service or bundled execution runtime.
+
+## Operating modes
+
+Choose the mode from the request; default to focused assessment when unspecified.
+- **Plan:** inventory all assessment categories and applicable pattern families,
+  including test cost and CI configurations, with inspected/unknown/not-applicable
+  status. Produce a resumable backlog, not just three pilots. Follow
+  [assessment-plan.md](references/assessment-plan.md). Planning does not authorize
+  implementation or require running every expensive check.
+- **Deep dive:** investigate a selected backlog ID through contracts, transitive
+  dependencies, actual execution and counterexamples; update its evidence and
+  remaining questions. Use the same planning reference for depth and stop rules.
+- **Implement:** execute authorized bounded pilots and validate before/after.
+  Preserve the plan and unresolved items rather than declaring the audit complete.
+
+For CI job/configuration reduction read [ci-matrix.md](references/ci-matrix.md).
+For method selection and primary tool links read
+[tool-references.md](references/tool-references.md) alongside methods.md.
 
 ## Workflow
 

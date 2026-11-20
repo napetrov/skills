@@ -1,5 +1,9 @@
 # Reduce the project's own testing cost
 
+For configuration/job count use ci-matrix.md. For an overall backlog or an
+individual deep dive use assessment-plan.md. Select optional tools from
+tool-references.md.
+
 ## Scope and evidence
 
 Distinguish four operations: accelerate execution without dropping checks; select

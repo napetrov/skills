@@ -1,7 +1,7 @@
 # Benchmark Status
 
 - Skill: `assess-project-quality`
-- Version: `0.5.0`
+- Version: `0.6.0`
 - Status: historical 0.1.0 experiments below; 0.2.0 model-discovery validation recorded separately.
 
 ## Acceptance scope
@@ -96,3 +96,15 @@ One fresh-context synthetic forward-test retained distinct output assertions and
 historical regression checks, proposed fixture reuse and rejected unsupported
 compute savings. Author-reviewed qualitative evidence only; no baseline or real
 project measurements. Input and result: `evals/project-quality/test-scope/forward-test.md`.
+
+## Planning and CI matrices (0.6.0)
+
+Adds plan/deep-dive/implementation routing, a complete resumable backlog, separate
+CI configuration reduction and primary tool references. No actual project
+configuration savings are claimed. Validation results are recorded below.
+
+Build and full repository test suite passed (77 tests and install smoke). A fresh
+synthetic forward-test produced all-category/pattern planning and preserved the
+mandatory triple while rejecting rotation-as-per-commit coverage. See
+`evals/project-quality/test-scope/matrix-plan.md`; one author-reviewed case, no
+baseline or actual project savings.

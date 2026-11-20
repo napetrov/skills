@@ -40,7 +40,8 @@
     "merge pilots validated on a stale base and break the default branch",
     "add checks that pass locally but exhaust or fail CI workers on other platforms",
     "claim a check blocks merges without enforcement evidence",
-    "remove distinct regression or oracle coverage based on similar passing tests"
+    "remove distinct regression or oracle coverage based on similar passing tests",
+    "mistake rotating configuration coverage for per-revision guarantees or a plan for completed validation"
   ],
   "mitigations": [
     "separate implementation, execution, enforcement and proof scope",
@@ -52,7 +53,8 @@
     "merge parallel pilots one at a time on a fresh base and re-validate the merged revision",
     "measure check cost on every CI matrix platform and bound property/fuzz tests by time and memory",
     "verify enforcement from rulesets or branch protection, else report it unknown",
-    "map obligations, retain mandatory witnesses, validate held-out faults and shadow full-suite runs"
+    "map obligations, retain mandatory witnesses, validate held-out faults and shadow full-suite runs",
+    "retain mandatory configuration witnesses, detection-delay budgets and resumable evidence statuses"
   ],
   "ethical_considerations": [
     "do not overstate unverified outcomes"

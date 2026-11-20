@@ -3,8 +3,8 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "description": "Assess hidden contracts and validation gaps, or reduce a project's own test-suite cost with evidence-backed scope and CI recommendations.",
-      "version": "0.5.0",
+      "description": "Plan or deeply assess project quality, hidden contracts and validation gaps; reduce test suites and CI matrices with evidence-backed recommendations.",
+      "version": "0.6.0",
       "product": "project-quality",
       "product_family": "engineering-quality",
       "tags": [
