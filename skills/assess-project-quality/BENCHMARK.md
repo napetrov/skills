@@ -108,3 +108,12 @@ synthetic forward-test produced all-category/pattern planning and preserved the
 mandatory triple while rejecting rotation-as-per-commit coverage. See
 `evals/project-quality/test-scope/matrix-plan.md`; one author-reviewed case, no
 baseline or actual project savings.
+
+## Dokimi run (2026-11-20 UTC)
+
+Dokimi 52160e9 strict skill check exited 0: warnings reduced from three to one
+(catalog-specific metadata). Expanded lexical routing selected this skill for
+5/7 scored requests, with one additional unscored request. Development queries,
+not a holdout. Model routing made zero successful calls: all 14 attempts failed
+at Codex CLI startup with a read-only filesystem error. No model effectiveness
+or novelty claim. Receipts: `evals/project-quality/test-scope/dokimi-run/`.

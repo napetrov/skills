@@ -1,6 +1,6 @@
 ---
 name: assess-project-quality
-description: Plan or deeply assess project quality, hidden contracts and validation gaps; reduce test suites and CI matrices with evidence-backed recommendations.
+description: Use when planning or deeply assessing project quality, contracts and validation gaps, or reducing test suites and CI matrices with evidence.
 version: 0.6.0
 license: Apache-2.0
 product: project-quality
@@ -128,3 +128,8 @@ pilots implemented sequentially.
   bounds. No model automatically certifies implementation. Do not prescribe a
   state-machine framework, enum, rewrite or formal tool merely because a pattern
   exists. A justified no-change conclusion is valid.
+
+## Assessment evidence
+
+Read [BENCHMARK.md](BENCHMARK.md) for measured evaluation scope and limitations,
+and [skill-card.md](skill-card.md) for the skill's purpose and review boundaries.

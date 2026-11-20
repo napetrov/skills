@@ -3,7 +3,7 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "description": "Plan or deeply assess project quality, hidden contracts and validation gaps; reduce test suites and CI matrices with evidence-backed recommendations.",
+      "description": "Use when planning or deeply assessing project quality, contracts and validation gaps, or reducing test suites and CI matrices with evidence.",
       "version": "0.6.0",
       "product": "project-quality",
       "product_family": "engineering-quality",

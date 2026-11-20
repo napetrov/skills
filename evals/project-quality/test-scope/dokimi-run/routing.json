@@ -1,0 +1,192 @@
+{
+  "mode": "all_vs_all",
+  "queries_by_skill": "skills/evals/project-quality/routing-queries.json",
+  "n_candidates": 3,
+  "result": {
+    "n_skills": 3,
+    "n_queries": 12,
+    "shared_queries": {
+      "shared": 0,
+      "total": 10
+    },
+    "tied_groups": [],
+    "lexical": {
+      "confusion": {
+        "assess-project-quality": {
+          "assess-project-quality": 3
+        },
+        "performance-contracts": {
+          "performance-contracts": 2,
+          "verify-user-outcomes": 1
+        },
+        "verify-user-outcomes": {
+          "(none)": 1,
+          "verify-user-outcomes": 3
+        }
+      },
+      "own_rate": {
+        "assess-project-quality": 1.0,
+        "performance-contracts": 0.6667,
+        "verify-user-outcomes": 0.75
+      },
+      "n_scored": {
+        "assess-project-quality": 3,
+        "performance-contracts": 3,
+        "verify-user-outcomes": 4
+      },
+      "n_unscored": {
+        "assess-project-quality": 1,
+        "performance-contracts": 1
+      },
+      "attractors": [
+        {
+          "skill": "verify-user-outcomes",
+          "wrongly_picked": 1,
+          "sibling_queries": 6,
+          "rate": 0.1667,
+          "from": [
+            "performance-contracts"
+          ]
+        }
+      ],
+      "note": "(none) counts a query no card shares a word with; in the model arm it also counts an abstention. (tie) counts a query on which two or more other cards tie for the top score, so no field order decides it. A query with no content word, and a failed model call, is not scored: it is in neither the confusion matrix nor any rate (see n_unscored).",
+      "per_query": [
+        {
+          "query": "Assess our repository and propose checks for logic, workflow completeness and validation quality.",
+          "gold": "assess-project-quality",
+          "rank": 1,
+          "picked": "assess-project-quality",
+          "scores": {
+            "assess-project-quality": 3.5581253448836208,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 0.0
+          }
+        },
+        {
+          "query": "Which testing and formal verification tools fit this project, and how should we integrate them into CI?",
+          "gold": "assess-project-quality",
+          "rank": 1,
+          "picked": "assess-project-quality",
+          "scores": {
+            "assess-project-quality": 2.2330001779678987,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 0.0
+          }
+        },
+        {
+          "query": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u043f\u0440\u043e\u0435\u043a\u0442: \u0433\u0434\u0435 \u043f\u0440\u043e\u0431\u0435\u043b\u044b \u0432 \u043b\u043e\u0433\u0438\u043a\u0435 \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430\u0445, \u0447\u0442\u043e \u0432\u043d\u0435\u0434\u0440\u0438\u0442\u044c \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u044b?",
+          "gold": "assess-project-quality",
+          "rank": null,
+          "reason": "no content words"
+        },
+        {
+          "query": "Do we need TLA+, Z3 or Lean for this codebase? Give an evidence-backed integration plan.",
+          "gold": "assess-project-quality",
+          "rank": 1,
+          "picked": "assess-project-quality",
+          "scores": {
+            "assess-project-quality": 3.631500044208706,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 0.0
+          }
+        },
+        {
+          "query": "Set up a repeatable performance budget for the symbol matcher.",
+          "gold": "performance-contracts",
+          "rank": 1,
+          "picked": "performance-contracts",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 3.369667805423533,
+            "verify-user-outcomes": 1.0045879098382133
+          }
+        },
+        {
+          "query": "Check whether this change makes the matcher quadratic.",
+          "gold": "performance-contracts",
+          "rank": 2,
+          "picked": "verify-user-outcomes",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 0.4776806395237966,
+            "verify-user-outcomes": 0.5022939549191067
+          }
+        },
+        {
+          "query": "The performance contract fails: investigate the regression and retain the baseline.",
+          "gold": "performance-contracts",
+          "rank": 1,
+          "picked": "performance-contracts",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 1.4174564688685594,
+            "verify-user-outcomes": 0.0
+          }
+        },
+        {
+          "query": "\u041f\u0440\u043e\u0432\u0435\u0440\u044c \u0440\u0435\u0433\u0440\u0435\u0441\u0441\u0438\u044e \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0438 \u0431\u044e\u0434\u0436\u0435\u0442 \u0432\u0440\u0435\u043c\u0435\u043d\u0438.",
+          "gold": "performance-contracts",
+          "rank": null,
+          "reason": "no content words"
+        },
+        {
+          "query": "Verify that users can compare completed scans through the CLI.",
+          "gold": "verify-user-outcomes",
+          "rank": 1,
+          "picked": "verify-user-outcomes",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 1.0482144688674937
+          }
+        },
+        {
+          "query": "Trace the promised user outcome to an executed assertion.",
+          "gold": "verify-user-outcomes",
+          "rank": 1,
+          "picked": "verify-user-outcomes",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 2.5168358102754262
+          }
+        },
+        {
+          "query": "The helper returns results, but the user sees an empty report. Verify the complete journey.",
+          "gold": "verify-user-outcomes",
+          "rank": 1,
+          "picked": "verify-user-outcomes",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 2.5168358102754262
+          }
+        },
+        {
+          "query": "\u041f\u0440\u043e\u0432\u0435\u0440\u044c \u0447\u0442\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439 \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0439 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u0447\u0435\u0440\u0435\u0437 CLI.",
+          "gold": "verify-user-outcomes",
+          "rank": 3,
+          "picked": "(none)",
+          "scores": {
+            "assess-project-quality": 0.0,
+            "performance-contracts": 0.0,
+            "verify-user-outcomes": 0.0
+          }
+        }
+      ]
+    }
+  },
+  "field": {
+    "include_disabled": false,
+    "include_invalid": false,
+    "keep_copies_under": null,
+    "competitors": [
+      "assess-project-quality",
+      "performance-contracts",
+      "verify-user-outcomes"
+    ],
+    "left_out": [],
+    "spec_warnings": [],
+    "dropped_queries": []
+  }
+}
