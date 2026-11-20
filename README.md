@@ -38,7 +38,7 @@ npx skills add napetrov/skills --skill <skill-name> --agent codex
 <!-- skills-catalog-start -->
 | Skill | Product | Problems | Maturity | Description |
 | --- | --- | --- | --- | --- |
-| [assess-project-quality](skills/assess-project-quality) | project-quality | validation-gaps, incomplete-flows, weak-oracles | experimental | Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration. |
+| [assess-project-quality](skills/assess-project-quality) | project-quality | validation-gaps, incomplete-flows, weak-oracles | experimental | Assess hidden contracts and validation gaps, or reduce a project's own test-suite cost with evidence-backed scope and CI recommendations. |
 | [performance-contracts](skills/performance-contracts) | verification-contracts | detect-scaling-regression, verify-optimization-correctness, enforce-resource-budget | experimental | Set up and check repeatable performance contracts that catch scaling regressions and wrong optimized output in Python or Node projects. |
 | [verify-user-outcomes](skills/verify-user-outcomes) | verification-contracts | verify-user-outcome, detect-disconnected-result, trace-intent-to-evidence | experimental | Set up and check that promised user outcomes are reachable, asserted by tests, and linked to intent and implementation. |
 <!-- skills-catalog-end -->

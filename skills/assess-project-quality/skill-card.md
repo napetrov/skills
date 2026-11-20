@@ -57,3 +57,10 @@ Adds full-output differential oracles, sequential merging of parallel pilots on 
 ## Change assessment (0.3.0)
 
 Adds optional change contracts, replay/shadow assessment, test-integrity and release-activation checks. Legacy behavior is not automatically normative.
+
+## Test scope reduction (0.5.0)
+
+Adds a focused audit of the project's own test costs, obligations and oracles.
+Distinguishes acceleration, selection, rescheduling and removal; requires fault
+replay, mandatory witnesses and shadow rollout before claiming safe savings.
+Includes abicheck, dokimi and oneDAL profiles as hypotheses, not measured audits.

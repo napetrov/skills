@@ -3,8 +3,8 @@
   "skills": [
     {
       "name": "assess-project-quality",
-      "description": "Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.",
-      "version": "0.4.0",
+      "description": "Assess hidden contracts and validation gaps, or reduce a project's own test-suite cost with evidence-backed scope and CI recommendations.",
+      "version": "0.5.0",
       "product": "project-quality",
       "product_family": "engineering-quality",
       "tags": [

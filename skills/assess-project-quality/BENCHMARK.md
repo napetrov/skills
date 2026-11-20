@@ -1,7 +1,7 @@
 # Benchmark Status
 
 - Skill: `assess-project-quality`
-- Version: `0.2.0`
+- Version: `0.5.0`
 - Status: historical 0.1.0 experiments below; 0.2.0 model-discovery validation recorded separately.
 
 ## Acceptance scope
@@ -85,3 +85,14 @@ scored by real Dokimi: both passed the whole-task verdict. Both found the seeded
 defects and avoided false alarms on intentional changes. No accuracy improvement
 is established; reports were author-reviewed, not blindly scored. See
 `evals/project-quality/brownfield/` for records, controls and coverage limits.
+
+## Test scope reduction (0.5.0)
+
+Adds a reference workflow for reducing repository test cost. Repository build and
+test validation are required; historical experiments do not validate this mode.
+No measured savings or completed audits of abicheck/dokimi are claimed.
+
+One fresh-context synthetic forward-test retained distinct output assertions and
+historical regression checks, proposed fixture reuse and rejected unsupported
+compute savings. Author-reviewed qualitative evidence only; no baseline or real
+project measurements. Input and result: `evals/project-quality/test-scope/forward-test.md`.

@@ -1,7 +1,7 @@
 ---
 name: assess-project-quality
-description: Use when finding implicit state machines, hidden contracts and validation gaps, then verifying risks and proposing project-specific checks and CI integration.
-version: 0.4.0
+description: Assess hidden contracts and validation gaps, or reduce a project's own test-suite cost with evidence-backed scope and CI recommendations.
+version: 0.5.0
 license: Apache-2.0
 product: project-quality
 product_family: engineering-quality
@@ -27,6 +27,11 @@ An implicit model is not inherently a defect. Start from consumer promises.
 For rewrites, refactors and migrations, also use the optional
 [change assessment](references/change-assessment.md): define preservation and
 intentional differences before comparing implementations.
+
+For slow or oversized test suites, use [test-scope-reduction](references/test-scope-reduction.md).
+Assess the repository's own tests; do not substitute an evaluation of its users'
+workloads. Reuse the same contract inventory and finding cards. A focused cost
+audit does not require a whole-project quality assessment.
 
 ## When Not To Use
 
